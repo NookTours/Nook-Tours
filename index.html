@@ -262,15 +262,18 @@ if($("occ").value!=="0")r.push(m[12]+": "+t("occs")[$("occ").value]);var ot=$("o
 var SHEET_URL="https://script.google.com/macros/s/AKfycbxqeW1oTP5iRPXbmyNPBW_4DRVaSyFrAm6fcAuAjcLmUO8hMIPL1_xjqADHWJ_pcaigQA/exec",rows=[],payload={};
 function sheetOn(){return /^https:\/\/script\.google\.com\//.test(SHEET_URL)}
 $('wa').onclick=function(){
- var btn=$('wa'),w=window.open('','_blank'),done=false,ctl=window.AbortController?new AbortController():null;
+ var btn=$('wa'),done=false,ctl=window.AbortController?new AbortController():null;
+ var w=window.open('','_blank');
+ var oldTxt=btn.textContent;
  btn.disabled=true;
- function send(no){if(done)return;done=true;btn.disabled=false;
+ btn.textContent=L==='ar'?'جاري تجهيز رقم طلبك...':'Preparing your order number...';
+ function send(no){if(done)return;done=true;btn.disabled=false;btn.textContent=oldTxt;
   var l=rows.slice();if(no)l.splice(1,0,t('ord')+": "+no);
   var u="https://wa.me/"+PHONE+"?text="+encodeURIComponent(l.join("\n"));
   if(w&&!w.closed)w.location.href=u;else window.location.href=u;
   $('ov').classList.remove('on')}
  if(!sheetOn()){send('');return}
- var to=setTimeout(function(){if(ctl)ctl.abort();send('')},10000); // دا بتاع تعديل عدد سيرفر الثواني 
+ var to=setTimeout(function(){if(ctl)ctl.abort();send('')},12000);
  fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:ctl?ctl.signal:undefined})
   .then(function(r){return r.json()})
   .then(function(j){clearTimeout(to);send(j&&j.ok?j.order:'')})
