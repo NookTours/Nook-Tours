@@ -270,7 +270,7 @@ $('wa').onclick=function(){
   if(w&&!w.closed)w.location.href=u;else window.location.href=u;
   $('ov').classList.remove('on')}
  if(!sheetOn()){send('');return}
- var to=setTimeout(function(){if(ctl)ctl.abort();send('')},10000);
+ var to=setTimeout(function(){if(ctl)ctl.abort();send('')},15000); // دا بتاع تعديل عدد سيرفر الثواني 
  fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:ctl?ctl.signal:undefined})
   .then(function(r){return r.json()})
   .then(function(j){clearTimeout(to);send(j&&j.ok?j.order:'')})
