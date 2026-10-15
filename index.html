@@ -8,7 +8,7 @@
 <title>Nook Tours — Curated Red Sea Escapes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* =========================================================
    NOOK TOURS — Premium redesign
@@ -21,8 +21,8 @@
   --ok:#2d6a4f;--err:#b23a2f;
   --shadow:0 20px 50px rgba(11,18,32,.08);--shadow-sm:0 8px 24px rgba(11,18,32,.06);
   --radius:18px;--radius-sm:12px;
-  --font-display:"Cormorant Garamond",Georgia,serif;--font-body:"Outfit",system-ui,sans-serif;
-  --header-h:76px;color-scheme:light;
+  --font-display:"Readex Pro",system-ui,sans-serif;--font-body:"Readex Pro",system-ui,sans-serif;
+  --header-h:70px;color-scheme:light;
 }
 [data-theme=dark]{
   --ink:#f3efe8;--ink-soft:#c8c2b6;--muted:#9aa3ad;--line:#2a3344;--paper:#0b1220;
@@ -32,17 +32,29 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 12px)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-weight:400;line-height:1.65;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-weight:400;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
 img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}
 .site-header{position:sticky;top:0;z-index:40;height:var(--header-h);background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,height .3s}
-.site-header.is-scrolled{border-bottom-color:var(--line);box-shadow:var(--shadow-sm);--header-h:64px}
+.site-header.is-scrolled{border-bottom-color:var(--line);box-shadow:var(--shadow-sm);--header-h:70px}
 .site-header .inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo-link{display:flex;align-items:center;gap:10px}
-.logo-link img{height:48px;width:auto;background:#fff;border-radius:10px;padding:3px 8px;transition:height .3s}
-.site-header.is-scrolled .logo-link img{height:38px}
+.logo-link{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-link img{
+  height:58px;width:auto;max-width:min(200px,42vw);
+  object-fit:contain;display:block;
+  background:#fff;border-radius:12px;padding:6px 12px;
+  box-shadow:0 1px 0 rgba(11,18,32,.04);
+  transition:height .25s ease,padding .25s ease,box-shadow .25s ease;
+}
+.site-header.is-scrolled .logo-link img{
+  height:44px;padding:4px 10px;
+}
+[data-theme=dark] .logo-link img{
+  background:#fff;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08);
+}
 .nav{display:flex;align-items:center;gap:6px}
 .nav a{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);transition:color .2s,background .2s}
 .nav a:hover,.nav a.is-active{color:var(--ink);background:var(--gold-soft)}
@@ -53,15 +65,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .lang-btn{font-size:13px;font-weight:600;letter-spacing:.02em}
 .nav-toggle{display:none}
 @media (max-width:860px){.nav{display:none}.nav-toggle{display:inline-flex}.nav.open{display:flex;flex-direction:column;position:absolute;left:20px;right:20px;top:calc(var(--header-h) + 8px);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);z-index:50}.nav.open a{width:100%}}
-.hero{position:relative;min-height:min(88vh,820px);display:grid;align-items:end;padding:120px 0 72px;overflow:hidden;background:radial-gradient(1200px 600px at 80% 0%,rgba(184,149,108,.18),transparent 60%),radial-gradient(900px 500px at 10% 80%,rgba(14,74,92,.12),transparent 55%),linear-gradient(180deg,var(--paper),color-mix(in srgb,var(--gold-soft) 55%,var(--paper)))}
+.hero{position:relative;min-height:auto;display:grid;align-items:end;padding:56px 0 40px;overflow:hidden;background:radial-gradient(1200px 600px at 80% 0%,rgba(184,149,108,.18),transparent 60%),radial-gradient(900px 500px at 10% 80%,rgba(14,74,92,.12),transparent 55%),linear-gradient(180deg,var(--paper),color-mix(in srgb,var(--gold-soft) 55%,var(--paper)))}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");mix-blend-mode:multiply}
 [data-theme=dark] .hero::before{mix-blend-mode:soft-light;opacity:.25}
-.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:end}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.2fr .9fr;gap:28px;align-items:center}
 @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:32px}}
-.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px}
 .kicker::before{content:"";width:28px;height:1px;background:var(--gold)}
-.hero h1{font-family:var(--font-display);font-weight:500;font-size:clamp(2.6rem,5.5vw,4.4rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;max-width:14ch}
-.hero .lead{font-size:1.08rem;color:var(--muted);max-width:42ch;margin:0 0 32px}
+.hero h1{font-family:var(--font-display);font-weight:500;font-size:clamp(1.85rem,4vw,2.6rem);line-height:1.08;letter-spacing:-.01em;margin:0 0 12px;max-width:22ch;font-weight:700}
+.hero .lead{font-size:1rem;color:var(--muted);max-width:48ch;margin:0 0 20px;line-height:1.6}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:15px;cursor:pointer;transition:transform .15s,background .2s,border-color .2s,color .2s}
 .btn:active{transform:scale(.98)}
@@ -69,27 +81,27 @@ button,input,select,textarea{font:inherit;color:inherit}
 [data-theme=dark] .btn-primary{background:var(--gold);color:#0b1220}
 .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}.btn-ghost:hover{border-color:var(--gold);background:var(--gold-soft)}
 .btn-gold{background:var(--gold);color:#0b1220}.btn-gold:hover{background:var(--gold-deep);color:#fff}
-.hero-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
 .hero-card::after{content:"";position:absolute;inset:auto -20% -40% 40%;height:180px;background:radial-gradient(circle,rgba(184,149,108,.25),transparent 70%);pointer-events:none}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
 .stat{text-align:center;padding:12px 8px;border-radius:14px;background:var(--gold-soft)}
 .stat b{display:block;font-family:var(--font-display);font-size:1.6rem;font-weight:600;line-height:1.1}
 .stat span{font-size:12px;color:var(--muted)}
-.trust-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.trust-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .chip{font-size:12px;font-weight:500;padding:7px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--muted)}
-section{padding:88px 0}
-.sec-head{margin-bottom:40px;max-width:560px}
-.sec-head h2{font-family:var(--font-display);font-weight:500;font-size:clamp(2rem,3.5vw,2.8rem);margin:0 0 12px;letter-spacing:-.02em;line-height:1.15}
+section{padding:48px 0}
+.sec-head{margin-bottom:24px;max-width:640px}
+.sec-head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.45rem,2.8vw,1.85rem);margin:0 0 12px;letter-spacing:-.02em;line-height:1.15}
 .sec-head p{margin:0;color:var(--muted);font-size:1.05rem}
-.dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media (max-width:960px){.dest-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.dest-grid{grid-template-columns:1fr}}
-.dest-card{position:relative;border-radius:22px;overflow:hidden;min-height:280px;background:linear-gradient(160deg,var(--c1,#4aa8cf),var(--c2,#0d5e86));color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;isolation:isolate;cursor:pointer;transition:transform .25s,box-shadow .25s;border:1px solid color-mix(in srgb,#fff 12%,transparent)}
+.dest-card{position:relative;border-radius:16px;overflow:hidden;min-height:200px;background:linear-gradient(160deg,var(--c1,#4aa8cf),var(--c2,#0d5e86));color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;isolation:isolate;cursor:pointer;transition:transform .25s,box-shadow .25s;border:1px solid color-mix(in srgb,#fff 12%,transparent)}
 .dest-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .dest-card::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.55))}
 .dest-card h3{margin:0 0 4px;font-family:var(--font-display);font-size:1.55rem;font-weight:600}
 .dest-card span{font-size:13px;opacity:.85}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media (max-width:800px){.about-grid{grid-template-columns:1fr}}
 .rules{display:grid;gap:14px}
 .rule{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:18px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--line)}
@@ -99,23 +111,23 @@ section{padding:88px 0}
 .why-list li{list-style:none;padding:14px 16px 14px 44px;position:relative;background:var(--sea-soft);border-radius:12px;font-size:14.5px}
 .why-list li::before{content:"✓";position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--sea);font-weight:700}
 [dir=rtl] .why-list li{padding:14px 44px 14px 16px}[dir=rtl] .why-list li::before{left:auto;right:16px}
-.edu{position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(135deg,rgba(11,18,32,.92),rgba(14,74,92,.85)),radial-gradient(800px 400px at 100% 0%,rgba(184,149,108,.35),transparent);color:#f7f3eb;padding:48px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+.edu{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(11,18,32,.92),rgba(14,74,92,.85)),radial-gradient(800px 400px at 100% 0%,rgba(184,149,108,.35),transparent);color:#f7f3eb;padding:28px;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
 @media (max-width:800px){.edu{grid-template-columns:1fr;padding:32px 24px}}
 .edu .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(212,184,150,.2);color:var(--gold);margin-bottom:14px}
-.edu h2{font-family:var(--font-display);font-weight:500;font-size:clamp(1.8rem,3vw,2.4rem);margin:0 0 12px;color:#fff}
+.edu h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.8rem,3vw,2.4rem);margin:0 0 12px;color:#fff}
 .edu p{margin:0 0 12px;color:rgba(247,243,235,.82);max-width:48ch}
 .edu-side{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px;backdrop-filter:blur(8px)}
 .edu-side ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 .edu-side li{font-size:14px;display:flex;gap:10px;align-items:flex-start}
 .edu-side li::before{content:"◆";color:var(--gold);font-size:10px;margin-top:5px}
 #book{background:var(--gold-soft)}[data-theme=dark] #book{background:var(--sea-soft)}
-.book-shell{background:var(--card);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
-.book-top{padding:28px 28px 0}.form-body{padding:8px 28px 28px}
+.book-shell{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden}
+.book-top{padding:20px 20px 0}.form-body{padding:4px 20px 20px}
 .seg{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;margin-bottom:20px}
 .seg button{border:0;background:transparent;padding:10px 18px;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
 [data-theme=dark] .seg button[aria-pressed=true]{background:var(--gold);color:#0b1220}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:640px){.fields{grid-template-columns:1fr}}
 .field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}
 .field label{font-size:13px;font-weight:600;color:var(--muted)}
@@ -127,21 +139,28 @@ section{padding:88px 0}
 #err{color:var(--err);font-size:14px;min-height:1.2em;margin:8px 0}
 .ages{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
 .form-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
-.returning{margin-bottom:18px;padding:16px;border-radius:14px;border:1px dashed var(--line);background:var(--paper)}
-.returning summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--gold-deep)}
+
+
 .ov,.wl{position:fixed;inset:0;z-index:100;background:rgba(11,18,32,.55);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .ov.on,.wl{display:flex}.wl.out{opacity:0;transition:opacity .4s}
 .pop,.wlc{width:min(440px,100%);background:var(--card);border-radius:24px;padding:28px;border:1px solid var(--line);box-shadow:var(--shadow);position:relative}
-.wlc{text-align:center}.wlc .logo{height:56px;margin:0 auto 16px;background:#fff;border-radius:12px;padding:4px 10px}
+.wlc{text-align:center}.wlc .logo{
+  height:72px;width:auto;max-width:220px;object-fit:contain;
+  margin:0 auto 18px;background:#fff;border-radius:14px;padding:8px 14px;
+  box-shadow:0 4px 16px rgba(11,18,32,.06);
+}
 .wlc h2{font-family:var(--font-display);font-size:1.8rem;margin:0 0 10px}
 .wlu{text-align:start;margin:16px 0;padding:0 0 0 18px;color:var(--muted)}
 [dir=rtl] .wlu{padding:0 18px 0 0}
 .wll{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-weight:600}
 #vidBox{display:none;margin-top:12px;border-radius:14px;overflow:hidden}
 #vidBox video{width:100%;display:block;max-height:200px;object-fit:cover}
-footer{background:var(--ink);color:rgba(247,243,235,.78);padding:48px 0 28px;margin-top:0}
+footer{background:var(--ink);color:rgba(247,243,235,.78);padding:32px 0 20px;margin-top:0}
 [data-theme=dark] footer{background:#060b14}
-footer .logo{height:48px;margin:0 auto 16px;background:#fff;border-radius:12px;padding:4px 10px}
+footer .logo{
+  height:56px;width:auto;max-width:180px;object-fit:contain;
+  margin:0 auto 14px;background:#fff;border-radius:12px;padding:6px 12px;
+}
 footer .wrap{text-align:center}footer a{color:var(--gold)}
 .foot-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 18px;margin:18px 0;font-size:14px}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -168,6 +187,25 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
 .dsel{margin-top:10px;font-size:13.5px;font-weight:600}
 .happy{font-size:14px;color:var(--muted);margin-top:8px}
 
+.group-cta{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;
+  margin:0 0 16px;padding:14px 18px;border-radius:14px;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-sm);
+}
+.group-cta p{margin:0;font-size:14.5px;color:var(--muted);flex:1;min-width:200px}
+
+
+.soc{display:flex;justify-content:center;gap:12px;margin-top:16px}
+.soc a{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.18);color:#f7f3eb;transition:background .2s,border-color .2s;
+}
+.soc a:hover{background:rgba(184,149,108,.25);border-color:var(--gold)}
+.soc svg{width:18px;height:18px;fill:currentColor}
+.soc svg .f{fill:currentColor}
+.soc svg[stroke]{fill:none;stroke:currentColor;stroke-width:1.6}
+
+
 </style>
 </head>
 <body>
@@ -175,7 +213,7 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
 <header class="site-header" id="header">
   <div class="wrap inner">
     <a class="logo-link" href="#top" aria-label="Nook Tours home">
-      <img class="logo lg" alt="Nook Tours" width="120" height="48">
+      <img class="logo lg" alt="Nook Tours" width="160" height="58">
     </a>
     <nav class="nav" id="nav" aria-label="Primary">
       <a href="#top" data-t="navHome"></a>
@@ -216,7 +254,7 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
         <p style="margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep)" data-t="secHotels"></p>
         <p style="margin:0;color:var(--muted);font-size:14.5px" data-t="sub"></p>
         <div class="hero-stats">
-          <div class="stat"><b>4</b><span data-t="destTitle"></span></div>
+          <div class="stat"><b>3</b><span data-t="destTitle"></span></div>
           <div class="stat"><b>30+</b><span data-t="hotels"></span></div>
           <div class="stat"><b>24/7</b><span data-t="contact"></span></div>
         </div>
@@ -292,6 +330,11 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
         <h2 data-t="bookTitle"></h2>
         <p data-t="bookSub"></p>
       </div>
+      
+      <div class="group-cta reveal">
+        <p data-t="groupMsg"></p>
+        <a class="btn btn-gold" id="groupWa" href="https://wa.me/201005377933" target="_blank" rel="noopener" data-t="groupBtn"></a>
+      </div>
       <div class="book-shell reveal">
         <div class="book-top">
           <div class="seg" role="group" aria-label="Booking type">
@@ -300,26 +343,28 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
           </div>
         </div>
         <form class="form-body" id="bookForm" onsubmit="return false">
-          <details class="returning" id="retBox">
-            <summary data-t="rtog"></summary>
-            <div class="fields" style="margin-top:12px">
-              <div class="field"><label data-t="rrefL"></label><input id="rref" maxlength="4" inputmode="numeric" autocomplete="off"></div>
-              <div class="field"><label data-t="rl4"></label><input id="rl4" maxlength="3" inputmode="numeric" autocomplete="off"></div>
-            </div>
-            <button type="button" class="btn btn-ghost" id="rgo" style="margin-top:12px" data-t="rgo"></button>
-            <div class="note" id="rstatus" style="display:none"></div>
-          </details>
-          <div class="fields">
+<div class="fields">
+            <!-- 1) Destination & hotel -->
             <div class="field"><label data-t="reg"></label><select id="reg"></select></div>
             <div class="field"><label data-t="hotel"></label><select id="hotel"></select></div>
             <div class="field full" id="wOther" style="display:none">
               <label data-t="ohl"></label><input id="oh" autocomplete="organization">
               <p class="note" id="nOther" style="display:none" data-t="onote"></p>
             </div>
+            <!-- 2) Hotel video -->
             <div class="field full" id="vidBox"><video id="vid" controls playsinline muted></video></div>
+            <!-- 3) Phone first -->
+            <div class="field full"><label data-t="phone"></label><input id="ph" type="tel" autocomplete="tel" inputmode="tel"></div>
+            <div class="field full"><div class="note" id="phs" style="display:none"></div></div>
+            <!-- 4) Name & contact -->
+            <div class="field"><label data-t="name"></label><input id="nm" autocomplete="name"></div>
+            <div class="field"><label data-t="email"></label><input id="em" type="email" autocomplete="email"></div>
+            <div class="field full"><label data-t="pid"></label><input id="pid" readonly></div>
+            <!-- 5) Dates after personal data -->
             <div class="field"><label id="lIn" data-t="arr"></label><input type="date" id="in"></div>
             <div class="field" id="wOut"><label data-t="dep"></label><input type="date" id="out"></div>
             <div class="field full"><div id="nt" class="dh-box note" style="display:none"></div><div id="wk" class="note warn" style="display:none"></div></div>
+            <!-- 6) Guests / room / occasion -->
             <div class="field"><label data-t="adults"></label><input type="number" id="ad" min="1" max="20" value="2"></div>
             <div class="field"><label data-t="kids"></label><input type="number" id="kids" min="0" max="5" value="0"></div>
             <div class="field full"><div class="ages" id="ages"></div><p class="note" id="chp" data-t="chPol"></p></div>
@@ -327,11 +372,6 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
             <div class="field full" id="fOccS"><label data-t="occ"></label><select id="occ"></select>
               <div id="wNote" style="display:none;margin-top:8px"><textarea class="textarea" id="ot"></textarea></div>
             </div>
-            <div class="field"><label data-t="name"></label><input id="nm" autocomplete="name"></div>
-            <div class="field"><label data-t="phone"></label><input id="ph" type="tel" autocomplete="tel" inputmode="tel"></div>
-            <div class="field full"><div class="note" id="phs" style="display:none"></div></div>
-            <div class="field"><label data-t="email"></label><input id="em" type="email" autocomplete="email"></div>
-            <div class="field"><label data-t="pid"></label><input id="pid" readonly></div>
           </div>
           <select id="btype" style="display:none"><option value="0"></option><option value="1"></option></select>
           <p id="err" role="alert"></p>
@@ -354,7 +394,21 @@ footer .wrap{text-align:center}footer a{color:var(--gold)}
       <a href="#about" data-t="navAbout"></a>
       <a href="#education" data-t="navEdu"></a>
       <a href="#book" data-t="navBook"></a>
-      <a href="https://wa.me/201005377933" target="_blank" rel="noopener" data-t="contact"></a>
+      <a href="mailto:Noo.Tours@outlook.com">Noo.Tours@outlook.com</a>
+    </div>
+    <div class="soc">
+      <a href="https://www.facebook.com/Nook.Tours" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path class="f" d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/Nook.Tours" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="mailto:Noo.Tours@outlook.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>
+      </a>
+      <a href="https://wa.me/201005377933" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path class="f" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 2a8 8 0 0 1 6.8 12.1l-.3.4.5 1.9-2-.5-.4.2A8 8 0 1 1 12 4zm4.3 9.6c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.8c-.1.2-.3.2-.5.1-.3-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3.1-.4 0-.1 0-.3-.1-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.4 2.3.9 2.3.6 2.7.6.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1z"/></svg>
+      </a>
     </div>
   </div>
 </footer>
@@ -411,9 +465,9 @@ function $(id){ return document.getElementById(id); }
 document.querySelectorAll(".lg").forEach(function(e){ e.src = LOGO; });
 
 var T={ar:{rtog:"حجزت معانا قبل كده؟ اضغط هنا",rrefL:"آخر 4 أرقام من رقم البروفايل",rl4:"آخر 3 أرقام من تليفونك",rgo:"تحميل البيانات",rload:"جاري تحميل بياناتك القديمة...",rsearch:"جاري البحث في السيستم الخاص بشركة Nook Tours...",rwel1:"أهلاً بيك تاني يا ",rwel2:"، تم التعرف على حسابك وسعداء إنك اخترتنا تاني، ورقم البروفايل بتاعك هو ",rnf:"مالقيناش طلب بالبيانات دي، اتأكد من الأرقام اللي كتبتها، أو كمّل كعميل جديد",rlock:"حاولت كتير، جرّب بعد ساعة أو كمّل كعميل جديد",rerr:"حصلت مشكلة في التحميل، كمّل بياناتك بإيدك",pid:"رقم البروفايل",pidNew:"Loading",dTitle:"تم تسجيل طلبك",dTitle2:"طلبك جاهز",dNum:"رقم البروفايل بتاعك",dNote:"احتفظ بالرقم ده، هتحتاجه لو حبيت تتابع حجزك أو تحجز معانا تاني",dWa:"واتساب اتفتح برسالة جاهزة، ابعتها وهنرد عليك في أقرب وقت",dNoNum:"واتساب اتفتح برسالة جاهزة، ابعتها وهنكمل معاك الحجز",dCopy:"نسخ الرقم",dCopied:"تم النسخ",dClose:"تمام",phKnown1:"التليفون ده مسجّل عندنا، ورقم البروفايل بتاعك هو ",phKnown2:"، هتكمل بياناتك وتحجز بنفس الرقم من غير كود جديد.",again:"حجز تاني (نفس رقم البروفايل)",rneed:"اكتب آخر 4 أرقام من رقم البروفايل وآخر 3 أرقام من تليفونك",dtrip:"تاريخ بداية الرحلة (خميس أو أحد)",dh4:"الخميس: 4 أيام / 3 ليالي، والمغادرة يوم الاثنين صباحاً",dh5:"الأحد: 5 أيام / 4 ليالي، والمغادرة يوم الجمعة صباحاً",dhH:"رحلات دهب ليها معادين بس، اختار اللي يناسبك:",dhSel:"اختيارك",dhOut:"المغادرة",dN4:"الخميس",dN0:"الأحد",dO4:"الاثنين",dO0:"الجمعة",dhP:"تقدر تحجز في مواعيد مختلفه عكس النظام ولكن دا هيفرق معاك في السعر لانه هيكون عكس الحجز وفنادق معينه الي بتقبل بدا ",eDh:"رحلات دهب بتبدأ يوم الخميس أو الأحد بس، فاخترنا لك أقرب يوم متاح",wlT:"أهلاً بيك في Nook Tours",wl1:"الموقع ده معمول عشان يسهّل عليك الحجز، وفيه:",wl2:"اختيار المنطقة والفندق اللي تحبه",wl3:"حجز إقامة أو داي يوز بخطوات بسيطة",wl4:"تحديد التواريخ وعدد الأشخاص والأطفال ونوع الغرفة",wl5:"وباقي خطوات الحجز بنكملها معاك على واتساب، بلمسة خفيفة ومن غير تعقيد.",wlB:"ابدأ الحجز",ord:"رقم البروفايل",email:"الإيميل (اختياري)",eE:"اكتب إيميل صحيح أو سيبه فاضي.",abT:"نبذة عن Nook Tours",ab1:"لما قررنا نفتح الشركة، بدأنا بعد ما فهمنا كويس ٣ قواعد أساسية هما أصل شغلانتنا:",r1:"رضاك واستمتاعك",r2:"احتياجاتك اللي ممكن ما تاخدش بالك منها",r3:"تفاصيل إدارة الفنادق اللي بتفرق في تجربتك",ab2:"يعني مش مجرد “حجز وخلاص” — إحنا بنختارلك أنسب فندق، بأعلى جودة وأفضل سعر بناءً على فهم حقيقي للسوق.",abW:"ليه تحجز معانا تحديداً؟",ab3:"إحنا شركة Start-up، وهدفنا السنة دي مش الربح قد ما هو بناء الثقة، يعني مش هتلاقي أنسب ولا أقل سعر غير عندنا:",c1:"نضمن حجزك",c2:"نقفل يومك وأنت مبسوط",c3:"نرجعك بذكريات حلوة من غير أي تعب أو مجهود",abS:"  Database خاصة بكل عميل",ab4:"من تاني مرة حجز، كل اللي عليك رسالة صغيرة، وفندقك يتحجز باللي بتحبه من غير ما نسألك عن أي تفاصيل تاني.",abB:" ابعتلنا رسالة دلوقتي واسأل على عرض حجزك الجاي",h1:"احجز فندقك في دقيقة",sub:"إحنا مش بس شركة سياحة، إحنا بنحاول نفهّمك إن كل حاجة لسه بسيطة زي ما كانت، وهدفنا تفضل مبسوط في كل خطوة.",happy:"دوس التالي لمراجعة طلبك، وبعدها إرسال لإكماله على واتساب، ومفيش أي التزام لحد ما نأكد معاك كل التفاصيل.",foot:"مبسوطين إنك معانا، لو احتجت أي حاجة، إحنا هنا دايماً.",stay:"إقامة",fHotel:"الوجهة والفندق",reg:"حابين نحجز في أنهي منطقة؟",dest:"وجهاتنا",destBtn:"احجز في المنطقة",nights:"عدد الليالي",wkm:"تنبيه: التواريخ دي فيها ويك إند (خميس / جمعة)، والويك إند بيكون سعره أغلى من الويك داي.",hotel:"الفندق",ohl:"اسم الفندق المطلوب",onote:"لو فندقك مش ضمن القائمة، ده مش هيمنعنا نوصلك بيه، اكتب اسمه وإحنا هنتولى كل خطوة.",fDates:"بيانات الحجز",arr:"تاريخ الوصول",vis:"تاريخ الزيارة",dep:"تاريخ المغادرة",fGuests:"الأشخاص",adults:"عدد الأشخاص (البالغين)",kids:"عدد الأطفال",child:"عمر الطفل",fRoom:"الغرفة والإطلالة",room:"نوع / إطلالة الغرفة",fOcc:"مناسبة الحجز",occ:"الحجز لأي مناسبة؟",chPol:"الأطفال فوق 11 سنة عليهم رسوم إضافية، وتحت 6 سنين مجانًا.",occNote:"إحنا مهتمين بكل تفصيلة في رحلتك، عشان تكون مبسوط من أول لحظة لآخر لحظة.",occTxt:"اكتب السبب أو أي ملاحظة تحب نعرفها",fContact:"للتواصل",fYou:"بياناتك",name:"اسم الشخص القائم بالحجز",phone:"رقم التليفون",send:"التالي",btype:"نوع الحجز",dayL:"داي يوز (بدون مبيت)",eT:"تاريخ الوصول لازم يكون من بكرة أو بعده.",hotels:"فنادقنا",book:"احجز",ask:"اسأل عن السعر",contact:"تواصل معنا",pt:"يسعدنا اختيارك لنا",p1:"هدفنا إننا نشيل عنك أي مسؤولية ونتولاها إحنا، ونكون سبب في سعادتك.",p2:"الخطوة الأخيرة: دوس إرسال وهيفتح واتساب برسالة جاهزة، ابعتها وهنرد عليك.",wa:"إرسال",back:"رجوع",other:"فندق آخر",eH:"اكتب اسم الفندق المطلوب.",eN:"اكتب اسمك خلينا نتشرف أكتر بمعرفتك.",eP:"اكتب رقم تليفونك عشان نقدر نوصلك.",eD:"اختار التاريخ.",eO:"تاريخ المغادرة لازم يكون بعد الوصول.",
-m:["طلب حجز - Nook Tours","الاسم","التليفون","الفندق","النوع","من","إلى","التاريخ","البالغين","الأطفال","أعمارهم","الغرفة","المناسبة","ملاحظات","المنطقة","الليالي","الإيميل"],rooms:["أي غرفة متاحة","إطلالة على البحر","إطلالة على حمام السباحة","إطلالة على الحديقة","غرفة عائلية"],occs:["مفيش مناسبة","حجز عائلي","عيد جواز","عيد ميلاد","سبب آخر"],navHome:"الرئيسية",navDest:"الوجهات",navAbout:"عنّا",navEdu:"مدارس وجامعات",navBook:"احجز",heroKicker:"رحلات مختارة على البحر الأحمر",heroTitle:"حيث يلتقي البحر بالرفاهية الهادئة",heroSub:"فنادق مختارة بعناية، حجز سلس، وفريق يفضل معاك لحد ما ترجع بذكريات حلوة.",heroCta:"استكشف الوجهات",heroCta2:"ابدأ الحجز",destTitle:"وجهاتنا",destSub:"أربع سواحل. معيار واحد من الاهتمام.",aboutTitle:"عن Nook Tours",aboutLead:"بدأنا بثلاث قواعد لسه بتشكّل كل حجز بنعمله.",whyTitle:"ليه تحجز معانا",eduTitle:"مدارس وجامعات",eduSub:"أسعار خاصة لمجموعات الطلاب ورحلات الموظفين والمناسبات الجامعية.",eduBody:"سواء رحلة فصل لدهب، أو ريتريت موظفين في العين السخنة، أو خروج جامعة للغردقة — بنرتّب الإقامة الجماعية بأسعار تفضيلية، توزيع غرف مرن، ومنسّق مخصص.",eduCta:"اطلب عرض تعليمي",eduBadge:"عرض تعليمي خاص",eduPct:"خصم حتى 20% للمدارس والجامعات",eduPctShort:"خصم حتى 20%",bookTitle:"احجز إقامتك",bookSub:"قولنا اللي محتاجه. الباقي بنكمله معاك على واتساب — من غير ضغط ولا التزام لحد ما نأكد كل تفصيلة.",trust1:"حجز مضمون",trust2:"أنسب الفنادق",trust3:"بروفايل خاص لكل عميل",trust4:"دعم واتساب",scrollHint:"انزل",secHotels:"إقامات مميزة"},
+m:["طلب حجز - Nook Tours","الاسم","التليفون","الفندق","النوع","من","إلى","التاريخ","البالغين","الأطفال","أعمارهم","الغرفة","المناسبة","ملاحظات","المنطقة","الليالي","الإيميل"],rooms:["أي غرفة متاحة","إطلالة على البحر","إطلالة على حمام السباحة","إطلالة على الحديقة","غرفة عائلية"],occs:["مفيش مناسبة","حجز عائلي","عيد جواز","عيد ميلاد","سبب آخر"],navHome:"الرئيسية",navDest:"الوجهات",navAbout:"عنّا",navEdu:"مدارس وجامعات",navBook:"احجز",heroKicker:"رحلات مختارة على البحر الأحمر",heroTitle:"حيث يلتقي البحر بالرفاهية الهادئة",heroSub:"فنادق مختارة بعناية، حجز سلس، وفريق يفضل معاك لحد ما ترجع بذكريات حلوة.",heroCta:"استكشف الوجهات",heroCta2:"ابدأ الحجز",destTitle:"وجهاتنا",destSub:"أربع سواحل. معيار واحد من الاهتمام.",aboutTitle:"عن Nook Tours",aboutLead:"بدأنا بثلاث قواعد لسه بتشكّل كل حجز بنعمله.",whyTitle:"ليه تحجز معانا",eduTitle:"مدارس وجامعات",eduSub:"أسعار خاصة لمجموعات الطلاب ورحلات الموظفين والمناسبات الجامعية.",eduBody:"سواء رحلة فصل لدهب، أو ريتريت موظفين في العين السخنة، أو خروج جامعة للغردقة — بنرتّب الإقامة الجماعية بأسعار تفضيلية، توزيع غرف مرن، ومنسّق مخصص.",eduCta:"اطلب عرض تعليمي",eduBadge:"عرض تعليمي خاص",eduPct:"خصم حتى 20% للمدارس والجامعات",eduPctShort:"خصم حتى 20%",groupMsg:"للرحلات الكبيرة والعائلات، برجاء التواصل مباشرة على واتساب",groupBtn:"تواصل على واتساب",bookTitle:"احجز إقامتك",bookSub:"قولنا اللي محتاجه. الباقي بنكمله معاك على واتساب — من غير ضغط ولا التزام لحد ما نأكد كل تفصيلة.",trust1:"حجز مضمون",trust2:"أنسب الفنادق",trust3:"بروفايل خاص لكل عميل",trust4:"دعم واتساب",scrollHint:"انزل",secHotels:"إقامات مميزة"},
 en:{rtog:"Have an earlier order number? Tap here",rrefL:"Last 4 digits of your profile number",rl4:"Last 3 digits of your phone",rgo:"Load data",rload:"Loading your previous details...",rsearch:"Searching in the Nook Tours system...",rwel1:"Welcome back, ",rwel2:", we recognized your account and we're glad you chose us again, your profile number is ",rnf:"We couldn't find an order with these details. Check the digits you entered, or continue as a new customer.",rlock:"Too many attempts, try again in an hour or continue as a new customer.",rerr:"Something went wrong while loading, please fill in your details manually.",pid:"Profile number",pidNew:"Loading",dTitle:"Your request is registered",dTitle2:"Your request is ready",dNum:"Your profile number",dNote:"Keep this number, you will need it to follow up on your booking or to book with us again",dWa:"WhatsApp has opened with your request ready, just send it and we'll reply as soon as possible",dNoNum:"WhatsApp has opened with your request ready, just send it and we'll complete the booking with you",dCopy:"Copy number",dCopied:"Copied",dClose:"Done",phKnown1:"This phone number is already registered, your profile number is ",phKnown2:", just complete your details and book with the same number, no new code.",again:"Repeat booking (same profile number)",rneed:"Enter the last 4 digits of your profile number and the last 3 digits of your phone.",dtrip:"Trip start date (Thursday or Sunday)",dh4:"Thursday: 4 days / 3 nights, check-out Monday morning",dh5:"Sunday: 5 days / 4 nights, check-out Friday morning",dhH:"Dahab trips run on two schedules only, choose the one that suits you:",dhSel:"Your choice",dhOut:"Check-out",dN4:"Thursday",dN0:"Sunday",dO4:"Monday",dO0:"Friday",dhP:"Prices will be sent to you on WhatsApp based on your choice",eDh:"Dahab trips start on Thursday or Sunday only, so we picked the nearest one for you",wlT:"Welcome to Nook Tours",wl1:"This site is made to make booking easy for you. Here you can:",wl2:"Choose the area and the hotel you like",wl3:"Book accommodation or a day use in a few simple steps",wl4:"Set your dates, guests, children and room type",wl5:"We'll take care of the rest of the booking with you on WhatsApp, with a light touch and no hassle.",wlB:"Start booking",ord:"Profile number",email:"Email (optional)",eE:"Enter a valid email or leave it empty.",abT:"About Nook Tours",ab1:"When we decided to start the company, we first made sure we understood 3 core rules that are the foundation of our work:",r1:"Your happiness and enjoyment",r2:"What you might not think to ask for",r3:"The hotel details that shape your experience",ab2:"So it is not just “book and done” — we pick the best-fit hotel, with top quality and the best price, based on a real understanding of the market.",abW:"Why book with us specifically?",ab3:"We are a start-up, and our goal this year is not profit as much as building trust. So you will not find a better fit or a lower price anywhere else:",c1:"We guarantee your booking",c2:"We close your day with you happy",c3:"We bring you home with sweet memories, with no effort or hassle",abS:"a private database for every customer",ab4:"From your second booking, all you need is a short message, and your hotel is booked the way you like it, without us asking about any details again.",abB:" Send us a message now and ask about your next booking offer",h1:"Book your hotel in a minute",sub:"We're more than a travel company. We're here to show you that everything can still be simple, and to keep you smiling every step of the way.",happy:"Press Next to review your request, then Send to complete it on WhatsApp. There's no commitment until we confirm every detail with you.",foot:"We're so happy you're here. Whatever you need, we're always here.",stay:"Accommodation",fHotel:"Destination & hotel",reg:"Which area would you like to book in?",dest:"Our destinations",destBtn:"Book in this area",nights:"Number of nights",wkm:"Note: your dates include a weekend (Thursday / Friday). Weekend prices are higher than weekday prices.",hotel:"Hotel",ohl:"Requested hotel name",onote:"Can't find your hotel in the list? We can still arrange it for you. Tell us its name and we'll handle every step.",fDates:"Booking details",arr:"Arrival date",vis:"Visit date",dep:"Departure date",fGuests:"Guests",adults:"Number of guests (adults)",kids:"Children",child:"Child's age",fRoom:"Room & view",room:"Room type / view",fOcc:"Occasion",occ:"Is this booking for a special occasion?",chPol:"Children over 11 are charged extra; children under 6 stay free.",occNote:"We care about every detail of your trip, so you enjoy it from the first moment to the last.",occTxt:"Tell us the reason or any note you want us to know",fContact:"Contact",fYou:"Your details",name:"Name of the person booking",phone:"Phone number",send:"Next",btype:"Booking type",dayL:"Day use",eT:"Arrival date must be tomorrow or later.",hotels:"Our hotels",book:"Book",ask:"Ask for price",contact:"Contact us",pt:"We're delighted you chose us",p1:"Our goal is to take every worry off your shoulders and handle it ourselves, so we can be part of your happiness.",p2:"Last step: press Send and WhatsApp will open with your request ready, just send it and we'll reply.",wa:"Send",back:"Back",other:"Another hotel",eH:"Enter the requested hotel name.",eN:"Tell us your name, so we can be even more honored to know you.",eP:"Enter a valid phone number so we can reach you.",eD:"Choose the date.",eO:"Departure must be after arrival.",
-m:["Booking request - Nook Tours","Name","Phone","Hotel","Type","From","To","Date","Adults","Children","Ages","Room","Occasion","Notes","Region","Nights","Email"],rooms:["Any available room","Sea view","Pool view","Garden view","Family room"],occs:["No special occasion","Family trip","Anniversary","Birthday","Another reason"],navHome:"Home",navDest:"Destinations",navAbout:"About",navEdu:"Schools & Unis",navBook:"Book",heroKicker:"Curated escapes on the Red Sea",heroTitle:"Where the sea meets quiet luxury",heroSub:"Hand-picked hotels, effortless booking, and a team that stays with you until you are home with the memories.",heroCta:"Explore destinations",heroCta2:"Start booking",destTitle:"Our destinations",destSub:"Four coastlines. One standard of care.",aboutTitle:"About Nook Tours",aboutLead:"We started with three rules that still shape every booking we make.",whyTitle:"Why book with us",eduTitle:"Schools & Universities",eduSub:"Special rates for student groups, staff trips, and campus events.",eduBody:"Whether you are planning a class trip to Dahab, a staff retreat in Ain Sokhna, or a university getaway in Hurghada — we arrange group stays with preferential pricing, flexible rooming, and a dedicated coordinator.",eduCta:"Request education offer",eduBadge:"Education exclusive",eduPct:"Up to 20% off for schools & universities",eduPctShort:"Up to 20% off",bookTitle:"Book your stay",bookSub:"Tell us what you need. We handle the rest on WhatsApp — no pressure, no commitment until every detail is confirmed.",trust1:"Guaranteed booking",trust2:"Best-fit hotels",trust3:"Private client profile",trust4:"WhatsApp support",scrollHint:"Scroll",secHotels:"Featured stays"}};
+m:["Booking request - Nook Tours","Name","Phone","Hotel","Type","From","To","Date","Adults","Children","Ages","Room","Occasion","Notes","Region","Nights","Email"],rooms:["Any available room","Sea view","Pool view","Garden view","Family room"],occs:["No special occasion","Family trip","Anniversary","Birthday","Another reason"],navHome:"Home",navDest:"Destinations",navAbout:"About",navEdu:"Schools & Unis",navBook:"Book",heroKicker:"Curated escapes on the Red Sea",heroTitle:"Where the sea meets quiet luxury",heroSub:"Hand-picked hotels, effortless booking, and a team that stays with you until you are home with the memories.",heroCta:"Explore destinations",heroCta2:"Start booking",destTitle:"Our destinations",destSub:"Four coastlines. One standard of care.",aboutTitle:"About Nook Tours",aboutLead:"We started with three rules that still shape every booking we make.",whyTitle:"Why book with us",eduTitle:"Schools & Universities",eduSub:"Special rates for student groups, staff trips, and campus events.",eduBody:"Whether you are planning a class trip to Dahab, a staff retreat in Ain Sokhna, or a university getaway in Hurghada — we arrange group stays with preferential pricing, flexible rooming, and a dedicated coordinator.",eduCta:"Request education offer",eduBadge:"Education exclusive",eduPct:"Up to 20% off for schools & universities",eduPctShort:"Up to 20% off",groupMsg:"For large trips and families, please contact us directly on WhatsApp",groupBtn:"Contact on WhatsApp",bookTitle:"Book your stay",bookSub:"Tell us what you need. We handle the rest on WhatsApp — no pressure, no commitment until every detail is confirmed.",trust1:"Guaranteed booking",trust2:"Best-fit hotels",trust3:"Private client profile",trust4:"WhatsApp support",scrollHint:"Scroll",secHotels:"Featured stays"}};
 
 var H=[{ar:"ميرال العين السخنة",en:"Miral Ain Sokhna",la:"العين السخنة",le:"Ain Sokhna",pa:"",pe:"",c:["#2a8fb5","#0d5e86"],img:""},
 {ar:"دوم مارينا",en:"Dome Marina",la:"العين السخنة",le:"Ain Sokhna",pa:"",pe:"",c:["#41b3c4","#0e7c8f"],img:""},
@@ -428,8 +482,7 @@ H.push({ar:"ليمون آند سول مكادي جاردن",en:"Lemon & Soul Mak
 var R=[
   {k:"dahab",ar:"دهب",en:"Dahab",img:"https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=80",c:["#f2c27b","#1f7f9c"]},
   {k:"sokhna",ar:"العين السخنة",en:"Ain Sokhna",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80",c:["#4aa8cf","#0d5e86"]},
-  {k:"hurghada",ar:"الغردقة",en:"Hurghada",img:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80",c:["#37c1c4","#0e7c8f"]},
-  {k:"aswan",ar:"أسوان والأقصر",en:"Aswan & Luxor",img:"https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=900&q=80",c:["#e9b36a","#7a5a2f"]}
+  {k:"hurghada",ar:"الغردقة",en:"Hurghada",img:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80",c:["#37c1c4","#0e7c8f"]}
 ];
 
 
@@ -564,6 +617,7 @@ function setLang(l){
   document.querySelectorAll("[data-t]").forEach(function(e){
     e.textContent = t(e.getAttribute("data-t"));
   });
+  updateGroupWa();
 
   var pct = $("eduPct");
   if(pct){
@@ -837,68 +891,14 @@ $("ph").addEventListener("input", function(){
 });
 
 
-/* =========================================================
-   Returning customer — load by last 4 of profile + last 3 of phone
-   Sheet is expected to accept: ?ref=XXXX&phone=YYY  (or ?order=)
-   ========================================================= */
-$("rgo").onclick = function(){
-  var ref = ($("rref").value || "").replace(/\D/g,"");
-  var last3 = ($("rl4").value || "").replace(/\D/g,"");
-  var st = $("rstatus");
-  if(ref.length < 4 || last3.length < 3){
-    st.style.display = "block";
-    st.className = "note";
-    st.textContent = t("rneed");
-    return;
-  }
-  if(!sheetOn()){
-    st.style.display = "block";
-    st.className = "note";
-    st.textContent = t("rerr");
-    return;
-  }
-  st.style.display = "block";
-  st.className = "note ld";
-  st.textContent = t("rload");
-  $("rgo").disabled = true;
-  var url = SHEET_URL
-    + "?ref=" + encodeURIComponent(ref)
-    + "&phone=" + encodeURIComponent(last3)
-    + "&order=" + encodeURIComponent(ref);
-  var ctl = window.AbortController ? new AbortController() : null;
-  var to = setTimeout(function(){ if(ctl) ctl.abort(); }, 12000);
-  fetch(url, { signal: ctl ? ctl.signal : undefined })
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      clearTimeout(to);
-      $("rgo").disabled = false;
-      if(j && j.ok && j.found){
-        applyProfile(j);
-        showKnown(st, j.name || "", profileNo);
-        /* also fill phone field if returned */
-        if(j.phone && !$("ph").value) $("ph").value = j.phone;
-        if(j.email && !$("em").value) $("em").value = j.email;
-      } else if(j && j.error === "locked"){
-        st.className = "note";
-        st.textContent = t("rlock");
-      } else {
-        st.className = "note";
-        st.textContent = t("rnf");
-      }
-    })
-    .catch(function(){
-      clearTimeout(to);
-      $("rgo").disabled = false;
-      st.className = "note";
-      st.textContent = t("rerr");
-    });
-};
-/* Enter key on returning fields */
-["rref","rl4"].forEach(function(id){
-  $(id).addEventListener("keydown", function(e){
-    if(e.key === "Enter"){ e.preventDefault(); $("rgo").click(); }
-  });
-});
+/* Group / family WhatsApp CTA */
+function updateGroupWa(){
+  var a = $("groupWa"); if(!a) return;
+  var msg = L === "ar"
+    ? "مرحباً، محتاج أحجز رحلة كبيرة / عائلية مع Nook Tours"
+    : "Hello, I need to book a large trip / family stay with Nook Tours";
+  a.href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(msg);
+}
 
 $("eduCta").addEventListener("click", function(){
   setTimeout(function(){
