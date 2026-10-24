@@ -3,34 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة الإدارة | Nook Tours</title>
+  <title>Nook Tours System</title>
   <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
       font-family: 'Readex Pro', Arial, sans-serif;
-      background-color: #0f2236;
-      background-image: radial-gradient(circle at top right, rgba(201,139,77,.12), transparent 45%);
+      color: #e6ebf2;
+      background: #0a1421;
     }
-    .wrap { display: flex; flex-direction: column; align-items: center; width: 100%; }
     .card {
       width: 100%;
       max-width: 380px;
-      background: #ffffff;
-      border-radius: 20px;
       padding: 40px 32px 32px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+      background: #111d2e;
+      border: 1px solid #1f2d42;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
     }
     .logo {
-      width: 96px;
-      height: 96px;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #c98b4d;
@@ -38,42 +37,49 @@
       margin: 0 auto 18px;
     }
     .brand {
-      color: #c98b4d;
+      margin: 0 0 6px;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin: 0 0 6px;
+      color: #c98b4d;
     }
-    h1 { font-size: 22px; font-weight: 700; color: #0f2236; margin: 0 0 10px; }
-    .desc { color: #5b6573; font-size: 14px; line-height: 1.7; margin: 0 0 28px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #f2f5f9;
+    }
+    .desc {
+      margin: 0 0 28px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #8fa0b8;
+    }
     .btn {
       display: block;
-      background: #c98b4d;
-      color: #fff;
-      text-decoration: none;
       padding: 14px;
       border-radius: 12px;
+      text-decoration: none;
       font-size: 16px;
       font-weight: 600;
+      color: #0a1421;
+      background: #c98b4d;
       transition: background .2s, transform .2s;
     }
-    .btn:hover { background: #85561f; transform: translateY(-1px); }
-    .note { margin: 20px 0 0; font-size: 12px; color: #8a919c; line-height: 1.6; }
-    .footer { margin-top: 24px; color: rgba(255,255,255,.5); font-size: 12px; }
+    .btn:hover {
+      background: #d89c5f;
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <main class="card">
-      <img class="logo" src="2026_06_25_13_00_46_IMG_8017.jpg" alt="Nook Tours">
-      <p class="brand">Nook Tours</p>
-      <h1>لوحة الإدارة</h1>
-      <p class="desc">ادخل بحساب Google المسجل عندنا للوصول إلى بيانات الحجوزات والرحلات.</p>
-      <a class="btn" href="https://docs.google.com/spreadsheets/d/1itrqY9fMibmtDPJB5ALVljKZrmMmm8wenEeJMQxh_No/edit?usp=sharing">فتح لوحة الإدارة</a>
-      <p class="note">الوصول مقيد للحسابات المصرح لها فقط.</p>
-    </main>
-    <p class="footer">© Nook Tours</p>
-  </div>
+  <main class="card">
+    <img class="logo" src="2026_06_25_13_00_46_IMG_8017.jpg" alt="Nook Tours">
+    <p class="brand">Nook Tours</p>
+    <h1>Nook Tours System</h1>
+    <p class="desc">سجّل دخولك بحسابك المعتمد للوصول إلى البيانات.</p>
+    <a class="btn" href="https://docs.google.com/spreadsheets/d/1itrqY9fMibmtDPJB5ALVljKZrmMmm8wenEeJMQxh_No/edit?usp=sharing">دخول</a>
+  </main>
 </body>
 </html>
