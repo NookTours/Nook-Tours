@@ -1,85 +1,752 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nook Tours System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Nook Tours — لوحة التحكم</title>
+  <link rel="icon" type="image/png" href="https://nooktoursegypt.com/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0b1624;
+      --panel: #13243a;
+      --panel2: #1a2f4a;
+      --line: #2a3d55;
+      --text: #f3efe8;
+      --muted: #9aa3ad;
+      --gold: #c98b4d;
+      --gold2: #e0c9a8;
+      --ok: #2d6a4f;
+      --err: #b23a2f;
+      --warn: #b8860b;
+      --radius: 14px;
+      --font: "Readex Pro", system-ui, sans-serif;
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    a { color: var(--gold); }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    .hidden { display: none !important; }
+
+    /* Login */
+    #loginScreen {
       min-height: 100vh;
       display: grid;
       place-items: center;
       padding: 24px;
-      font-family: 'Readex Pro', Arial, sans-serif;
-      color: #e6ebf2;
-      background: #0a1421;
+      background: radial-gradient(800px 400px at 50% 0%, rgba(201,139,77,.15), transparent);
     }
-    .card {
+    .login-card {
+      width: min(400px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+    .login-card h1 { margin: 0 0 6px; font-size: 1.4rem; }
+    .login-card p { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+    .login-card label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .login-card input {
       width: 100%;
-      max-width: 380px;
-      padding: 40px 32px 32px;
-      border-radius: 20px;
-      text-align: center;
-      background: #111d2e;
-      border: 1px solid #1f2d42;
-      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      margin-bottom: 14px;
     }
-    .logo {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #c98b4d;
-      display: block;
-      margin: 0 auto 18px;
+    .login-card input:focus { outline: 2px solid var(--gold); border-color: transparent; }
+
+    /* Layout */
+    #app { display: none; min-height: 100vh; }
+    #app.on { display: grid; grid-template-columns: 240px 1fr; }
+    @media (max-width: 860px) {
+      #app.on { grid-template-columns: 1fr; }
+      .sidebar { position: sticky; top: 0; z-index: 20; }
+    }
+
+    .sidebar {
+      background: var(--panel);
+      border-inline-end: 1px solid var(--line);
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
     .brand {
-      margin: 0 0 6px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #c98b4d;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px 16px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 8px;
     }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      font-weight: 700;
-      color: #f2f5f9;
+    .brand img {
+      height: 40px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 4px 8px;
     }
-    .desc {
-      margin: 0 0 28px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: #8fa0b8;
-    }
-    .btn {
-      display: block;
-      padding: 14px;
+    .brand strong { font-size: 14px; display: block; }
+    .brand span { font-size: 11px; color: var(--muted); }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 14px;
+      border: 0;
       border-radius: 12px;
-      text-decoration: none;
-      font-size: 16px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
       font-weight: 600;
-      color: #0a1421;
-      background: #c98b4d;
-      transition: background .2s, transform .2s;
+      font-size: 14px;
+      text-align: start;
+      transition: .15s;
     }
-    .btn:hover {
-      background: #d89c5f;
-      transform: translateY(-1px);
+    .nav-btn:hover { background: var(--panel2); color: var(--text); }
+    .nav-btn.active { background: rgba(201,139,77,.18); color: var(--gold2); }
+    .nav-btn .ico { width: 20px; text-align: center; }
+    .side-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); }
+    .side-foot button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
     }
+
+    .main { padding: 24px 20px 40px; max-width: 1100px; }
+    .page-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .page-head h2 { margin: 0; font-size: 1.45rem; }
+    .page-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .15s;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-gold { background: var(--gold); color: #0b1220; }
+    .btn-gold:hover { background: var(--gold2); }
+    .btn-ghost { background: transparent; border-color: var(--line); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--gold); }
+    .btn-ok { background: var(--ok); color: #fff; }
+    .btn-err { background: var(--err); color: #fff; }
+    .btn-sm { padding: 7px 12px; font-size: 12.5px; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      inset-inline-start: 50%;
+      transform: translateX(-50%);
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s;
+    }
+    .toast.on { opacity: 1; }
+
+    .cards { display: grid; gap: 12px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card h3 { margin: 0; font-size: 1.05rem; }
+    .card .meta { font-size: 12.5px; color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge.pending { background: rgba(184,134,11,.2); color: #f0c14b; }
+    .badge.approved { background: rgba(45,106,79,.25); color: #6fcf97; }
+    .badge.rejected { background: rgba(178,58,47,.25); color: #f08080; }
+    .badge.active { background: rgba(45,106,79,.25); color: #6fcf97; }
+    .badge.off { background: rgba(154,163,173,.15); color: var(--muted); }
+
+    .quote {
+      margin: 0;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 10px;
+      font-size: 14px;
+      color: rgba(243,239,232,.9);
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* Form modal */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+    .modal {
+      width: min(560px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 20px;
+    }
+    .modal h3 { margin: 0 0 16px; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .field textarea { min-height: 90px; resize: vertical; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+    }
+    .price-tag {
+      font-weight: 700;
+      color: var(--gold2);
+      font-size: 15px;
+    }
+    .hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: rgba(201,139,77,.08);
+      border-radius: 10px;
+      border: 1px solid rgba(201,139,77,.2);
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat b { display: block; font-size: 1.6rem; color: var(--gold2); }
+    .stat span { font-size: 12px; color: var(--muted); }
   </style>
 </head>
 <body>
-  <main class="card">
-    <img class="logo" src="2026_06_25_13_00_46_IMG_8017.jpg" alt="Nook Tours">
-    <p class="brand">Nook Tours</p>
-    <h1>Nook Tours System</h1>
-    <p class="desc">سجّل دخولك بحسابك المعتمد للوصول إلى البيانات.</p>
-    <a class="btn" href="https://docs.google.com/spreadsheets/d/1itrqY9fMibmtDPJB5ALVljKZrmMmm8wenEeJMQxh_No/edit?usp=sharing">دخول</a>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <h1>لوحة تحكم Nook Tours</h1>
+    <p>ادخل كلمة مرور لاثبات انك موظف لدي شركة Nook Tours</p>
+    <label for="passInput">كلمة السر</label>
+    <input id="passInput" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn btn-gold" style="width:100%" id="loginBtn">دخول</button>
+    <p id="loginErr" style="color:var(--err);font-size:13px;margin:10px 0 0;min-height:1.2em"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="https://nooktoursegypt.com/logo.png" alt="Nook">
+      <div>
+        <strong>Nook Admin</strong>
+        <span>إدارة المحتوى</span>
+      </div>
+    </div>
+    <button class="nav-btn active" data-tab="reviews"><span class="ico">⭐</span> آراء العملاء</button>
+    <button class="nav-btn" data-tab="offers"><span class="ico">🔥</span> العروض</button>
+    <button class="nav-btn" data-tab="hotels"><span class="ico">🏨</span> الفنادق والأسعار</button>
+    <button class="nav-btn" data-tab="gallery"><span class="ico">🖼️</span> الصور</button>
+    <div class="side-foot">
+      <button type="button" id="logoutBtn">تسجيل خروج</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- REVIEWS -->
+    <section id="tab-reviews" class="tab">
+      <div class="page-head">
+        <div>
+          <h2>آراء العملاء</h2>
+          <p>وافق أو ارفض — الموافق يظهر على الموقع</p>
+        </div>
+        <button class="btn btn-ghost" id="refreshReviews">تحديث</button>
+      </div>
+      <div class="stat-row" id="revStats"></div>
+      <div class="cards" id="revList"></div>
+    </section>
+
+    <!-- OFFERS -->
+    <section id="tab-offers" class="tab hidden">
+      <div class="page-head">
+        <div>
+          <h2>العروض اليومية</h2>
+          <p>تظهر في الموقع بدون سعر ثابت — العميل يطلب السعر على واتساب</p>
+        </div>
+        <button class="btn btn-gold" id="addOffer">+ عرض جديد</button>
+      </div>
+      <div class="cards" id="offerList"></div>
+    </section>
+
+    <!-- HOTELS -->
+    <section id="tab-hotels" class="tab hidden">
+      <div class="page-head">
+        <div>
+          <h2>الفنادق والأسعار</h2>
+          <p>لما العميل يختار فندق في الفورم، يظهر له السعر من هنا</p>
+        </div>
+        <button class="btn btn-gold" id="addHotel">+ فندق</button>
+      </div>
+      <div class="hint">💡 <b>price_stay</b> = سعر الإقامة (لليلة/الباكدج) · <b>price_day</b> = سعر الداى يوز · سيب فاضي لو مش ثابت</div>
+      <div class="cards" id="hotelList" style="margin-top:14px"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="tab-gallery" class="tab hidden">
+      <div class="page-head">
+        <div>
+          <h2>معرض الصور</h2>
+          <p>حط رابط صورة (URL) — أو مسار زي gallery/1.jpg لو مرفوعة على الاستضافة</p>
+        </div>
+        <button class="btn btn-gold" id="addGallery">+ صورة</button>
+      </div>
+      <div class="cards" id="galleryList"></div>
+    </section>
   </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg hidden" id="modalBg">
+  <div class="modal" id="modal">
+    <h3 id="modalTitle">تعديل</h3>
+    <div id="modalFields"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modalCancel">إلغاء</button>
+      <button class="btn btn-gold" id="modalSave">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ========== CONFIG ========== */
+var SHEET_URL = "https://script.google.com/macros/s/AKfycbymH-1FG-gyN9-l0jlZ4HJquCIYP52faFg-m89SjtrtYtfmPUXQtSkmgzNCYpg2SG5F/exec";
+var PASS_KEY = "nook_admin_pass";
+var pass = sessionStorage.getItem(PASS_KEY) || "";
+
+/* ========== HELPERS ========== */
+function $(id) { return document.getElementById(id); }
+function toast(msg) {
+  var t = $("toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  setTimeout(function () { t.classList.remove("on"); }, 2800);
+}
+function apiGet(params) {
+  var q = Object.keys(params).map(function (k) {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+  }).join("&");
+  return fetch(SHEET_URL + "?" + q).then(function (r) { return r.json(); });
+}
+function apiPost(body) {
+  body.pass = pass;
+  return fetch(SHEET_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(body)
+  }).then(function (r) { return r.json(); });
+}
+
+/* ========== AUTH ========== */
+function showApp() {
+  $("loginScreen").classList.add("hidden");
+  $("app").classList.add("on");
+  loadTab("reviews");
+}
+function tryLogin() {
+  var p = $("passInput").value.trim();
+  if (!p) { $("loginErr").textContent = "اكتب كلمة السر"; return; }
+  $("loginBtn").disabled = true;
+  apiGet({ action: "admin_list", type: "reviews", pass: p })
+    .then(function (j) {
+      $("loginBtn").disabled = false;
+      if (j && j.ok) {
+        pass = p;
+        sessionStorage.setItem(PASS_KEY, p);
+        showApp();
+      } else {
+        $("loginErr").textContent = "كلمة السر غلط أو السكريبت مش متوصل";
+      }
+    })
+    .catch(function () {
+      $("loginBtn").disabled = false;
+      $("loginErr").textContent = "فشل الاتصال — تأكد من نشر Web App";
+    });
+}
+$("loginBtn").onclick = tryLogin;
+$("passInput").onkeydown = function (e) { if (e.key === "Enter") tryLogin(); };
+$("logoutBtn").onclick = function () {
+  sessionStorage.removeItem(PASS_KEY);
+  pass = "";
+  location.reload();
+};
+if (pass) {
+  apiGet({ action: "admin_list", type: "reviews", pass: pass })
+    .then(function (j) { if (j && j.ok) showApp(); else sessionStorage.removeItem(PASS_KEY); })
+    .catch(function () {});
+}
+
+/* ========== TABS ========== */
+document.querySelectorAll(".nav-btn[data-tab]").forEach(function (btn) {
+  btn.onclick = function () {
+    document.querySelectorAll(".nav-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    document.querySelectorAll(".tab").forEach(function (t) { t.classList.add("hidden"); });
+    $("tab-" + btn.dataset.tab).classList.remove("hidden");
+    loadTab(btn.dataset.tab);
+  };
+});
+
+function loadTab(name) {
+  if (name === "reviews") loadReviews();
+  if (name === "offers") loadOffers();
+  if (name === "hotels") loadHotels();
+  if (name === "gallery") loadGallery();
+}
+
+/* ========== REVIEWS ========== */
+$("refreshReviews").onclick = loadReviews;
+function loadReviews() {
+  var list = $("revList");
+  list.innerHTML = '<div class="empty">جاري التحميل…</div>';
+  apiGet({ action: "admin_list", type: "reviews", pass: pass })
+    .then(function (j) {
+      if (!j || !j.ok) { list.innerHTML = '<div class="empty">فشل التحميل</div>'; return; }
+      var items = j.items || [];
+      var pending = items.filter(function (x) { return String(x.status) === "pending"; }).length;
+      var approved = items.filter(function (x) { return String(x.status) === "approved"; }).length;
+      var rejected = items.filter(function (x) { return String(x.status) === "rejected"; }).length;
+      $("revStats").innerHTML =
+        '<div class="stat"><b>' + pending + '</b><span>قيد المراجعة</span></div>' +
+        '<div class="stat"><b>' + approved + '</b><span>منشور</span></div>' +
+        '<div class="stat"><b>' + rejected + '</b><span>مرفوض</span></div>' +
+        '<div class="stat"><b>' + items.length + '</b><span>الإجمالي</span></div>';
+      if (!items.length) { list.innerHTML = '<div class="empty">مفيش آراء لسه</div>'; return; }
+      items.sort(function (a, b) {
+        var order = { pending: 0, approved: 1, rejected: 2 };
+        return (order[a.status] || 9) - (order[b.status] || 9);
+      });
+      list.innerHTML = items.map(function (r) {
+        var st = String(r.status || "pending");
+        var stars = "★".repeat(Math.min(5, +r.rating || 5));
+        return '<article class="card" data-id="' + r.id + '">' +
+          '<div class="card-top">' +
+            '<div><h3>' + esc(r.name) + '</h3>' +
+            '<div class="meta">' + stars + ' · ' + esc(r.trip || "—") + ' · ' + esc(String(r.date || "").slice(0, 10)) + '</div></div>' +
+            '<span class="badge ' + st + '">' + (st === "approved" ? "منشور" : st === "rejected" ? "مرفوض" : "قيد المراجعة") + '</span>' +
+          '</div>' +
+          '<p class="quote">' + esc(r.text) + '</p>' +
+          '<div class="actions">' +
+            (st !== "approved" ? '<button class="btn btn-ok btn-sm" data-act="approve">موافقة ونشر</button>' : '') +
+            (st !== "rejected" ? '<button class="btn btn-err btn-sm" data-act="reject">رفض</button>' : '') +
+            '<button class="btn btn-ghost btn-sm" data-act="del">حذف</button>' +
+          '</div></article>';
+      }).join("");
+      list.querySelectorAll("[data-act]").forEach(function (btn) {
+        btn.onclick = function () {
+          var card = btn.closest(".card");
+          var id = card.dataset.id;
+          var act = btn.dataset.act;
+          if (act === "del") {
+            if (!confirm("حذف الرأي؟")) return;
+            apiPost({ action: "admin_delete", type: "reviews", id: id }).then(function (j) {
+              toast(j && j.ok ? "تم الحذف" : "فشل");
+              loadReviews();
+            });
+          } else {
+            var status = act === "approve" ? "approved" : "rejected";
+            apiPost({ action: "admin_review_status", id: id, status: status }).then(function (j) {
+              toast(j && j.ok ? (status === "approved" ? "تم النشر على الموقع" : "تم الرفض") : "فشل");
+              loadReviews();
+            });
+          }
+        };
+      });
+    })
+    .catch(function () { list.innerHTML = '<div class="empty">خطأ في الاتصال</div>'; });
+}
+
+/* ========== OFFERS ========== */
+$("addOffer").onclick = function () { openModal("offers", null); };
+function loadOffers() {
+  var list = $("offerList");
+  list.innerHTML = '<div class="empty">جاري التحميل…</div>';
+  apiGet({ action: "admin_list", type: "offers", pass: pass })
+    .then(function (j) {
+      if (!j || !j.ok) { list.innerHTML = '<div class="empty">فشل التحميل</div>'; return; }
+      var items = j.items || [];
+      if (!items.length) { list.innerHTML = '<div class="empty">مفيش عروض — اضغط "+ عرض جديد"</div>'; return; }
+      items.sort(function (a, b) { return (+a.sort || 0) - (+b.sort || 0); });
+      list.innerHTML = items.map(function (o) {
+        var active = String(o.active) === "1" || String(o.active).toLowerCase() === "true";
+        return '<article class="card">' +
+          '<div class="card-top"><div><h3>' + esc(o.name_ar || o.name_en) + '</h3>' +
+          '<div class="meta">' + esc(o.name_en || "") + (o.img ? " · 📷" : "") + '</div></div>' +
+          '<span class="badge ' + (active ? "active" : "off") + '">' + (active ? "ظاهر" : "مخفي") + '</span></div>' +
+          '<p class="quote" style="white-space:pre-wrap;font-size:13px">' + esc(o.features_ar || "").slice(0, 200) + '</p>' +
+          '<div class="actions">' +
+            '<button class="btn btn-ghost btn-sm" data-edit-offer="' + o.id + '">تعديل</button>' +
+            '<button class="btn btn-err btn-sm" data-del-offer="' + o.id + '">حذف</button>' +
+          '</div></article>';
+      }).join("");
+      list.querySelectorAll("[data-edit-offer]").forEach(function (b) {
+        b.onclick = function () {
+          var id = b.getAttribute("data-edit-offer");
+          var item = items.find(function (x) { return String(x.id) === String(id); });
+          openModal("offers", item);
+        };
+      });
+      list.querySelectorAll("[data-del-offer]").forEach(function (b) {
+        b.onclick = function () {
+          if (!confirm("حذف العرض؟")) return;
+          apiPost({ action: "admin_delete", type: "offers", id: b.getAttribute("data-del-offer") })
+            .then(function (j) { toast(j && j.ok ? "تم" : "فشل"); loadOffers(); });
+        };
+      });
+    });
+}
+
+/* ========== HOTELS ========== */
+$("addHotel").onclick = function () { openModal("hotels", null); };
+function loadHotels() {
+  var list = $("hotelList");
+  list.innerHTML = '<div class="empty">جاري التحميل…</div>';
+  apiGet({ action: "admin_list", type: "hotels", pass: pass })
+    .then(function (j) {
+      if (!j || !j.ok) { list.innerHTML = '<div class="empty">فشل التحميل</div>'; return; }
+      var items = j.items || [];
+      if (!items.length) { list.innerHTML = '<div class="empty">مفيش فنادق — أضف فندق وسعره</div>'; return; }
+      items.sort(function (a, b) { return (+a.sort || 0) - (+b.sort || 0); });
+      list.innerHTML = items.map(function (h) {
+        var active = String(h.active) === "1" || String(h.active).toLowerCase() === "true" || h.active === "";
+        var prices = [];
+        if (h.price_stay) prices.push("إقامة: " + h.price_stay + " ج");
+        if (h.price_day) prices.push("داى يوز: " + h.price_day + " ج");
+        return '<article class="card">' +
+          '<div class="card-top"><div><h3>' + esc(h.name_ar || h.name_en) + '</h3>' +
+          '<div class="meta">' + esc(h.region || "") + ' · ' + esc(h.name_en || "") + '</div></div>' +
+          '<span class="badge ' + (active ? "active" : "off") + '">' + (active ? "ظاهر" : "مخفي") + '</span></div>' +
+          '<div class="price-tag">' + (prices.length ? prices.join("  |  ") : "بدون سعر محدد") + '</div>' +
+          '<div class="actions">' +
+            '<button class="btn btn-ghost btn-sm" data-edit-hotel="' + h.id + '">تعديل السعر</button>' +
+            '<button class="btn btn-err btn-sm" data-del-hotel="' + h.id + '">حذف</button>' +
+          '</div></article>';
+      }).join("");
+      list.querySelectorAll("[data-edit-hotel]").forEach(function (b) {
+        b.onclick = function () {
+          var id = b.getAttribute("data-edit-hotel");
+          openModal("hotels", items.find(function (x) { return String(x.id) === String(id); }));
+        };
+      });
+      list.querySelectorAll("[data-del-hotel]").forEach(function (b) {
+        b.onclick = function () {
+          if (!confirm("حذف الفندق؟")) return;
+          apiPost({ action: "admin_delete", type: "hotels", id: b.getAttribute("data-del-hotel") })
+            .then(function (j) { toast(j && j.ok ? "تم" : "فشل"); loadHotels(); });
+        };
+      });
+    });
+}
+
+/* ========== GALLERY ========== */
+$("addGallery").onclick = function () { openModal("gallery", null); };
+function loadGallery() {
+  var list = $("galleryList");
+  list.innerHTML = '<div class="empty">جاري التحميل…</div>';
+  apiGet({ action: "admin_list", type: "gallery", pass: pass })
+    .then(function (j) {
+      if (!j || !j.ok) { list.innerHTML = '<div class="empty">فشل التحميل</div>'; return; }
+      var items = j.items || [];
+      if (!items.length) { list.innerHTML = '<div class="empty">مفيش صور</div>'; return; }
+      items.sort(function (a, b) { return (+a.sort || 0) - (+b.sort || 0); });
+      list.innerHTML = items.map(function (g) {
+        var active = String(g.active) === "1" || String(g.active).toLowerCase() === "true" || g.active === "";
+        return '<article class="card">' +
+          '<div class="card-top"><div><h3>' + esc(g.caption_ar || g.url || "صورة") + '</h3>' +
+          '<div class="meta" style="word-break:break-all">' + esc(g.url) + '</div></div>' +
+          '<span class="badge ' + (active ? "active" : "off") + '">' + (active ? "ظاهرة" : "مخفية") + '</span></div>' +
+          (g.url ? '<img src="' + esc(g.url) + '" alt="" style="max-height:120px;border-radius:10px;object-fit:cover" onerror="this.style.display=\'none\'">' : '') +
+          '<div class="actions">' +
+            '<button class="btn btn-ghost btn-sm" data-edit-gal="' + g.id + '">تعديل</button>' +
+            '<button class="btn btn-err btn-sm" data-del-gal="' + g.id + '">حذف</button>' +
+          '</div></article>';
+      }).join("");
+      list.querySelectorAll("[data-edit-gal]").forEach(function (b) {
+        b.onclick = function () {
+          openModal("gallery", items.find(function (x) { return String(x.id) === String(b.getAttribute("data-edit-gal")); }));
+        };
+      });
+      list.querySelectorAll("[data-del-gal]").forEach(function (b) {
+        b.onclick = function () {
+          if (!confirm("حذف الصورة؟")) return;
+          apiPost({ action: "admin_delete", type: "gallery", id: b.getAttribute("data-del-gal") })
+            .then(function (j) { toast(j && j.ok ? "تم" : "فشل"); loadGallery(); });
+        };
+      });
+    });
+}
+
+/* ========== MODAL ========== */
+var modalType = null;
+var modalItem = null;
+
+function openModal(type, item) {
+  modalType = type;
+  modalItem = item || {};
+  var titles = { offers: "عرض", hotels: "فندق", gallery: "صورة" };
+  $("modalTitle").textContent = (item && item.id ? "تعديل " : "إضافة ") + (titles[type] || "");
+  var html = "";
+  if (type === "offers") {
+    html =
+      field("name_ar", "الاسم بالعربي", modalItem.name_ar) +
+      field("name_en", "الاسم بالإنجليزي", modalItem.name_en) +
+      field("img", "رابط/مسار الصورة", modalItem.img) +
+      field("features_ar", "المميزات (عربي — سطر لكل ميزة)", modalItem.features_ar, true) +
+      field("features_en", "Features (EN — one per line)", modalItem.features_en, true) +
+      field("sort", "الترتيب (رقم)", modalItem.sort || "") +
+      selectField("active", "الحالة", modalItem.active, [["1", "ظاهر"], ["0", "مخفي"]]);
+  }
+  if (type === "hotels") {
+    html =
+      field("name_ar", "اسم الفندق (عربي)", modalItem.name_ar) +
+      field("name_en", "اسم الفندق (EN)", modalItem.name_en) +
+      field("region", "المنطقة (sokhna / dahab / hurghada / siwa)", modalItem.region) +
+      '<div class="field-row">' +
+        field("price_stay", "سعر الإقامة (جنيه)", modalItem.price_stay) +
+        field("price_day", "سعر الداى يوز (جنيه)", modalItem.price_day) +
+      '</div>' +
+      field("img", "صورة (رابط أو مسار)", modalItem.img) +
+      field("sort", "الترتيب", modalItem.sort || "") +
+      selectField("active", "الحالة", modalItem.active, [["1", "ظاهر"], ["0", "مخفي"]]);
+  }
+  if (type === "gallery") {
+    html =
+      field("url", "رابط الصورة *", modalItem.url) +
+      field("caption_ar", "وصف عربي", modalItem.caption_ar) +
+      field("caption_en", "وصف EN", modalItem.caption_en) +
+      field("sort", "الترتيب", modalItem.sort || "") +
+      selectField("active", "الحالة", modalItem.active, [["1", "ظاهرة"], ["0", "مخفية"]]);
+  }
+  $("modalFields").innerHTML = html;
+  $("modalBg").classList.remove("hidden");
+}
+function field(name, label, val, isArea) {
+  val = val == null ? "" : val;
+  if (isArea) {
+    return '<div class="field"><label>' + label + '</label><textarea name="' + name + '">' + esc(val) + '</textarea></div>';
+  }
+  return '<div class="field"><label>' + label + '</label><input name="' + name + '" value="' + escAttr(val) + '"></div>';
+}
+function selectField(name, label, val, options) {
+  val = val == null || val === "" ? "1" : String(val);
+  var opts = options.map(function (o) {
+    return '<option value="' + o[0] + '"' + (val === o[0] || (val === "true" && o[0] === "1") ? " selected" : "") + ">" + o[1] + "</option>";
+  }).join("");
+  return '<div class="field"><label>' + label + '</label><select name="' + name + '">' + opts + "</select></div>";
+}
+$("modalCancel").onclick = function () { $("modalBg").classList.add("hidden"); };
+$("modalBg").onclick = function (e) { if (e.target === $("modalBg")) $("modalBg").classList.add("hidden"); };
+$("modalSave").onclick = function () {
+  var fields = $("modalFields").querySelectorAll("input,select,textarea");
+  var item = modalItem.id ? { id: modalItem.id } : {};
+  fields.forEach(function (f) { item[f.name] = f.value; });
+  $("modalSave").disabled = true;
+  apiPost({ action: "admin_save", type: modalType, item: item })
+    .then(function (j) {
+      $("modalSave").disabled = false;
+      if (j && j.ok) {
+        toast("تم الحفظ");
+        $("modalBg").classList.add("hidden");
+        loadTab(modalType);
+      } else {
+        toast("فشل الحفظ: " + (j && j.error ? j.error : ""));
+      }
+    })
+    .catch(function () {
+      $("modalSave").disabled = false;
+      toast("خطأ اتصال");
+    });
+};
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function escAttr(s) { return esc(s).replace(/"/g, "&quot;"); }
+</script>
 </body>
 </html>
