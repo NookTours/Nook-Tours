@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light">
 <meta name="theme-color" content="#0a2a4a">
 <title>لوحة تحكم Nook Tours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +39,7 @@ h2{margin:6px 0 14px;font-size:1.2rem}
 .stars{color:#e0a325;letter-spacing:2px}
 .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .gal .card{padding:8px;margin:0}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#e9eff5}
-nav.bar{position:fixed;inset-inline:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bar{position:fixed;inset-inline:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
 nav.bar button{border:0;background:none;padding:10px 4px 8px;font-size:12px;color:var(--mut);cursor:pointer;position:relative}
 nav.bar button span{display:block;font-size:22px;line-height:1.2}nav.bar button.on{color:var(--navy);font-weight:700}
 nav.bar i{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);background:var(--err);color:#fff;border-radius:999px;font-size:11px;font-style:normal;padding:0 6px}
@@ -56,6 +57,14 @@ dialog::backdrop{background:rgba(5,10,18,.6)}
 #toast.on{opacity:1}#toast.bad{background:var(--err)}
 .empty{text-align:center;color:var(--mut);padding:28px 10px}
 @media(min-width:700px){.stats{grid-template-columns:repeat(3,1fr)}.gal{grid-template-columns:repeat(4,1fr)}}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:600}
+.tog input{width:26px;height:26px;accent-color:var(--navy);flex:none}
+.sec h3{margin:0 0 6px;font-size:1.02rem}
+input.search{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;margin-bottom:10px}
+details.help summary{cursor:pointer;font-weight:700;padding:4px 0}
+details.help ol{margin:10px 0 0;padding-inline-start:20px}details.help li{margin-bottom:8px}
+nav.bar button{font-size:11px}
+.stars{color:#a86400}.pill.wait{color:#6f4a14}
 </style>
 </head>
 <body>
@@ -77,6 +86,7 @@ dialog::backdrop{background:rgba(5,10,18,.6)}
     <button data-tab="reviews"><span>⭐</span>الآراء<i id="bd" class="hide"></i></button>
     <button data-tab="offers"><span>🧭</span>العروض</button>
     <button data-tab="gallery"><span>🖼️</span>الصور</button>
+    <button data-tab="settings"><span>⚙️</span>الإعدادات</button>
   </nav>
 </div>
 
@@ -86,9 +96,9 @@ dialog::backdrop{background:rgba(5,10,18,.6)}
 
 <script>
 var API="https://script.google.com/macros/s/AKfycbymH-1FG-gyN9-l0jlZ4HJquCIYP52faFg-m89SjtrtYtfmPUXQtSkmgzNCYpg2SG5F/exec";
-var pass=sessionStorage.getItem("nk")||"",D={reviews:[],offers:[],gallery:[]},tab="home",rf="all",cur=null;
+var rq="",pass=sessionStorage.getItem("nk")||"",D={reviews:[],offers:[],gallery:[],config:{}},tab="home",rf="all",cur=null;
 var $=function(i){return document.getElementById(i)};
-var ERR={auth:"كلمة السر غير صحيحة",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",too_big:"الصورة كبيرة جداً",bad_type:"نوع الملف غير مدعوم"};
+var ERR={auth:"كلمة السر غير صحيحة",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم"};
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function api(b){b.action="admin";b.pass=pass;return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
 function toast(m,bad){var t=$("toast");t.textContent=m;t.className="on"+(bad?" bad":"");clearTimeout(toast.t);toast.t=setTimeout(function(){t.className=""},2600)}
@@ -97,7 +107,8 @@ function key(x){return +x.sort||+x.id||0}
 function sorted(t){return D[t].slice().sort(function(a,b){return key(a)-key(b)})}
 function isOn(x){var v=String(x.active).toLowerCase();return v===""||v==="1"||v==="true"}
 function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else if(j.error==="auth"){logout()}else fail(j)})}
-function loadAll(){return Promise.all([load("reviews"),load("offers"),load("gallery")]).then(render)}
+function loadCfg(){return api({op:"config_get"}).then(function(j){if(j.ok)D.config=j.config||{}}).catch(function(){})}
+function loadAll(){return Promise.all([load("reviews"),load("offers"),load("gallery"),loadCfg()]).then(render)}
 
 /* ----- login ----- */
 function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");loadAll()}
@@ -110,6 +121,7 @@ $("bar").onclick=function(e){var b=e.target.closest("button");b&&(tab=b.dataset.
 
 /* ----- render ----- */
 function stars(n){n=Math.min(5,Math.max(1,+n||5));return"★".repeat(n)+"☆".repeat(5-n)}
+function applyRq(){var q=rq.trim().toLowerCase();[].forEach.call(document.querySelectorAll("#view [data-q]"),function(c){c.style.display=!q||c.dataset.q.indexOf(q)>=0?"":"none"})}
 function render(){
   var pend=D.reviews.filter(function(r){return r.status==="pending"}).length;
   [].forEach.call($("bar").children,function(b){b.classList.toggle("on",b.dataset.tab===tab)});
@@ -121,13 +133,14 @@ function render(){
       '<button class="card stat" data-go="offers"><b>'+ov+'</b><small>عروض ظاهرة من '+D.offers.length+'</small></button>'+
       '<button class="card stat" data-go="gallery"><b>'+gv+'</b><small>صور ظاهرة من '+D.gallery.length+'</small></button></div>'+
       '<div class="card"><b>اختصارات</b><div class="acts"><button class="btn gold" data-new="offers">+ عرض / مسار جديد</button><button class="btn" data-multi="1">+ رفع صور</button><button class="btn ghost" data-new="reviews">+ إضافة رأي</button></div>'+
-      '<p class="hint">التغييرات تظهر في الموقع خلال ثوانٍ من الحفظ.</p></div>';
+      '<p class="hint">التغييرات تظهر في الموقع خلال ثوانٍ من الحفظ.</p></div>'+
+      '<details class="card help"><summary>📘 دليل سريع للاستخدام</summary><ol><li><b>الآراء:</b> أي رأي جديد من الزوار بيوصل "بانتظار". اعتمده عشان يظهر، أو ارفضه. تقدر تعدّل نصه قبل الاعتماد.</li><li><b>العروض:</b> "+ عرض / مسار جديد": اكتب اسم المسار، ارفع صورة، واكتب كل ميزة في سطر. الأسهم ▲▼ بتغيّر الترتيب، و"إخفاء" بيشيله من الموقع من غير حذف.</li><li><b>الصور:</b> "+ رفع صور" وتختار أكتر من صورة من الموبايل مرة واحدة. الصور بتتصغّر وتترفع لوحدها.</li><li><b>الإعدادات:</b> شريط إعلان أعلى الموقع، رقم الواتساب، رابط الانستجرام، وإخفاء أي قسم.</li><li><b>مهم:</b> أول ما تضيف عرض أو صورة، العروض والصور الأساسية في الموقع بتتبدّل بالمحتوى بتاعك.</li><li><b>نسخة احتياطية:</b> من الإعدادات تقدر تنزّل ملف CSV لأي قسم.</li></ol></details>';
   }else if(tab==="reviews"){
     var L=D.reviews.slice().reverse().filter(function(r){return rf==="all"||r.status===rf});
     var f=[["all","الكل"],["pending","بانتظار"],["approved","معتمد"],["rejected","مرفوض"]].map(function(x){return'<button data-rf="'+x[0]+'" class="'+(rf===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
-    v.innerHTML='<h2>آراء العملاء</h2><div class="filters">'+f+'</div><button class="btn gold sm" data-new="reviews" style="margin-bottom:12px">+ إضافة رأي</button>'+(L.map(function(r){
+    v.innerHTML='<h2>آراء العملاء</h2><div class="filters">'+f+'</div><input class="search" id="rq" type="text" placeholder="🔍 بحث بالاسم أو النص" value="'+esc(rq)+'"><div class="acts" style="margin:0 0 12px"><button class="btn gold sm" data-new="reviews">+ إضافة رأي</button>'+(pend?'<button class="btn ok sm" data-appall="1">اعتماد الكل ('+pend+')</button>':'')+'<button class="btn ghost sm" data-csv="reviews">⬇ تصدير CSV</button></div>'+(L.map(function(r){
       var st=r.status==="approved"?'<span class="pill ok">معتمد</span>':r.status==="rejected"?'<span class="pill bad">مرفوض</span>':'<span class="pill wait">بانتظار</span>';
-      return'<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><b>'+esc(r.name)+'</b>'+st+'</div><div class="stars">'+stars(r.rating)+'</div><p style="margin:6px 0">'+esc(r.text)+'</p><small class="hint">'+esc(r.trip||"")+(r.trip?" · ":"")+esc(String(r.date||""))+'</small>'+
+      return'<div class="card" data-q="'+esc((String(r.name)+" "+r.text+" "+r.trip).toLowerCase())+'"><div style="display:flex;justify-content:space-between;gap:8px"><b>'+esc(r.name)+'</b>'+st+'</div><div class="stars">'+stars(r.rating)+'</div><p style="margin:6px 0">'+esc(r.text)+'</p><small class="hint">'+esc(r.trip||"")+(r.trip?" · ":"")+esc(String(r.date||""))+'</small>'+
         '<div class="acts">'+(r.status!=="approved"?'<button class="btn ok sm" data-st="approved" data-id="'+esc(r.id)+'">اعتماد</button>':'')+(r.status!=="rejected"?'<button class="btn ghost sm" data-st="rejected" data-id="'+esc(r.id)+'">رفض</button>':'')+
         '<button class="btn ghost sm" data-edit="reviews" data-id="'+esc(r.id)+'">تعديل</button><button class="btn bad sm" data-del="reviews" data-id="'+esc(r.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد آراء هنا</div>');
   }else if(tab==="offers"){
@@ -136,15 +149,42 @@ function render(){
       var n=String(o.features_ar||"").split(/\n+/).filter(Boolean).length;
       return'<div class="card"><div class="row">'+(o.img?'<img class="thumb" src="'+esc(o.img)+'" alt="" onerror="this.style.opacity=.25">':'<div class="thumb"></div>')+'<div><b>'+esc(o.name_ar||o.name_en)+'</b><div class="hint">'+esc(o.name_en||"")+' · '+n+' مميزات</div>'+(isOn(o)?'<span class="pill ok">ظاهر</span>':'<span class="pill bad">مخفي</span>')+'</div></div>'+
         '<div class="acts"><button class="btn ghost sm" data-mv="-1" data-type="offers" data-id="'+esc(o.id)+'"'+(i?'':' disabled')+'>▲</button><button class="btn ghost sm" data-mv="1" data-type="offers" data-id="'+esc(o.id)+'"'+(i<O.length-1?'':' disabled')+'>▼</button>'+
-        '<button class="btn sm" data-edit="offers" data-id="'+esc(o.id)+'">تعديل</button><button class="btn ghost sm" data-tg="offers" data-id="'+esc(o.id)+'">'+(isOn(o)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="offers" data-id="'+esc(o.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد عروض — الموقع يعرض العروض الأساسية حتى تضيف أول عرض.</div>');
-  }else{
+        '<button class="btn sm" data-edit="offers" data-id="'+esc(o.id)+'">تعديل</button><button class="btn ghost sm" data-dup="offers" data-id="'+esc(o.id)+'">نسخ</button><button class="btn ghost sm" data-tg="offers" data-id="'+esc(o.id)+'">'+(isOn(o)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="offers" data-id="'+esc(o.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد عروض — الموقع يعرض العروض الأساسية حتى تضيف أول عرض.</div>');
+  }else if(tab==="settings"){renderSettings(v)}else{
     var G=sorted("gallery");
     v.innerHTML='<h2>معرض الصور</h2><div class="acts" style="margin:0 0 12px"><button class="btn gold" data-multi="1">+ رفع صور (عدة صور)</button><button class="btn ghost" data-new="gallery">+ بالرابط</button></div><div class="gal">'+(G.map(function(g,i){
       return'<div class="card"><img src="'+esc(g.url)+'" alt="" loading="lazy" onerror="this.style.opacity=.25"><div class="hint" style="margin:6px 2px">'+esc(g.caption_ar||"بدون تعليق")+' '+(isOn(g)?'':'<span class="pill bad">مخفية</span>')+'</div>'+
         '<div class="acts" style="margin-top:6px"><button class="btn ghost sm" data-mv="-1" data-type="gallery" data-id="'+esc(g.id)+'"'+(i?'':' disabled')+'>▲</button><button class="btn ghost sm" data-mv="1" data-type="gallery" data-id="'+esc(g.id)+'"'+(i<G.length-1?'':' disabled')+'>▼</button>'+
         '<button class="btn sm" data-edit="gallery" data-id="'+esc(g.id)+'">تعديل</button><button class="btn ghost sm" data-tg="gallery" data-id="'+esc(g.id)+'">'+(isOn(g)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="gallery" data-id="'+esc(g.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty" style="grid-column:1/-1">لا توجد صور — الموقع يعرض الصور الأساسية حتى ترفع أول صورة.</div>')+'</div>';
   }
+  applyRq();
 }
+
+/* ----- settings tab ----- */
+function cv(k,d){var v=D.config[k];return v===undefined||v===""?d:v}
+function tg(id,label,on){return'<label class="tog"><span>'+label+'</span><input type="checkbox" id="'+id+'"'+(on?" checked":"")+'></label>'}
+function fld(id,label,val,ph,ltr){return'<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="text"'+(ltr?' dir="ltr"':"")+' placeholder="'+esc(ph||"")+'" value="'+esc(val)+'"></div>'}
+function renderSettings(v){
+  v.innerHTML='<h2>إعدادات الموقع</h2>'+
+   '<div class="card sec"><h3>📢 شريط إعلان أعلى الموقع</h3><p class="hint">يظهر لكل الزوار فوق الهيدر (مثال: عرض لفترة محدودة).</p>'+tg("c_ann_active","إظهار الشريط",cv("ann_active","0")==="1")+
+     fld("c_ann_ar","النص بالعربي",cv("ann_ar",""),"مثال: عروض الجمعة والأحد — اطلب السعر على واتساب")+fld("c_ann_en","Text (English)",cv("ann_en",""),"e.g. Weekend offers — ask on WhatsApp")+fld("c_ann_link","رابط عند الضغط (اختياري)",cv("ann_link",""),"#offers أو https://...",1)+'</div>'+
+   '<div class="card sec"><h3>📞 بيانات التواصل</h3>'+fld("c_whatsapp","رقم الواتساب (بكود الدولة)",cv("whatsapp",""),"201005377933",1)+fld("c_instagram","رابط الانستجرام",cv("instagram",""),"https://www.instagram.com/Nook.Tours",1)+
+     '<p class="hint">لو سبتهم فاضيين الموقع بيستخدم القيم الأصلية.</p></div>'+
+   '<div class="card sec"><h3>👁️ إظهار الأقسام</h3>'+tg("c_show_offers","قسم العروض",cv("show_offers","1")!=="0")+tg("c_show_gallery","قسم الصور",cv("show_gallery","1")!=="0")+tg("c_show_reviews","قسم آراء العملاء",cv("show_reviews","1")!=="0")+'</div>'+
+   '<button class="btn gold" data-savecfg="1" style="width:100%;margin-bottom:12px">حفظ الإعدادات</button>'+
+   '<div class="card sec"><h3>🔐 تغيير كلمة السر</h3><div class="field"><label for="np1">كلمة السر الجديدة (8 أحرف على الأقل)</label><input id="np1" type="password" autocomplete="new-password" style="width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"></div><div class="field"><label for="np2">تأكيد كلمة السر</label><input id="np2" type="password" autocomplete="new-password" style="width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"></div><button class="btn" data-setpass="1">تغيير كلمة السر</button></div>'+
+   '<div class="card sec"><h3>💾 نسخة احتياطية</h3><p class="hint">نزّل نسخة من بياناتك كملف CSV بتفتحه في إكسل أو جوجل شيت.</p><div class="acts"><button class="btn ghost sm" data-csv="reviews">الآراء</button><button class="btn ghost sm" data-csv="offers">العروض</button><button class="btn ghost sm" data-csv="gallery">الصور</button></div></div>';
+}
+function exportCsv(t){var L=D[t]||[];if(!L.length){toast("مفيش بيانات للتصدير",1);return}
+  var cols=Object.keys(L[0]);var q=function(x){x=String(x==null?"":x);if(/^[=+\-@]/.test(x))x="'"+x;return'"'+x.replace(/"/g,'""')+'"'};
+  var csv="\ufeff"+cols.join(",")+"\r\n"+L.map(function(r){return cols.map(function(c){return q(r[c])}).join(",")}).join("\r\n");
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="nook-"+t+"-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("تم تنزيل الملف ✓")}
+function saveCfg(){var g=function(i){return $(i).value.trim()},c=function(i){return $(i).checked?"1":"0"};
+  var cfg={ann_active:c("c_ann_active"),ann_ar:g("c_ann_ar"),ann_en:g("c_ann_en"),ann_link:g("c_ann_link"),whatsapp:g("c_whatsapp")||"201005377933",instagram:g("c_instagram"),show_offers:c("c_show_offers"),show_gallery:c("c_show_gallery"),show_reviews:c("c_show_reviews")};
+  if(!cfg.instagram)delete cfg.instagram;
+  api({op:"config_save",config:cfg}).then(function(j){if(j.ok){D.config=j.config||cfg;toast("تم الحفظ — يظهر في الموقع خلال ثوانٍ ✓")}else fail(j)}).catch(function(){toast("تعذّر الاتصال",1)})}
+function setPass(){var a=$("np1").value,b=$("np2").value;if(a.length<8)return toast(ERR.weak,1);if(a!==b)return toast("كلمتا السر غير متطابقتين",1);
+  api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){pass=a;sessionStorage.setItem("nk",a);$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)})}
 
 /* ----- actions (event delegation) ----- */
 function find(t,id){return D[t].filter(function(x){return String(x.id)===String(id)})[0]}
@@ -154,6 +194,11 @@ $("view").onclick=function(e){var b=e.target.closest("button");if(!b)return;var 
   else if(d.rf){rf=d.rf;render()}
   else if(d.multi){$("fileMany").click()}
   else if(d.new){openEdit(d.new,null)}
+  else if(d.savecfg){saveCfg()}
+  else if(d.setpass){setPass()}
+  else if(d.csv){exportCsv(d.csv)}
+  else if(d.appall){if(confirm("اعتماد كل الآراء المنتظرة؟"))api({op:"approve_all"}).then(function(j){if(j.ok){D.reviews.forEach(function(r){if(r.status==="pending")r.status="approved"});render();toast("تم اعتماد "+j.n+" رأي")}else fail(j)})}
+  else if(d.dup){var src=find(d.dup,d.id),cp=Object.assign({},src,{name_ar:(src.name_ar||"")+" (نسخة)",name_en:src.name_en?src.name_en+" (copy)":"",active:"0",sort:""});delete cp.id;save("offers",cp).then(function(){return load("offers")}).then(render).catch(function(){})}
   else if(d.edit){openEdit(d.edit,find(d.edit,d.id))}
   else if(d.st){api({op:"status",id:d.id,status:d.st}).then(function(j){if(j.ok){find("reviews",d.id).status=d.st;render();toast(d.st==="approved"?"تم الاعتماد — يظهر في الموقع":"تم الرفض")}else fail(j)})}
   else if(d.del){if(confirm("حذف نهائي؟"))api({op:"delete",type:d.del,id:d.id}).then(function(j){if(j.ok){D[d.del]=D[d.del].filter(function(x){return String(x.id)!==String(d.id)});render();toast("تم الحذف")}else fail(j)})}
@@ -162,6 +207,8 @@ $("view").onclick=function(e){var b=e.target.closest("button");if(!b)return;var 
     var x=L[i];L[i]=L[k];L[k]=x;b.disabled=!0;
     Promise.all(L.map(function(it,idx){if(+it.sort===idx+1)return null;var n=Object.assign({},it,{sort:idx+1});return save(t,n,1).then(function(){it.sort=idx+1})})).then(render).catch(function(){})}
 };
+
+$("view").addEventListener("input",function(e){if(e.target.id==="rq"){rq=e.target.value;applyRq()}});
 
 /* ----- edit dialog ----- */
 var F={offers:[["name_ar","اسم المسار / الرحلة (عربي)","t"],["name_en","Route name (English)","t"],["img","صورة العرض","img"],["features_ar","المميزات (سطر لكل ميزة)","a"],["features_en","Features (one per line — اختياري)","a"],["sort","الترتيب (الأصغر يظهر أولاً)","n"]],
