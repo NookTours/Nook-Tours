@@ -659,6 +659,8 @@ function founderSec(){
   return sec("👤 المؤسسين — قصتنا",tg("c_show_founder","إظهار قسم \"قصتنا\" والمؤسسين في الموقع",cv("show_founder","1")!=="0")+
     '<p class="hint" style="margin:10px 0">أضف لحد '+FND_MAX+' مؤسسين. رقم وانستجرام المؤسس بيظهروا في كارته بس، ومنفصلين تماماً عن رقم وانستجرام الشركة (من "من نحن والتواصل" تحت). القصة من خانة "قصة الشركة".</p><div id="fndList">'+fndRows(fndInit())+'</div>'+
     '<button type="button" class="btn ghost sm" data-fadd="1">+ إضافة مؤسس</button>'+
+    '<div class="field" style="margin-top:16px"><label for="c_about_bg">خلفية قسم "قصتنا"</label><div class="imgbox"><img id="aboutBgPv" alt="" src="'+esc(cv("about_bg",""))+'" style="width:160px;height:96px;object-fit:cover'+(cv("about_bg","")?"":";visibility:hidden")+'" onload="this.style.visibility=\'visible\'" onerror="this.style.visibility=\'hidden\'"><button type="button" class="btn sm" data-aboutbgup="1">رفع صورة</button></div><input id="c_about_bg" type="text" dir="ltr" placeholder="https://... (فارغ = بدون صورة خلفية)" value="'+esc(cv("about_bg",""))+'" style="margin-top:8px"></div>'+
+    fld("c_about_bg_dim","قوة التعتيم فوق الصورة (0 إلى 95 — الأعلى = النص أوضح)",cv("about_bg_dim","85"),"85",1)+
     '<button class="btn gold" data-savecfg="1" style="width:100%;margin-top:12px">حفظ ونشر</button>',1)}
 function viewSettings(){
   return'<h2>الإعدادات</h2><p class="sub">المؤسس، بيانات التواصل، من نحن، الأمان والنسخ الاحتياطي. شريط الإعلانات من صفحة "التسويق".</p>'+
@@ -677,7 +679,7 @@ function exportRows(t,L){if(!L||!L.length){toast("مفيش بيانات للتص
   var csv="﻿"+cols.join(",")+"\r\n"+L.map(function(r){return cols.map(function(c){return q(r[c])}).join(",")}).join("\r\n");
   var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="nook-"+t+"-"+ymd(new Date())+".csv";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("تم تنزيل الملف ✓")}
 
-var CFG_TEXT=["ann_ar","ann_en","ann_link","stat_hotels","stat_dests","about_ar","about_en","phone_display","address_ar","address_en","instagram","hero_img","hero_video","fnd_img"],CFG_BOOL=["ann_active","show_founder"],DEFAULT_WA="201005377933";
+var CFG_TEXT=["ann_ar","ann_en","ann_link","stat_hotels","stat_dests","about_ar","about_en","phone_display","address_ar","address_en","instagram","hero_img","hero_video","fnd_img","about_bg","about_bg_dim"],CFG_BOOL=["ann_active","show_founder"],DEFAULT_WA="201005377933";
 function saveCfg(btn){var cfg={},g=function(i){var e=$(i);return e?e.value.trim():undefined},c=function(i){var e=$(i);return e?(e.checked?"1":"0"):undefined},put=function(k,v){v!==undefined&&(cfg[k]=v)};
   CFG_TEXT.forEach(function(k){put(k,g("c_"+k))});CFG_BOOL.forEach(function(k){put(k,c("c_"+k))});
   $("c_whatsapp")&&put("whatsapp",g("c_whatsapp")||DEFAULT_WA);
@@ -721,6 +723,7 @@ $("view").onclick=function(e){var tr=e.target.closest("tr[data-bkview]");
     var all=document.querySelectorAll("#secList .sec-row");[].forEach.call(all,function(r,i){r.querySelector('[data-secmv="-1"]').disabled=!i;r.querySelector('[data-secmv="1"]').disabled=i===all.length-1});
     toast("اضغط حفظ لتطبيق الترتيب")}
   else if(d.heroup){cur={heroImg:1};$("fileOne").click()}
+  else if(d.aboutbgup){cur={aboutBg:1};$("fileOne").click()}
   else if(d.fadd){var fl=fndRead();if(fl.length>=FND_MAX){toast("الحد الأقصى "+FND_MAX+" مؤسسين",1);return}fl.push({name_ar:"",name_en:"",role_ar:"",role_en:"",img:""});$("fndList").innerHTML=fndRows(fl);var rows=document.querySelectorAll("#fndList .fnd-row");rows[rows.length-1].querySelector(".f-na").focus()}
   else if(d.fdel!==undefined){var fl2=fndRead();fl2.splice(+d.fdel,1);$("fndList").innerHTML=fndRows(fl2);toast("اتشال — اضغط حفظ لتطبيقه")}
   else if(d.fup!==undefined){cur={fndRow:+d.fup};$("fileOne").click()}
@@ -763,6 +766,7 @@ $("view").addEventListener("input",function(e){var id=e.target.id;
   else if(id==="bReg"){bReg=e.target.value;bLimit=PAGE;$("bkList").innerHTML=bookingList(bookingFilter())}
   else if(id==="cq"||id==="ctq"){id==="cq"?cq=e.target.value:(ctq=e.target.value,ctLimit=CT_PAGE);var pos=e.target.selectionStart;render();var el=$(id);el&&(el.focus(),el.setSelectionRange(pos,pos))}
   else if(e.target.id==="c_hero_img"){$("heroPv").src=e.target.value}
+  else if(e.target.id==="c_about_bg"){$("aboutBgPv").src=e.target.value}
   else if(e.target.classList.contains("f-img")){e.target.closest(".fnd-row").querySelector(".f-pv").src=e.target.value}
   else if(e.target.classList.contains("dimg-url")){var pv=document.querySelector('.dimg-pv[data-k="'+e.target.dataset.k+'"]');if(pv)pv.src=e.target.value}});
 
@@ -798,6 +802,7 @@ function upload(file){return shrink(file).then(function(b64){return api({op:"upl
 $("fileOne").onchange=function(){var f=this.files[0];this.value="";if(!f)return;toast("جاري رفع الصورة...");
   upload(f).then(function(u){
     if(cur&&cur.fndRow!==undefined){var row=document.querySelectorAll("#fndList .fnd-row")[cur.fndRow];cur=null;row&&(row.querySelector(".f-img").value=u,row.querySelector(".f-pv").src=u);toast("تم رفع الصورة ✓ — اضغط حفظ ونشر");return}
+    if(cur&&cur.aboutBg){cur=null;var ab=$("c_about_bg");ab&&(ab.value=u,$("aboutBgPv").src=u);toast("تم رفع الخلفية ✓ — اضغط حفظ ونشر");return}
     if(cur&&cur.heroImg){cur=null;var hi=$("c_hero_img");hi&&(hi.value=u,$("heroPv").src=u);toast("تم رفع صورة الهيرو ✓ — اضغط حفظ");return}
     if(cur&&cur.destImg){var k=cur.destImg;cur.destImg=null;var inp=document.querySelector('.dimg-url[data-k="'+k+'"]'),pv=document.querySelector('.dimg-pv[data-k="'+k+'"]');if(inp)inp.value=u;if(pv)pv.src=u;toast("تم رفع صورة الوجهة ✓ — اضغط حفظ الإعدادات");return}
     var inp2=$("f_img")||$("f_url");if(inp2){inp2.value=u;var p=$("pv");if(p)p.src=u}toast("تم رفع الصورة ✓")
