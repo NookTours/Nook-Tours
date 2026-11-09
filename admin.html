@@ -4,67 +4,119 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#0a2a4a">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a1320">
 <title>لوحة تحكم Nook Tours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0a2a4a;--navy2:#123a5e;--gold:#c2965c;--gold2:#9a7240;--bg:#f5f2ec;--card:#fff;--ink:#0f2236;--mut:#5c6b7a;--line:#e4dfd7;--ok:#2d6a4f;--err:#b23a2f;--r:16px}
+:root{color-scheme:dark;--navy:#0a2a4a;--navy2:#123a5e;--navy3:#1f5687;--gold:#c9a06a;--gold2:#e0bb85;--gold3:rgba(201,160,106,.14);--bg:#0a1320;--card:#111e2f;--card2:#16263a;--thumb:#1c2f47;--ink:#e6edf5;--mut:#93a5b9;--line:#24384f;--ok:#3fa877;--ok2:rgba(63,168,119,.16);--err:#e0675b;--err2:rgba(224,103,91,.16);--wait:#e8b86a;--wait2:rgba(232,184,106,.16);--r:16px;--r-sm:12px;--sp:16px;--side:248px;--shadow:0 6px 18px rgba(0,0,0,.35);--shadow-lg:0 30px 80px rgba(0,0,0,.6)}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Readex Pro",system-ui,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .hide{display:none!important}
-header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-header b{font-size:1.05rem;letter-spacing:.02em}header b span{color:var(--gold)}
-header a,header button{color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:999px;padding:8px 14px;font-size:14px;text-decoration:none;cursor:pointer}
-main{max-width:920px;margin:0 auto;padding:16px}
-h2{margin:6px 0 14px;font-size:1.2rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:10px 18px;border:1px solid transparent;border-radius:999px;font-weight:600;cursor:pointer;background:var(--navy);color:#fff}
-.btn.gold{background:var(--gold);color:var(--navy)}.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
-.btn.ok{background:var(--ok)}.btn.bad{background:var(--err)}.btn.sm{min-height:40px;padding:6px 14px;font-size:14px}
-.btn:disabled{opacity:.55}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:0 6px 18px rgba(11,18,32,.05)}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.stat{border:0;text-align:start;cursor:pointer}.stat b{display:block;font-size:2rem;line-height:1.1;color:var(--navy)}.stat small{color:var(--mut)}
-.stat.hot b{color:var(--err)}
+/* ---------- layout ---------- */
+header.top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) var(--sp) 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+header.top b{font-size:1.05rem;letter-spacing:.02em}header.top b span{color:var(--gold)}
+.hbtns{display:flex;gap:8px}
+.hbtns a,.hbtns button{color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:999px;padding:8px 14px;font-size:14px;text-decoration:none;cursor:pointer;transition:background .2s}
+.hbtns a:hover,.hbtns button:hover{background:rgba(255,255,255,.22)}
+.hbtns a,.hbtns button{white-space:nowrap}
+header.top b{white-space:nowrap}header.top b small{font-size:inherit;font-weight:inherit}
+@media(max-width:420px){.hide-sm{display:none}}
+@media(max-width:420px){header.top b{font-size:.9rem}.hbtns{gap:6px}.hbtns a,.hbtns button{padding:6px 10px;font-size:13px}}
+main{max-width:1080px;margin:0 auto;padding:var(--sp)}
+h2{margin:6px 0 14px;font-size:1.25rem}
+nav.side{display:none}
+nav.bar{position:fixed;inset-inline:0;bottom:0;z-index:30;background:var(--card2);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bar button{border:0;background:none;padding:10px 4px 8px;font-size:11px;color:var(--mut);cursor:pointer;position:relative}
+nav.bar button span{display:block;font-size:22px;line-height:1.2}nav.bar button.on{color:var(--gold);font-weight:700}
+.badge{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);background:var(--err);color:#fff;border-radius:999px;font-size:11px;font-style:normal;padding:0 6px;line-height:1.6}
+@media(min-width:900px){
+  body{padding-bottom:0}
+  nav.bar{display:none}
+  nav.side{display:flex;flex-direction:column;gap:4px;position:fixed;top:0;bottom:0;inset-inline-start:0;width:var(--side);background:var(--navy);color:#fff;padding:22px 14px;z-index:25}
+  nav.side .brand{font-weight:700;font-size:1.2rem;padding:4px 12px 18px}nav.side .brand span{color:var(--gold)}
+  nav.side button{display:flex;align-items:center;gap:10px;border:0;background:none;color:rgba(255,255,255,.78);text-align:start;padding:11px 12px;border-radius:12px;cursor:pointer;position:relative;transition:background .2s,color .2s}
+  nav.side button:hover{background:rgba(255,255,255,.08);color:#fff}
+  nav.side button.on{background:var(--gold);color:var(--navy);font-weight:700}
+  nav.side .badge{position:static;margin-inline-start:auto}
+  #app{padding-inline-start:var(--side)}
+  header.top{background:var(--bg);color:var(--ink);border-bottom:1px solid var(--line)}
+  header.top b{visibility:hidden}
+  .hbtns a,.hbtns button{background:var(--card2);color:var(--ink);border:1px solid var(--line)}
+  .hbtns a:hover,.hbtns button:hover{background:var(--gold3)}
+  #toast{inset-inline-start:calc(var(--side) + 16px);bottom:24px}
+}
+/* ---------- components ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:10px 18px;border:1px solid transparent;border-radius:999px;font-weight:600;cursor:pointer;background:var(--navy3);color:#fff;text-decoration:none;transition:transform .15s,opacity .15s,background .2s}
+.btn:hover{background:#2a6497}.btn:active{transform:scale(.97)}
+.btn.gold{background:var(--gold);color:var(--navy)}.btn.gold:hover{background:#d0a76f}
+.btn.ghost{background:var(--card2);border-color:var(--line);color:var(--ink)}.btn.ghost:hover{background:var(--gold3)}
+.btn.ok{background:var(--ok)}.btn.bad{background:var(--err)}.btn.wa{background:#1f8f4e}
+.btn.sm{min-height:40px;padding:6px 14px;font-size:14px}
+.btn:disabled{opacity:.55;pointer-events:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.grid2{display:grid;gap:12px}
+@media(min-width:900px){.grid2{grid-template-columns:3fr 2fr}}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(3,1fr)}}
+.kpi{border:1px solid var(--line);background:var(--card2);border-radius:var(--r);padding:14px;text-align:start;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s,box-shadow .2s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,18,32,.1)}
+.kpi b{display:block;font-size:2rem;line-height:1.1;color:var(--ink)}.kpi small{color:var(--mut)}
+.kpi.hot{background:linear-gradient(160deg,var(--card),var(--err2))}.kpi.hot b{color:var(--err)}
+.kpi.lead{background:linear-gradient(160deg,var(--navy),var(--navy3));color:#fff;border:0}.kpi.lead b{color:var(--gold)}.kpi.lead small{color:rgba(255,255,255,.75)}
+.chart{display:grid;grid-template-columns:repeat(14,1fr);align-items:end;gap:6px;height:140px;padding-top:10px}
+.chart div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-size:11px;color:var(--mut)}
+.chart i{display:block;width:100%;max-width:26px;border-radius:6px 6px 3px 3px;background:linear-gradient(#3a78b0,var(--navy3));min-height:3px}
+.chart div.today i{background:linear-gradient(var(--gold2),var(--gold))}.chart div.today{color:var(--gold2);font-weight:700}
+.list-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.list-row:last-child{border-bottom:0}
+.bar-h{height:8px;border-radius:999px;background:var(--gold3);overflow:hidden;margin-top:4px}.bar-h i{display:block;height:100%;background:var(--gold)}
 .row{display:flex;gap:12px;align-items:flex-start}.row>div{flex:1;min-width:0}
-.thumb{width:76px;height:76px;border-radius:12px;object-fit:cover;background:#e9eff5;flex:none}
+.thumb{width:76px;height:76px;border-radius:var(--r-sm);object-fit:cover;background:var(--thumb);flex:none}
 .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;background:#e9eff5;color:var(--navy)}
-.pill.ok{background:#dff2e8;color:var(--ok)}.pill.bad{background:#f8e0dc;color:var(--err)}.pill.wait{background:#fbefd9;color:var(--gold2)}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--thumb);color:var(--ink);white-space:nowrap}
+.pill.ok{background:var(--ok2);color:var(--ok)}.pill.bad{background:var(--err2);color:var(--err)}.pill.wait{background:var(--wait2);color:var(--wait)}
 .filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px}
-.filters button{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
-.filters button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.stars{color:#e0a325;letter-spacing:2px}
+.filters button{flex:none;border:1px solid var(--line);background:var(--card2);border-radius:999px;padding:8px 16px;cursor:pointer}
+.filters button.on{background:var(--navy3);color:#fff;border-color:var(--navy3)}
+.seg{display:inline-flex;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:14px}
+.seg button{border:0;background:none;padding:8px 16px;border-radius:999px;cursor:pointer;color:var(--mut)}
+.seg button.on{background:var(--navy3);color:#fff;font-weight:600}
+.stars{color:var(--gold);letter-spacing:2px}
 .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.gal .card{padding:8px;margin:0}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#e9eff5}
-nav.bar{position:fixed;inset-inline:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
-nav.bar button{border:0;background:none;padding:10px 4px 8px;font-size:12px;color:var(--mut);cursor:pointer;position:relative}
-nav.bar button span{display:block;font-size:22px;line-height:1.2}nav.bar button.on{color:var(--navy);font-weight:700}
-nav.bar i{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);background:var(--err);color:#fff;border-radius:999px;font-size:11px;font-style:normal;padding:0 6px}
+.gal .card{padding:8px;margin:0}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--thumb)}
+@media(min-width:700px){.gal{grid-template-columns:repeat(4,1fr)}}
+.bk-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.bk-meta{color:var(--mut);font-size:13px;margin:2px 0 8px}
+.bk-grid{display:grid;grid-template-columns:1fr;gap:4px 14px;font-size:14px}
+@media(min-width:700px){.bk-grid{grid-template-columns:1fr 1fr}}
+.bk-note{margin:8px 0 0;padding:8px 10px;background:var(--bg);border-radius:10px;font-size:14px}
 .field{margin-bottom:14px}.field label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
-input[type=text],input[type=number],textarea,select{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+input[type=text],input[type=number],input[type=password],textarea,select{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card2)}
 textarea{min-height:110px;resize:vertical}
-.imgbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}.imgbox img{width:96px;height:72px;object-fit:cover;border-radius:10px;background:#e9eff5}
+input.search{border-radius:999px;padding:10px 16px;margin-bottom:10px}
+.imgbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}.imgbox img{width:96px;height:72px;object-fit:cover;border-radius:10px;background:var(--thumb)}
 .hint{font-size:13px;color:var(--mut);margin:6px 0 0}
-dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 20px));max-height:92vh;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:600}
+.tog input{width:26px;height:26px;accent-color:var(--gold);flex:none}
+details.sec summary,details.help summary{font-weight:700;font-size:1.02rem;cursor:pointer;padding:4px 0}details.sec[open] summary{margin-bottom:8px}
+details.help ol{margin:10px 0 0;padding-inline-start:20px}details.help li{margin-bottom:8px}
+dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 20px));max-height:92vh;box-shadow:var(--shadow-lg)}
 dialog::backdrop{background:rgba(5,10,18,.6)}
 .dh{padding:16px 18px;border-bottom:1px solid var(--line);font-weight:700}.db{padding:18px;overflow:auto;max-height:64vh}.df{padding:14px 18px;display:flex;gap:10px;border-top:1px solid var(--line)}.df .btn{flex:1}
 #login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,var(--navy),var(--navy2))}
-#login .card{width:min(380px,100%);text-align:center;padding:26px}#login h1{margin:0 0 4px;color:var(--navy)}#login h1 span{color:var(--gold2)}
-#toast{position:fixed;inset-inline:16px;bottom:calc(90px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--navy);color:#fff;border-radius:14px;padding:12px 16px;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s}
+#login .card{width:min(380px,100%);text-align:center;padding:26px}#login h1{margin:0 0 4px;color:var(--ink)}#login h1 span{color:var(--gold2)}
+#toast{position:fixed;inset-inline:16px;bottom:calc(90px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--navy3);color:#fff;border-radius:14px;padding:12px 16px;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s;max-width:520px;margin-inline:auto}
 #toast.on{opacity:1}#toast.bad{background:var(--err)}
 .empty{text-align:center;color:var(--mut);padding:28px 10px}
-@media(min-width:700px){.stats{grid-template-columns:repeat(3,1fr)}.gal{grid-template-columns:repeat(4,1fr)}}
-.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:600}
-.tog input{width:26px;height:26px;accent-color:var(--navy);flex:none}
-.sec h3{margin:0 0 6px;font-size:1.02rem}
-input.search{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;margin-bottom:10px}
-details.help summary{cursor:pointer;font-weight:700;padding:4px 0}
-details.help ol{margin:10px 0 0;padding-inline-start:20px}details.help li{margin-bottom:8px}
-nav.bar button{font-size:11px}
-.stars{color:#a86400}.pill.wait{color:#6f4a14}
+.more{display:block;margin:6px auto 0}
+dialog{background:var(--card);color:var(--ink)}
+.kpi.hot b{color:var(--err)}
+nav.side{background:#08192b;border-inline-end:1px solid var(--line)}
+.btn.ghost:hover{background:var(--gold3)}
+::placeholder{color:#6f8399}
 </style>
 </head>
 <body>
@@ -72,177 +124,328 @@ nav.bar button{font-size:11px}
   <div class="card">
     <h1>Nook <span>Tours</span></h1>
     <p class="hint" style="margin:0 0 18px">لوحة التحكم — للإدارة فقط</p>
-    <div class="field"><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر" style="width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:16px"></div>
+    <div class="field"><label for="pw" class="hide">كلمة السر</label><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر"></div>
     <button class="btn" id="go" style="width:100%">دخول</button>
-    <p id="lerr" class="hint" style="color:var(--err);min-height:1.4em"></p>
+    <p id="lerr" class="hint" style="color:var(--err);min-height:1.4em" role="alert"></p>
   </div>
 </section>
 
 <div id="app" class="hide">
-  <header><b>Nook <span>Tours</span> · الإدارة</b><span><a href="index.html" target="_blank" rel="noopener">الموقع</a> <button id="out">خروج</button></span></header>
+  <nav class="side" id="side" aria-label="أقسام لوحة التحكم">
+    <div class="brand">Nook <span>Tours</span></div>
+    <button data-tab="home">🏠 الرئيسية</button>
+    <button data-tab="bookings">📋 الحجوزات<i class="badge hide" data-badge="bookings"></i></button>
+    <button data-tab="reviews">⭐ الآراء<i class="badge hide" data-badge="reviews"></i></button>
+    <button data-tab="offers">🧭 العروض</button>
+    <button data-tab="hotels">🏨 الفنادق والأسعار</button>
+    <button data-tab="gallery">🖼️ الصور</button>
+    <button data-tab="settings">⚙️ الإعدادات</button>
+  </nav>
+  <header class="top"><b>Nook <span>Tours</span><small class="hide-sm"> · الإدارة</small></b><span class="hbtns"><button id="refresh" type="button" aria-label="تحديث البيانات">↻ تحديث</button><a href="index.html" target="_blank" rel="noopener">الموقع</a><button id="out" type="button">خروج</button></span></header>
   <main id="view"></main>
-  <nav class="bar" id="bar">
+  <nav class="bar" id="bar" aria-label="أقسام لوحة التحكم">
     <button data-tab="home"><span>🏠</span>الرئيسية</button>
-    <button data-tab="reviews"><span>⭐</span>الآراء<i id="bd" class="hide"></i></button>
-    <button data-tab="offers"><span>🧭</span>العروض</button>
-    <button data-tab="gallery"><span>🖼️</span>الصور</button>
+    <button data-tab="bookings"><span>📋</span>الحجوزات<i class="badge hide" data-badge="bookings"></i></button>
+    <button data-tab="reviews"><span>⭐</span>الآراء<i class="badge hide" data-badge="reviews"></i></button>
+    <button data-tab="offers" data-group="content"><span>🗂️</span>المحتوى</button>
     <button data-tab="settings"><span>⚙️</span>الإعدادات</button>
   </nav>
 </div>
 
 <dialog id="dlg"><div class="dh" id="dt"></div><div class="db" id="dbody"></div><div class="df"><button class="btn ghost" id="dc" type="button">إلغاء</button><button class="btn gold" id="ds" type="button">حفظ</button></div></dialog>
 <input type="file" id="fileOne" accept="image/*" class="hide"><input type="file" id="fileMany" accept="image/*" multiple class="hide">
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-var API="https://script.google.com/macros/s/AKfycbymH-1FG-gyN9-l0jlZ4HJquCIYP52faFg-m89SjtrtYtfmPUXQtSkmgzNCYpg2SG5F/exec";
-var rq="",pass=sessionStorage.getItem("nk")||"",D={reviews:[],offers:[],gallery:[],config:{}},tab="home",rf="all",cur=null;
+/* ======================= config ======================= */
+var API="https://script.google.com/macros/s/AKfycbymH-1FG-gyN9-l0jlZ4HJquCIYP52faFg-m89SjtrtYtfmPUXQtSkmgzNCYpg2SG5F/exec"; // dashboard (CMS) script
+var SITE_CACHE_KEY="nt-cms-v3";           // index.html cache — cleared after every save so the site shows changes at once
+var WRITE_OPS=["save","save_many","delete","status","approve_all","config_save"];
+var PAGE=30, CHART_DAYS=14, IMG_MAX=1400, IMG_Q=.82;
+var DESTS=[["dahab","دهب"],["sokhna","العين السخنة"],["hurghada","الغردقة"],["siwa","سيوة"],["marsa_matrouh","مرسى مطروح"],["alexandria","الإسكندرية"],["sharm","شرم الشيخ"],["luxor","الأقصر"],["aswan","أسوان"]];
+var DEST_NAME={};DESTS.forEach(function(d){DEST_NAME[d[0]]=d[1]});
+var ERR={auth:"كلمة السر غير صحيحة",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في خصائص السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",not_found:"العنصر غير موجود — اضغط تحديث",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم",server:"خطأ في السكريبت، حاول مرة أخرى",unknown_action:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",bad_op:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",
+  no_bookings:"لسه ما اتربطش شيت الحجوزات: ضيف BOOKINGS_SHEET_ID في خصائص سكريبت الـ CMS",bookings_access:"سكريبت الـ CMS مش قادر يفتح شيت الحجوزات — راجع الـ ID والصلاحيات"};
+
+/* ======================= state ======================= */
+var pass=sessionStorage.getItem("nk")||"";
+var D={reviews:[],offers:[],gallery:[],hotels:[],config:{},bookings:[]};
+var tab="home",rf="all",rq="",bf="new",bq="",bLimit=PAGE,hReg="all",cur=null;
+
+/* ======================= helpers ======================= */
 var $=function(i){return document.getElementById(i)};
-var ERR={auth:"كلمة السر غير صحيحة",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم"};
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function api(b){b.action="admin";b.pass=pass;return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
-function toast(m,bad){var t=$("toast");t.textContent=m;t.className="on"+(bad?" bad":"");clearTimeout(toast.t);toast.t=setTimeout(function(){t.className=""},2600)}
+function toast(m,bad){var t=$("toast");t.textContent=m;t.className="on"+(bad?" bad":"");clearTimeout(toast.t);toast.t=setTimeout(function(){t.className=""},2800)}
 function fail(j){toast(ERR[j&&j.error]||"حدث خطأ، حاول مرة أخرى",1)}
+/* 0 = already reported by fail(); anything else is a network/script error */
+function oops(e){if(e===0)return;console.error("[admin]",e);toast("تعذّر الاتصال بالسكريبت، حاول مرة أخرى",1)}
+function api(b){b.action="admin";b.pass=pass;
+  return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)})
+    .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+    .then(function(j){if(j&&j.ok&&WRITE_OPS.indexOf(b.op)>=0){try{localStorage.removeItem(SITE_CACHE_KEY)}catch(e){}}if(j&&j.error==="auth"&&b.op!=="bootstrap")logout();return j})}
 function key(x){return +x.sort||+x.id||0}
 function sorted(t){return D[t].slice().sort(function(a,b){return key(a)-key(b)})}
 function isOn(x){var v=String(x.active).toLowerCase();return v===""||v==="1"||v==="true"}
-function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else if(j.error==="auth"){logout()}else fail(j)})}
-function loadCfg(){return api({op:"config_get"}).then(function(j){if(j.ok)D.config=j.config||{}}).catch(function(){})}
-function loadAll(){return Promise.all([load("reviews"),load("offers"),load("gallery"),loadCfg()]).then(render)}
+function stars(n){n=Math.min(5,Math.max(1,+n||5));return"★".repeat(n)+"☆".repeat(5-n)}
+function find(t,id){return D[t].filter(function(x){return String(x.id)===String(id)})[0]}
+function isBooked(b){return String(b.booked).trim()==="نعم"}
+function dayOf(s){var m=String(s||"").match(/(\d{4})-(\d{2})-(\d{2})/);return m?m[0]:""}
+function ymd(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function intlPhone(p){var d=String(p||"").replace(/\D/g,"");if(/^0\d{10}$/.test(d))return"20"+d.slice(1);if(/^1\d{9}$/.test(d))return"20"+d;return d}
+function money(v){var n=+String(v||"").replace(/[^\d.]/g,"");return n?n.toLocaleString("ar-EG")+" ج":"—"}
 
-/* ----- login ----- */
-function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");loadAll()}
+/* ======================= data ======================= */
+function applyBoot(j){["reviews","offers","gallery","hotels","bookings"].forEach(function(k){D[k]=Array.isArray(j[k])?j[k]:[]});D.config=j.config||{};D.bookingsErr=j.bookings_error||""}
+function loadAll(){return api({op:"bootstrap"}).then(function(j){if(!j.ok){fail(j);if(j.error==="auth")logout();return}applyBoot(j);render()}).catch(oops)}
+function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else fail(j)})}
+
+/* ======================= login ======================= */
+function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");render()}
 function logout(){pass="";sessionStorage.removeItem("nk");$("app").classList.add("hide");$("login").classList.remove("hide")}
 $("go").onclick=function(){var p=$("pw").value.trim();if(!p)return;$("go").disabled=!0;$("lerr").textContent="";pass=p;
-  api({op:"list",type:"reviews"}).then(function(j){$("go").disabled=!1;if(j.ok){sessionStorage.setItem("nk",p);D.reviews=j.items;enter()}else{pass="";$("lerr").textContent=ERR[j.error]||"تعذّر الاتصال"}}).catch(function(){$("go").disabled=!1;pass="";$("lerr").textContent="تعذّر الاتصال بالسكريبت"})};
+  api({op:"bootstrap"}).then(function(j){$("go").disabled=!1;if(j.ok){sessionStorage.setItem("nk",p);applyBoot(j);enter()}else{pass="";$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
+  .catch(function(e){console.error("[admin] login",e);$("go").disabled=!1;pass="";$("lerr").textContent="تعذّر الاتصال بالسكريبت"})};
 $("pw").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
 $("out").onclick=logout;
-$("bar").onclick=function(e){var b=e.target.closest("button");b&&(tab=b.dataset.tab,render())};
+$("refresh").onclick=function(){var b=this;b.disabled=!0;loadAll().then(function(){b.disabled=!1;toast("تم التحديث ✓")})};
+function navClick(e){var b=e.target.closest("button[data-tab]");if(b){tab=b.dataset.tab;bLimit=PAGE;render();window.scrollTo(0,0)}}
+$("side").onclick=navClick;$("bar").onclick=navClick;
 
-/* ----- render ----- */
-function stars(n){n=Math.min(5,Math.max(1,+n||5));return"★".repeat(n)+"☆".repeat(5-n)}
-function applyRq(){var q=rq.trim().toLowerCase();[].forEach.call(document.querySelectorAll("#view [data-q]"),function(c){c.style.display=!q||c.dataset.q.indexOf(q)>=0?"":"none"})}
+/* ======================= render ======================= */
+var CONTENT_TABS=["offers","hotels","gallery"];
+function setNav(){
+  var pendR=D.reviews.filter(function(r){return r.status==="pending"}).length,newB=D.bookings.filter(function(b){return!isBooked(b)}).length;
+  [].forEach.call(document.querySelectorAll("nav [data-tab]"),function(b){var on=b.dataset.tab===tab||(b.dataset.group==="content"&&CONTENT_TABS.indexOf(tab)>=0);b.classList.toggle("on",on);on?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current")});
+  [].forEach.call(document.querySelectorAll("[data-badge]"),function(i){var n=i.dataset.badge==="reviews"?pendR:newB;i.textContent=n;i.classList.toggle("hide",!n)});
+}
+function contentSeg(){var L=[["offers","العروض"],["hotels","الفنادق"],["gallery","الصور"]];return'<div class="seg" role="tablist">'+L.map(function(x){return'<button data-go="'+x[0]+'" class="'+(tab===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>'}
 function render(){
+  setNav();var v=$("view");
+  var R={home:viewHome,bookings:viewBookings,reviews:viewReviews,offers:viewOffers,hotels:viewHotels,gallery:viewGallery,settings:viewSettings};
+  v.innerHTML=(R[tab]||viewHome)();
+  applySearch();
+}
+function applySearch(){var q=(tab==="bookings"?"":rq).trim().toLowerCase();if(tab!=="reviews")return;[].forEach.call(document.querySelectorAll("#view [data-q]"),function(c){c.style.display=!q||c.dataset.q.indexOf(q)>=0?"":"none"})}
+
+/* ---------- home ---------- */
+function viewHome(){
+  var today=ymd(new Date()),wk=new Date();wk.setDate(wk.getDate()-6);var wkS=ymd(wk);
+  var B=D.bookings,tB=B.filter(function(b){return dayOf(b.date)===today}).length,wB=B.filter(function(b){return dayOf(b.date)>=wkS}).length;
+  var newB=B.filter(function(b){return!isBooked(b)}).length,pendR=D.reviews.filter(function(r){return r.status==="pending"}).length;
+  var ov=D.offers.filter(isOn).length,hv=D.hotels.filter(isOn).length;
+  var kp='<div class="kpis">'+
+    '<button class="kpi lead" data-go="bookings"><b>'+tB+'</b><small>حجوزات النهارده</small></button>'+
+    '<button class="kpi" data-go="bookings"><b>'+wB+'</b><small>حجوزات آخر 7 أيام</small></button>'+
+    '<button class="kpi'+(newB?" hot":"")+'" data-go="bookings" data-bf="new"><b>'+newB+'</b><small>طلبات لسه ما اتأكدتش</small></button>'+
+    '<button class="kpi'+(pendR?" hot":"")+'" data-go="reviews"><b>'+pendR+'</b><small>آراء بانتظار موافقتك</small></button>'+
+    '<button class="kpi" data-go="offers"><b>'+ov+'</b><small>عروض ظاهرة من '+D.offers.length+'</small></button>'+
+    '<button class="kpi" data-go="hotels"><b>'+(D.hotels.length?hv:"—")+'</b><small>'+(D.hotels.length?"فنادق ظاهرة":"الفنادق الأساسية")+'</small></button></div>';
+  /* chart: last 14 days */
+  var cnt={},days=[];B.forEach(function(b){var d=dayOf(b.date);d&&(cnt[d]=(cnt[d]||0)+1)});
+  for(var i=CHART_DAYS-1;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(ymd(d))}
+  var mx=Math.max.apply(null,days.map(function(d){return cnt[d]||0}).concat([1]));
+  var ch='<div class="card"><b>الحجوزات آخر 14 يوم</b><div class="chart" aria-label="رسم الحجوزات اليومية">'+days.map(function(d){var n=cnt[d]||0;return'<div class="'+(d===today?"today":"")+'" title="'+d+': '+n+'"><span>'+(n||"")+'</span><i style="height:'+Math.round(n/mx*100)+'%"></i><span>'+(+d.slice(8))+'</span></div>'}).join("")+'</div></div>';
+  /* top hotels */
+  var hc={};B.forEach(function(b){var h=String(b.hotel||"").trim();h&&(hc[h]=(hc[h]||0)+1)});
+  var top=Object.keys(hc).sort(function(a,b){return hc[b]-hc[a]}).slice(0,5),tmx=top.length?hc[top[0]]:1;
+  var th='<div class="card"><b>أكثر الفنادق طلباً</b>'+(top.map(function(h){return'<div class="list-row" style="display:block"><div style="display:flex;justify-content:space-between"><span>'+esc(h)+'</span><b>'+hc[h]+'</b></div><div class="bar-h"><i style="width:'+Math.round(hc[h]/tmx*100)+'%"></i></div></div>'}).join("")||'<div class="empty">لسه مفيش حجوزات</div>')+'</div>';
+  var last='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>آخر الطلبات</b><button class="btn ghost sm" data-go="bookings">عرض الكل</button></div>'+(B.slice(0,5).map(function(b){return'<div class="list-row"><div><b>'+esc(b.name)+'</b><div class="hint" style="margin:0">'+esc(b.hotel)+' · '+esc(b.order)+'</div></div><span class="pill '+(isBooked(b)?"ok":"wait")+'">'+(isBooked(b)?"تم الحجز":"جديد")+'</span></div>'}).join("")||'<div class="empty">لسه مفيش حجوزات</div>')+'</div>';
+  var sc='<div class="card"><b>اختصارات</b><div class="acts"><button class="btn gold" data-new="offers">+ عرض جديد</button><button class="btn" data-new="hotels">+ فندق</button><button class="btn" data-multi="1">+ رفع صور</button><button class="btn ghost" data-go="settings">📢 شريط الإعلانات</button></div><p class="hint">التغييرات تظهر في الموقع فوراً بعد الحفظ.</p></div>';
+  return'<h2>نظرة عامة</h2>'+kp+'<div class="grid2"><div>'+ch+last+'</div><div>'+th+sc+helpBox()+'</div></div>';
+}
+function helpBox(){return'<details class="card help"><summary>📘 دليل سريع</summary><ol><li><b>الحجوزات:</b> كل طلب من الموقع بيوصل هنا "جديد". كلّم العميل بزرار واتساب، ولما تأكد اضغط "✓ تم الحجز".</li><li><b>الآراء:</b> رأي الزائر بيوصل "بانتظار" — اعتمده عشان يظهر.</li><li><b>العروض والفنادق والصور:</b> من "المحتوى". أول ما تضيف عنصر، المحتوى الأساسي في الموقع بيتبدّل بمحتواك. في الفنادق تقدر تستورد القايمة الحالية بضغطة.</li><li><b>الإعدادات:</b> شريط الإعلانات، الأرقام، صور الوجهات، التواصل، وإظهار الأقسام.</li><li><b>نسخة احتياطية:</b> من الإعدادات نزّل CSV لأي قسم.</li></ol></details>'}
+
+/* ---------- bookings ---------- */
+function bookingCard(b){
+  var done=isBooked(b),ph=intlPhone(b.phone),guests=(+b.adults||0)+" بالغ"+(+b.kids?" + "+b.kids+" طفل":"");
+  var msg="مرحباً "+(b.name||"")+" 👋\nبخصوص طلبك رقم "+(b.order||"")+" — "+(b.hotel||"")+(b.checkin?" ("+b.checkin+")":"");
+  var dates=b.checkin?esc(b.checkin)+(b.checkout?" ← "+esc(b.checkout):"")+(b.nights?" · "+esc(b.nights)+" ليالي":""):"—";
+  return'<div class="card"><div class="bk-top"><b>'+esc(b.name||"بدون اسم")+'</b><span class="pill '+(done?"ok":"wait")+'">'+(done?"تم الحجز":"جديد")+'</span></div>'+
+    '<div class="bk-meta">'+esc(b.order)+' · '+esc(b.date)+'</div>'+
+    '<div class="bk-grid"><span>🏨 '+esc(b.hotel||"—")+(b.region?' — '+esc(b.region):"")+'</span><span>📅 '+dates+'</span><span>👥 '+esc(guests)+(b.ages?' ('+esc(b.ages)+')':"")+'</span><span>🏷️ '+esc(b.type||"—")+(b.room?' · '+esc(b.room):"")+'</span>'+(b.occasion?'<span>🎉 '+esc(b.occasion)+'</span>':"")+(b.email?'<span dir="ltr" style="text-align:end">✉️ '+esc(b.email)+'</span>':"")+'</div>'+
+    (b.notes?'<p class="bk-note">'+esc(b.notes)+'</p>':"")+
+    '<div class="acts">'+(done?'<button class="btn ghost sm" data-bk="لا" data-row="'+esc(b.row)+'" data-order="'+esc(b.order)+'">إلغاء التأكيد</button>':'<button class="btn ok sm" data-bk="نعم" data-row="'+esc(b.row)+'" data-order="'+esc(b.order)+'">✓ تم الحجز</button>')+
+    (ph?'<a class="btn wa sm" target="_blank" rel="noopener" href="https://wa.me/'+esc(ph)+'?text='+encodeURIComponent(msg)+'">واتساب</a><a class="btn ghost sm" href="tel:+'+esc(ph)+'">اتصال</a>':"")+'</div></div>';
+}
+function viewBookings(){
+  var q=bq.trim().toLowerCase();
+  var L=D.bookings.filter(function(b){return bf==="all"||(bf==="new"?!isBooked(b):isBooked(b))}).filter(function(b){return!q||[b.order,b.name,b.phone,b.hotel,b.region].join(" ").toLowerCase().indexOf(q)>=0});
+  var nN=D.bookings.filter(function(b){return!isBooked(b)}).length;
+  var f=[["new","جديد ("+nN+")"],["done","تم الحجز"],["all","الكل ("+D.bookings.length+")"]].map(function(x){return'<button data-bf="'+x[0]+'" class="'+(bf===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  if(D.bookingsErr)return'<h2>الحجوزات</h2><div class="card empty"><p style="margin:0 0 8px">⚠️ '+esc(ERR[D.bookingsErr]||D.bookingsErr)+'</p><p class="hint">الحجوزات نفسها شغالة عادي في الموقع — ده بس عرضها هنا في اللوحة.</p></div>';
+  return'<h2>الحجوزات</h2><div class="filters">'+f+'</div><input class="search" id="bq" type="text" placeholder="🔍 بحث برقم الطلب أو الاسم أو التليفون أو الفندق" value="'+esc(bq)+'"><div class="acts" style="margin:0 0 12px"><button class="btn ghost sm" data-csv="bookings">⬇ تصدير CSV</button></div>'+
+    '<div id="bkList">'+bookingList(L)+'</div>';
+}
+function bookingList(L){return(L.slice(0,bLimit).map(bookingCard).join("")||'<div class="empty">مفيش طلبات هنا</div>')+(L.length>bLimit?'<button class="btn ghost more" data-morebk="1">عرض المزيد ('+(L.length-bLimit)+')</button>':"")}
+
+/* ---------- reviews ---------- */
+function viewReviews(){
   var pend=D.reviews.filter(function(r){return r.status==="pending"}).length;
-  [].forEach.call($("bar").children,function(b){b.classList.toggle("on",b.dataset.tab===tab)});
-  $("bd").textContent=pend;$("bd").classList.toggle("hide",!pend);
-  var v=$("view");
-  if(tab==="home"){
-    var ov=D.offers.filter(isOn).length,gv=D.gallery.filter(isOn).length;
-    v.innerHTML='<h2>نظرة عامة</h2><div class="stats"><button class="card stat'+(pend?" hot":"")+'" data-go="reviews"><b>'+pend+'</b><small>آراء بانتظار موافقتك</small></button>'+
-      '<button class="card stat" data-go="offers"><b>'+ov+'</b><small>عروض ظاهرة من '+D.offers.length+'</small></button>'+
-      '<button class="card stat" data-go="gallery"><b>'+gv+'</b><small>صور ظاهرة من '+D.gallery.length+'</small></button></div>'+
-      '<div class="card"><b>اختصارات</b><div class="acts"><button class="btn gold" data-new="offers">+ عرض / مسار جديد</button><button class="btn" data-multi="1">+ رفع صور</button><button class="btn ghost" data-new="reviews">+ إضافة رأي</button></div>'+
-      '<p class="hint">التغييرات تظهر في الموقع خلال ثوانٍ من الحفظ.</p></div>'+
-      '<details class="card help"><summary>📘 دليل سريع للاستخدام</summary><ol><li><b>الآراء:</b> أي رأي جديد من الزوار بيوصل "بانتظار". اعتمده عشان يظهر، أو ارفضه. تقدر تعدّل نصه قبل الاعتماد.</li><li><b>العروض:</b> "+ عرض / مسار جديد": اكتب اسم المسار، ارفع صورة، واكتب كل ميزة في سطر. الأسهم ▲▼ بتغيّر الترتيب، و"إخفاء" بيشيله من الموقع من غير حذف.</li><li><b>الصور:</b> "+ رفع صور" وتختار أكتر من صورة من الموبايل مرة واحدة. الصور بتتصغّر وتترفع لوحدها.</li><li><b>الإعدادات:</b> شريط إعلان أعلى الموقع، رقم الواتساب، رابط الانستجرام، وإخفاء أي قسم.</li><li><b>مهم:</b> أول ما تضيف عرض أو صورة، العروض والصور الأساسية في الموقع بتتبدّل بالمحتوى بتاعك.</li><li><b>نسخة احتياطية:</b> من الإعدادات تقدر تنزّل ملف CSV لأي قسم.</li></ol></details>';
-  }else if(tab==="reviews"){
-    var L=D.reviews.slice().reverse().filter(function(r){return rf==="all"||r.status===rf});
-    var f=[["all","الكل"],["pending","بانتظار"],["approved","معتمد"],["rejected","مرفوض"]].map(function(x){return'<button data-rf="'+x[0]+'" class="'+(rf===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
-    v.innerHTML='<h2>آراء العملاء</h2><div class="filters">'+f+'</div><input class="search" id="rq" type="text" placeholder="🔍 بحث بالاسم أو النص" value="'+esc(rq)+'"><div class="acts" style="margin:0 0 12px"><button class="btn gold sm" data-new="reviews">+ إضافة رأي</button>'+(pend?'<button class="btn ok sm" data-appall="1">اعتماد الكل ('+pend+')</button>':'')+'<button class="btn ghost sm" data-csv="reviews">⬇ تصدير CSV</button></div>'+(L.map(function(r){
-      var st=r.status==="approved"?'<span class="pill ok">معتمد</span>':r.status==="rejected"?'<span class="pill bad">مرفوض</span>':'<span class="pill wait">بانتظار</span>';
-      return'<div class="card" data-q="'+esc((String(r.name)+" "+r.text+" "+r.trip).toLowerCase())+'"><div style="display:flex;justify-content:space-between;gap:8px"><b>'+esc(r.name)+'</b>'+st+'</div><div class="stars">'+stars(r.rating)+'</div><p style="margin:6px 0">'+esc(r.text)+'</p><small class="hint">'+esc(r.trip||"")+(r.trip?" · ":"")+esc(String(r.date||""))+'</small>'+
-        '<div class="acts">'+(r.status!=="approved"?'<button class="btn ok sm" data-st="approved" data-id="'+esc(r.id)+'">اعتماد</button>':'')+(r.status!=="rejected"?'<button class="btn ghost sm" data-st="rejected" data-id="'+esc(r.id)+'">رفض</button>':'')+
-        '<button class="btn ghost sm" data-edit="reviews" data-id="'+esc(r.id)+'">تعديل</button><button class="btn bad sm" data-del="reviews" data-id="'+esc(r.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد آراء هنا</div>');
-  }else if(tab==="offers"){
-    var O=sorted("offers");
-    v.innerHTML='<h2>العروض والمسارات</h2><button class="btn gold" data-new="offers" style="margin-bottom:12px">+ عرض / مسار جديد</button>'+(O.map(function(o,i){
-      var n=String(o.features_ar||"").split(/\n+/).filter(Boolean).length;
-      return'<div class="card"><div class="row">'+(o.img?'<img class="thumb" src="'+esc(o.img)+'" alt="" onerror="this.style.opacity=.25">':'<div class="thumb"></div>')+'<div><b>'+esc(o.name_ar||o.name_en)+'</b><div class="hint">'+esc(o.name_en||"")+' · '+n+' مميزات</div>'+(isOn(o)?'<span class="pill ok">ظاهر</span>':'<span class="pill bad">مخفي</span>')+'</div></div>'+
-        '<div class="acts"><button class="btn ghost sm" data-mv="-1" data-type="offers" data-id="'+esc(o.id)+'"'+(i?'':' disabled')+'>▲</button><button class="btn ghost sm" data-mv="1" data-type="offers" data-id="'+esc(o.id)+'"'+(i<O.length-1?'':' disabled')+'>▼</button>'+
-        '<button class="btn sm" data-edit="offers" data-id="'+esc(o.id)+'">تعديل</button><button class="btn ghost sm" data-dup="offers" data-id="'+esc(o.id)+'">نسخ</button><button class="btn ghost sm" data-tg="offers" data-id="'+esc(o.id)+'">'+(isOn(o)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="offers" data-id="'+esc(o.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد عروض — الموقع يعرض العروض الأساسية حتى تضيف أول عرض.</div>');
-  }else if(tab==="settings"){renderSettings(v)}else{
-    var G=sorted("gallery");
-    v.innerHTML='<h2>معرض الصور</h2><div class="acts" style="margin:0 0 12px"><button class="btn gold" data-multi="1">+ رفع صور (عدة صور)</button><button class="btn ghost" data-new="gallery">+ بالرابط</button></div><div class="gal">'+(G.map(function(g,i){
-      return'<div class="card"><img src="'+esc(g.url)+'" alt="" loading="lazy" onerror="this.style.opacity=.25"><div class="hint" style="margin:6px 2px">'+esc(g.caption_ar||"بدون تعليق")+' '+(isOn(g)?'':'<span class="pill bad">مخفية</span>')+'</div>'+
-        '<div class="acts" style="margin-top:6px"><button class="btn ghost sm" data-mv="-1" data-type="gallery" data-id="'+esc(g.id)+'"'+(i?'':' disabled')+'>▲</button><button class="btn ghost sm" data-mv="1" data-type="gallery" data-id="'+esc(g.id)+'"'+(i<G.length-1?'':' disabled')+'>▼</button>'+
-        '<button class="btn sm" data-edit="gallery" data-id="'+esc(g.id)+'">تعديل</button><button class="btn ghost sm" data-tg="gallery" data-id="'+esc(g.id)+'">'+(isOn(g)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="gallery" data-id="'+esc(g.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty" style="grid-column:1/-1">لا توجد صور — الموقع يعرض الصور الأساسية حتى ترفع أول صورة.</div>')+'</div>';
-  }
-  applyRq();
+  var L=D.reviews.slice().reverse().filter(function(r){return rf==="all"||r.status===rf});
+  var f=[["all","الكل"],["pending","بانتظار"],["approved","معتمد"],["rejected","مرفوض"]].map(function(x){return'<button data-rf="'+x[0]+'" class="'+(rf===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  return'<h2>آراء العملاء</h2><div class="filters">'+f+'</div><input class="search" id="rq" type="text" placeholder="🔍 بحث بالاسم أو النص" value="'+esc(rq)+'"><div class="acts" style="margin:0 0 12px"><button class="btn gold sm" data-new="reviews">+ إضافة رأي</button>'+(pend?'<button class="btn ok sm" data-appall="1">اعتماد الكل ('+pend+')</button>':'')+'<button class="btn ghost sm" data-csv="reviews">⬇ تصدير CSV</button></div>'+(L.map(function(r){
+    var st=r.status==="approved"?'<span class="pill ok">معتمد</span>':r.status==="rejected"?'<span class="pill bad">مرفوض</span>':'<span class="pill wait">بانتظار</span>';
+    return'<div class="card" data-q="'+esc((String(r.name)+" "+r.text+" "+r.trip).toLowerCase())+'"><div class="bk-top"><b>'+esc(r.name)+'</b>'+st+'</div><div class="stars">'+stars(r.rating)+'</div><p style="margin:6px 0">'+esc(r.text)+'</p><small class="hint">'+esc(r.trip||"")+(r.trip?" · ":"")+esc(String(r.date||"").slice(0,10))+'</small>'+
+      '<div class="acts">'+(r.status!=="approved"?'<button class="btn ok sm" data-st="approved" data-id="'+esc(r.id)+'">اعتماد</button>':'')+(r.status!=="rejected"?'<button class="btn ghost sm" data-st="rejected" data-id="'+esc(r.id)+'">رفض</button>':'')+
+      '<button class="btn ghost sm" data-edit="reviews" data-id="'+esc(r.id)+'">تعديل</button><button class="btn bad sm" data-del="reviews" data-id="'+esc(r.id)+'">حذف</button></div></div>'}).join("")||'<div class="empty">لا توجد آراء هنا</div>');
 }
 
-/* ----- settings tab ----- */
+/* ---------- offers / hotels / gallery ---------- */
+function orderBtns(t,id,i,n){return'<button class="btn ghost sm" data-mv="-1" data-type="'+t+'" data-id="'+esc(id)+'"'+(i?'':' disabled')+' aria-label="لأعلى">▲</button><button class="btn ghost sm" data-mv="1" data-type="'+t+'" data-id="'+esc(id)+'"'+(i<n-1?'':' disabled')+' aria-label="لأسفل">▼</button>'}
+function itemBtns(t,o){return'<button class="btn sm" data-edit="'+t+'" data-id="'+esc(o.id)+'">تعديل</button><button class="btn ghost sm" data-tg="'+t+'" data-id="'+esc(o.id)+'">'+(isOn(o)?"إخفاء":"إظهار")+'</button><button class="btn bad sm" data-del="'+t+'" data-id="'+esc(o.id)+'">حذف</button>'}
+function onPill(o){return isOn(o)?'<span class="pill ok">ظاهر</span>':'<span class="pill bad">مخفي</span>'}
+function thumb(u){return u?'<img class="thumb" src="'+esc(u)+'" alt="" loading="lazy" onerror="this.style.opacity=.25">':'<div class="thumb"></div>'}
+function viewOffers(){var O=sorted("offers");
+  return'<h2>العروض والمسارات</h2>'+contentSeg()+'<div class="acts" style="margin:0 0 12px"><button class="btn gold" data-new="offers">+ عرض / مسار جديد</button></div>'+(O.map(function(o,i){
+    var n=String(o.features_ar||"").split(/\n+/).filter(Boolean).length;
+    return'<div class="card"><div class="row">'+thumb(o.img)+'<div><b>'+esc(o.name_ar||o.name_en)+'</b><div class="hint" style="margin:0 0 4px">'+esc(o.name_en||"")+' · '+n+' مميزات</div>'+onPill(o)+'</div></div>'+
+      '<div class="acts">'+orderBtns("offers",o.id,i,O.length)+itemBtns("offers",o)+'<button class="btn ghost sm" data-dup="offers" data-id="'+esc(o.id)+'">نسخ</button></div></div>'}).join("")||'<div class="empty">لا توجد عروض — الموقع يعرض العروض الأساسية حتى تضيف أول عرض.</div>');
+}
+function viewHotels(){
+  var all=sorted("hotels"),L=all.filter(function(h){return hReg==="all"||h.region===hReg});
+  var regs=[["all","الكل"]].concat(DESTS.filter(function(d){return all.some(function(h){return h.region===d[0]})}));
+  var f=regs.map(function(x){return'<button data-hreg="'+x[0]+'" class="'+(hReg===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("");
+  var empty='<div class="card empty"><p style="margin:0 0 12px">الموقع بيعرض قايمة الفنادق الأساسية المكتوبة في الكود.</p><p class="hint" style="margin:0 0 14px">استوردها هنا مرة واحدة عشان تتحكم في الأسعار والصور والإظهار من اللوحة.</p><button class="btn gold" data-importh="1">⬇ استيراد الفنادق الحالية من الموقع</button></div>';
+  return'<h2>الفنادق والأسعار</h2>'+contentSeg()+'<div class="acts" style="margin:0 0 12px"><button class="btn gold" data-new="hotels">+ فندق جديد</button>'+(all.length?'<button class="btn ghost sm" data-importh="1">⬇ استيراد الفنادق الناقصة من الموقع</button><button class="btn ghost sm" data-csv="hotels">⬇ تصدير CSV</button>':'')+'</div>'+
+    (all.length?'<div class="filters">'+f+'</div>'+(L.map(function(h){var i=all.indexOf(h);
+      return'<div class="card"><div class="row">'+thumb(h.img)+'<div><b>'+esc(h.name_ar)+'</b><div class="hint" style="margin:0 0 4px">'+esc(h.name_en||"")+' · '+esc(DEST_NAME[h.region]||h.region||"—")+'</div><div style="font-size:14px">إقامة: <b>'+money(h.price_stay)+'</b> · داي يوز: <b>'+money(h.price_day)+'</b></div>'+onPill(h)+'</div></div>'+
+        '<div class="acts">'+orderBtns("hotels",h.id,i,all.length)+itemBtns("hotels",h)+'</div></div>'}).join("")||'<div class="empty">مفيش فنادق في المنطقة دي</div>'):empty);
+}
+function viewGallery(){var G=sorted("gallery");
+  return'<h2>معرض الصور</h2>'+contentSeg()+'<div class="acts" style="margin:0 0 12px"><button class="btn gold" data-multi="1">+ رفع صور (عدة صور)</button><button class="btn ghost" data-new="gallery">+ بالرابط</button></div><div class="gal">'+(G.map(function(g,i){
+    return'<div class="card"><img src="'+esc(g.url)+'" alt="" loading="lazy" onerror="this.style.opacity=.25"><div class="hint" style="margin:6px 2px">'+esc(g.caption_ar||"بدون تعليق")+' '+(isOn(g)?'':'<span class="pill bad">مخفية</span>')+'</div>'+
+      '<div class="acts" style="margin-top:6px">'+orderBtns("gallery",g.id,i,G.length)+itemBtns("gallery",g)+'</div></div>'}).join("")||'<div class="empty" style="grid-column:1/-1">لا توجد صور — الموقع يعرض الصور الأساسية حتى ترفع أول صورة.</div>')+'</div>';
+}
+
+/* ---------- settings ---------- */
 function cv(k,d){var v=D.config[k];return v===undefined||v===""?d:v}
 function tg(id,label,on){return'<label class="tog"><span>'+label+'</span><input type="checkbox" id="'+id+'"'+(on?" checked":"")+'></label>'}
 function fld(id,label,val,ph,ltr){return'<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="text"'+(ltr?' dir="ltr"':"")+' placeholder="'+esc(ph||"")+'" value="'+esc(val)+'"></div>'}
-function renderSettings(v){
-  v.innerHTML='<h2>إعدادات الموقع</h2>'+
-   '<div class="card sec"><h3>📢 شريط إعلان أعلى الموقع</h3><p class="hint">يظهر لكل الزوار فوق الهيدر (مثال: عرض لفترة محدودة).</p>'+tg("c_ann_active","إظهار الشريط",cv("ann_active","0")==="1")+
-     fld("c_ann_ar","النص بالعربي",cv("ann_ar",""),"مثال: عروض الجمعة والأحد — اطلب السعر على واتساب")+fld("c_ann_en","Text (English)",cv("ann_en",""),"e.g. Weekend offers — ask on WhatsApp")+fld("c_ann_link","رابط عند الضغط (اختياري)",cv("ann_link",""),"#offers أو https://...",1)+'</div>'+
-   '<div class="card sec"><h3>📞 بيانات التواصل</h3>'+fld("c_whatsapp","رقم الواتساب (بكود الدولة)",cv("whatsapp",""),"201005377933",1)+fld("c_instagram","رابط الانستجرام",cv("instagram",""),"https://www.instagram.com/Nook.Tours",1)+
-     '<p class="hint">لو سبتهم فاضيين الموقع بيستخدم القيم الأصلية.</p></div>'+
-   '<div class="card sec"><h3>👁️ إظهار الأقسام</h3>'+tg("c_show_offers","قسم العروض",cv("show_offers","1")!=="0")+tg("c_show_gallery","قسم الصور",cv("show_gallery","1")!=="0")+tg("c_show_reviews","قسم آراء العملاء",cv("show_reviews","1")!=="0")+'</div>'+
-   '<button class="btn gold" data-savecfg="1" style="width:100%;margin-bottom:12px">حفظ الإعدادات</button>'+
-   '<div class="card sec"><h3>🔐 تغيير كلمة السر</h3><div class="field"><label for="np1">كلمة السر الجديدة (8 أحرف على الأقل)</label><input id="np1" type="password" autocomplete="new-password" style="width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"></div><div class="field"><label for="np2">تأكيد كلمة السر</label><input id="np2" type="password" autocomplete="new-password" style="width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"></div><button class="btn" data-setpass="1">تغيير كلمة السر</button></div>'+
-   '<div class="card sec"><h3>💾 نسخة احتياطية</h3><p class="hint">نزّل نسخة من بياناتك كملف CSV بتفتحه في إكسل أو جوجل شيت.</p><div class="acts"><button class="btn ghost sm" data-csv="reviews">الآراء</button><button class="btn ghost sm" data-csv="offers">العروض</button><button class="btn ghost sm" data-csv="gallery">الصور</button></div></div>';
+function fldA(id,label,val,ph){return'<div class="field"><label for="'+id+'">'+label+'</label><textarea id="'+id+'" placeholder="'+esc(ph||"")+'" style="min-height:96px">'+esc(val)+'</textarea></div>'}
+function sec(title,body,open){return'<details class="card sec"'+(open?" open":"")+'><summary>'+title+'</summary>'+body+'</details>'}
+function viewSettings(){
+  var hid=String(cv("dest_hide","")).split(",");
+  var dimgs={};try{dimgs=JSON.parse(cv("dest_imgs","{}")||"{}")}catch(e){console.warn("[admin] dest_imgs",e);dimgs={}}
+  var dl=DESTS.map(function(d){var locked=d[0]==="sokhna",k=d[0],img=dimgs[k]||"";
+    return'<div class="card" style="margin-bottom:10px;padding:12px"><label class="tog" style="border:0;padding:0 0 8px"><span><b>'+d[1]+'</b>'+(locked?' <small class="hint">(مطلوبة للداي يوز)</small>':'')+'</span><input type="checkbox" class="dchk" data-k="'+k+'"'+(hid.indexOf(k)<0?" checked":"")+(locked?" disabled":"")+'></label>'+
+      '<div class="imgbox" style="margin-top:4px"><img class="dimg-pv" data-k="'+k+'" src="'+esc(img)+'" alt="" style="width:120px;height:80px"><button type="button" class="btn sm" data-destup="'+k+'">📷 رفع صورة</button>'+(img?'<button type="button" class="btn ghost sm" data-destclr="'+k+'">حذف الصورة</button>':'')+'</div>'+
+      '<input type="text" class="dimg-url" data-k="'+k+'" dir="ltr" placeholder="أو الصق رابط الصورة" value="'+esc(img)+'" style="margin-top:8px"></div>'}).join("");
+  return'<h2>إعدادات الموقع</h2>'+
+   sec("📢 الإعلانات (شريط متحرك أعلى الموقع)",'<p class="hint">يظهر لكل الزوار كشريط متحرك فوق الهيدر.</p>'+tg("c_ann_active","تشغيل الشريط",cv("ann_active","0")==="1")+
+     fld("c_ann_ar","النص بالعربي",cv("ann_ar",""),"مثال: عروض الجمعة والأحد — اطلب السعر الحالي على واتساب")+fld("c_ann_en","النص بالإنجليزي",cv("ann_en",""),"e.g. Weekend offers — ask for today's price")+fld("c_ann_link","رابط عند الضغط (اختياري)",cv("ann_link",""),"#offers أو https://...",1),1)+
+   sec("🏠 الصفحة الرئيسية والوجهات",fld("c_stat_hotels","عدد الفنادق (يظهر +100)",cv("stat_hotels","100"),"100",1)+fld("c_stat_dests","عدد الوجهات (فارغ = تلقائي)",cv("stat_dests",""),"9",1)+'<h3 style="margin:14px 0 4px;font-size:.95rem">الوجهات الظاهرة + الصور</h3><p class="hint" style="margin:0 0 10px">فعّل الوجهة عشان تظهر، وارفع صورة خلفية للكارت.</p>'+dl)+
+   sec("📖 من نحن والتواصل",fldA("c_about_ar","قصة الشركة بالعربي",cv("about_ar",""),"اتركه فارغاً لاستخدام النص الأصلي")+fldA("c_about_en","قصة الشركة بالإنجليزي",cv("about_en",""),"Leave empty to use the default text")+
+     fld("c_phone_display","رقم الهاتف المعروض",cv("phone_display",""),"01005377933",1)+fld("c_address_ar","العنوان بالعربي",cv("address_ar",""),"6 المهندسين، الجيزة، مصر")+fld("c_address_en","العنوان بالإنجليزي",cv("address_en",""),"6 Mohandessin, Giza, Egypt",1)+
+     fld("c_whatsapp","رقم الواتساب (بكود الدولة)",cv("whatsapp",""),"201005377933",1)+fld("c_instagram","رابط الانستجرام",cv("instagram",""),"https://www.instagram.com/Nook.Tours",1)+
+     '<p class="hint">الخانة الفارغة = القيمة الأصلية في الموقع.</p>')+
+   sec("👁️ إظهار الأقسام",tg("c_show_offers","قسم العروض",cv("show_offers","1")!=="0")+tg("c_show_gallery","قسم الصور",cv("show_gallery","1")!=="0")+tg("c_show_reviews","قسم آراء العملاء",cv("show_reviews","1")!=="0")+tg("c_show_founder","المؤسس (قصتنا) في قسم من نحن",cv("show_founder","1")!=="0"))+
+   '<button class="btn gold" data-savecfg="1" style="width:100%;margin:4px 0 14px">حفظ كل الإعدادات</button>'+
+   sec("🔐 الأمان",'<div class="field"><label for="np1">كلمة السر الجديدة (8 أحرف على الأقل)</label><input id="np1" type="password" autocomplete="new-password"></div><div class="field"><label for="np2">تأكيد كلمة السر</label><input id="np2" type="password" autocomplete="new-password"></div><button class="btn" data-setpass="1">تغيير كلمة السر</button>')+
+   sec("💾 نسخة احتياطية",'<p class="hint">نزّل نسخة CSV تفتحها في إكسل أو جوجل شيت.</p><div class="acts"><button class="btn ghost sm" data-csv="bookings">الحجوزات</button><button class="btn ghost sm" data-csv="reviews">الآراء</button><button class="btn ghost sm" data-csv="offers">العروض</button><button class="btn ghost sm" data-csv="hotels">الفنادق</button><button class="btn ghost sm" data-csv="gallery">الصور</button></div>');
 }
 function exportCsv(t){var L=D[t]||[];if(!L.length){toast("مفيش بيانات للتصدير",1);return}
   var cols=Object.keys(L[0]);var q=function(x){x=String(x==null?"":x);if(/^[=+\-@]/.test(x))x="'"+x;return'"'+x.replace(/"/g,'""')+'"'};
-  var csv="\ufeff"+cols.join(",")+"\r\n"+L.map(function(r){return cols.map(function(c){return q(r[c])}).join(",")}).join("\r\n");
-  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="nook-"+t+"-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("تم تنزيل الملف ✓")}
+  var csv="﻿"+cols.join(",")+"\r\n"+L.map(function(r){return cols.map(function(c){return q(r[c])}).join(",")}).join("\r\n");
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="nook-"+t+"-"+ymd(new Date())+".csv";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("تم تنزيل الملف ✓")}
 function saveCfg(){var g=function(i){return $(i).value.trim()},c=function(i){return $(i).checked?"1":"0"};
-  var cfg={ann_active:c("c_ann_active"),ann_ar:g("c_ann_ar"),ann_en:g("c_ann_en"),ann_link:g("c_ann_link"),whatsapp:g("c_whatsapp")||"201005377933",instagram:g("c_instagram"),show_offers:c("c_show_offers"),show_gallery:c("c_show_gallery"),show_reviews:c("c_show_reviews")};
-  if(!cfg.instagram)delete cfg.instagram;
-  api({op:"config_save",config:cfg}).then(function(j){if(j.ok){D.config=j.config||cfg;toast("تم الحفظ — يظهر في الموقع خلال ثوانٍ ✓")}else fail(j)}).catch(function(){toast("تعذّر الاتصال",1)})}
+  var hide=[].filter.call(document.querySelectorAll(".dchk"),function(x){return!x.checked}).map(function(x){return x.dataset.k}).join(",");
+  var dimgs={};[].forEach.call(document.querySelectorAll(".dimg-url"),function(inp){var v=inp.value.trim();if(v)dimgs[inp.dataset.k]=v});
+  var cfg={ann_active:c("c_ann_active"),ann_ar:g("c_ann_ar"),ann_en:g("c_ann_en"),ann_link:g("c_ann_link"),stat_hotels:g("c_stat_hotels"),stat_dests:g("c_stat_dests"),dest_hide:hide,dest_imgs:JSON.stringify(dimgs),
+    about_ar:g("c_about_ar"),about_en:g("c_about_en"),phone_display:g("c_phone_display"),address_ar:g("c_address_ar"),address_en:g("c_address_en"),
+    whatsapp:g("c_whatsapp")||"201005377933",instagram:g("c_instagram"),show_offers:c("c_show_offers"),show_gallery:c("c_show_gallery"),show_reviews:c("c_show_reviews"),show_founder:c("c_show_founder")};
+  api({op:"config_save",config:cfg}).then(function(j){if(j.ok){D.config=j.config||cfg;toast("تم الحفظ — ظاهر في الموقع ✓")}else fail(j)}).catch(oops)}
 function setPass(){var a=$("np1").value,b=$("np2").value;if(a.length<8)return toast(ERR.weak,1);if(a!==b)return toast("كلمتا السر غير متطابقتين",1);
-  api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){pass=a;sessionStorage.setItem("nk",a);$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)})}
+  api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){pass=a;sessionStorage.setItem("nk",a);$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)}).catch(oops)}
 
-/* ----- actions (event delegation) ----- */
-function find(t,id){return D[t].filter(function(x){return String(x.id)===String(id)})[0]}
+/* ======================= actions ======================= */
 function save(t,item,quiet){return api({op:"save",type:t,item:item}).then(function(j){if(!j.ok){fail(j);throw 0}if(!quiet)toast("تم الحفظ ✓");return j})}
+function setBooking(btn,d){btn.disabled=!0;
+  api({op:"booking_status",row:d.row,order:d.order,booked:d.bk}).then(function(j){if(!j.ok){fail(j);btn.disabled=!1;return}
+    D.bookings.forEach(function(b){if(String(b.row)===String(d.row))b.booked=j.booked});render();toast(j.booked==="نعم"?"تم تأكيد الحجز ✓":"تم إلغاء التأكيد")}).catch(function(e){btn.disabled=!1;oops(e)})}
+function importHotels(btn){btn.disabled=!0;toast("جاري قراءة الفنادق من الموقع...");
+  var f=document.createElement("iframe");f.style.display="none";f.src="index.html";
+  var done=function(err,items){f.remove();if(err){btn.disabled=!1;console.error("[admin] import",err);toast("تعذّر قراءة الفنادق — افتح اللوحة من نفس موقعك (مش من ملف على الجهاز)",1);return}
+    api({op:"save_many",type:"hotels",items:items}).then(function(j){if(!j.ok){fail(j);btn.disabled=!1;return}toast("تم استيراد "+j.n+" فندق ✓");return load("hotels").then(render)}).catch(function(e){btn.disabled=!1;oops(e)})};
+  var norm=function(s){return String(s||"").replace(/\s+/g," ").trim().toLowerCase()};
+  var have={};D.hotels.forEach(function(h){have[norm(h.name_ar)]=1;have[norm(h.name_en)]=1});delete have[""];
+  var base=D.hotels.reduce(function(m,h){return Math.max(m,+h.sort||0)},0);
+  f.onload=function(){try{var H=f.contentWindow.H;if(!Array.isArray(H)||!H.length)throw new Error("H not found");
+    var items=H.filter(function(h){return h&&h.ar&&h.r&&!have[norm(h.ar)]&&!have[norm(h.en)]}).map(function(h,i){return{name_ar:h.ar,name_en:h.en||"",region:h.r,price_stay:h.pa||"",price_day:h.pe||"",img:h.img||"",video:h.vid||"",active:"1",sort:base+i+1}});
+    if(!items.length){f.remove();btn.disabled=!1;toast("كل فنادق الموقع موجودة بالفعل ✓");return}
+    done(null,items)}catch(e){done(e)}};
+  f.onerror=function(e){done(e||new Error("iframe"))};document.body.appendChild(f)}
 $("view").onclick=function(e){var b=e.target.closest("button");if(!b)return;var d=b.dataset;
-  if(d.go){tab=d.go;render()}
+  if(d.go){tab=d.go;if(d.bf)bf=d.bf;bLimit=PAGE;render();window.scrollTo(0,0)}
   else if(d.rf){rf=d.rf;render()}
+  else if(d.bf){bf=d.bf;bLimit=PAGE;render()}
+  else if(d.hreg){hReg=d.hreg;render()}
+  else if(d.morebk){bLimit+=PAGE;render()}
+  else if(d.bk){setBooking(b,d)}
+  else if(d.importh){importHotels(b)}
   else if(d.multi){$("fileMany").click()}
+  else if(d.destup){cur={destImg:d.destup};$("fileOne").click()}
+  else if(d.destclr){var inp=document.querySelector('.dimg-url[data-k="'+d.destclr+'"]'),pv=document.querySelector('.dimg-pv[data-k="'+d.destclr+'"]');if(inp)inp.value="";if(pv)pv.removeAttribute("src");toast("تم مسح الصورة — احفظ الإعدادات لتطبيقها")}
   else if(d.new){openEdit(d.new,null)}
   else if(d.savecfg){saveCfg()}
   else if(d.setpass){setPass()}
   else if(d.csv){exportCsv(d.csv)}
-  else if(d.appall){if(confirm("اعتماد كل الآراء المنتظرة؟"))api({op:"approve_all"}).then(function(j){if(j.ok){D.reviews.forEach(function(r){if(r.status==="pending")r.status="approved"});render();toast("تم اعتماد "+j.n+" رأي")}else fail(j)})}
-  else if(d.dup){var src=find(d.dup,d.id),cp=Object.assign({},src,{name_ar:(src.name_ar||"")+" (نسخة)",name_en:src.name_en?src.name_en+" (copy)":"",active:"0",sort:""});delete cp.id;save("offers",cp).then(function(){return load("offers")}).then(render).catch(function(){})}
+  else if(d.appall){if(confirm("اعتماد كل الآراء المنتظرة؟"))api({op:"approve_all"}).then(function(j){if(j.ok){D.reviews.forEach(function(r){if(r.status==="pending")r.status="approved"});render();toast("تم اعتماد "+j.n+" رأي")}else fail(j)}).catch(oops)}
+  else if(d.dup){var src=find(d.dup,d.id),cp=Object.assign({},src,{name_ar:(src.name_ar||"")+" (نسخة)",name_en:src.name_en?src.name_en+" (copy)":"",active:"0",sort:""});delete cp.id;save("offers",cp).then(function(){return load("offers")}).then(render).catch(oops)}
   else if(d.edit){openEdit(d.edit,find(d.edit,d.id))}
-  else if(d.st){api({op:"status",id:d.id,status:d.st}).then(function(j){if(j.ok){find("reviews",d.id).status=d.st;render();toast(d.st==="approved"?"تم الاعتماد — يظهر في الموقع":"تم الرفض")}else fail(j)})}
-  else if(d.del){if(confirm("حذف نهائي؟"))api({op:"delete",type:d.del,id:d.id}).then(function(j){if(j.ok){D[d.del]=D[d.del].filter(function(x){return String(x.id)!==String(d.id)});render();toast("تم الحذف")}else fail(j)})}
-  else if(d.tg){var it=find(d.tg,d.id),n=Object.assign({},it,{active:isOn(it)?"0":"1"});save(d.tg,n).then(function(){it.active=n.active;render()}).catch(function(){})}
+  else if(d.st){api({op:"status",id:d.id,status:d.st}).then(function(j){if(j.ok){find("reviews",d.id).status=d.st;render();toast(d.st==="approved"?"تم الاعتماد — يظهر في الموقع":"تم الرفض")}else fail(j)}).catch(oops)}
+  else if(d.del){if(confirm("حذف نهائي؟"))api({op:"delete",type:d.del,id:d.id}).then(function(j){if(j.ok){D[d.del]=D[d.del].filter(function(x){return String(x.id)!==String(d.id)});render();toast("تم الحذف")}else fail(j)}).catch(oops)}
+  else if(d.tg){var it=find(d.tg,d.id),n=Object.assign({},it,{active:isOn(it)?"0":"1"});save(d.tg,n).then(function(){it.active=n.active;render()}).catch(oops)}
   else if(d.mv){var t=d.type,L=sorted(t),i=L.map(function(x){return String(x.id)}).indexOf(String(d.id)),k=i+(+d.mv);if(k<0||k>=L.length)return;
     var x=L[i];L[i]=L[k];L[k]=x;b.disabled=!0;
-    Promise.all(L.map(function(it,idx){if(+it.sort===idx+1)return null;var n=Object.assign({},it,{sort:idx+1});return save(t,n,1).then(function(){it.sort=idx+1})})).then(render).catch(function(){})}
+    Promise.all(L.map(function(it,idx){if(+it.sort===idx+1)return null;var n=Object.assign({},it,{sort:idx+1});return save(t,n,1).then(function(){it.sort=idx+1})})).then(render).catch(function(e){oops(e);render()})}
 };
+$("view").addEventListener("input",function(e){var id=e.target.id;
+  if(id==="rq"){rq=e.target.value;applySearch()}
+  else if(id==="bq"){bq=e.target.value;bLimit=PAGE;var q=bq.trim().toLowerCase();
+    var L=D.bookings.filter(function(b){return bf==="all"||(bf==="new"?!isBooked(b):isBooked(b))}).filter(function(b){return!q||[b.order,b.name,b.phone,b.hotel,b.region].join(" ").toLowerCase().indexOf(q)>=0});
+    $("bkList").innerHTML=bookingList(L)}
+  else if(e.target.classList.contains("dimg-url")){var pv=document.querySelector('.dimg-pv[data-k="'+e.target.dataset.k+'"]');if(pv)pv.src=e.target.value}});
 
-$("view").addEventListener("input",function(e){if(e.target.id==="rq"){rq=e.target.value;applyRq()}});
-
-/* ----- edit dialog ----- */
+/* ======================= edit dialog ======================= */
 var F={offers:[["name_ar","اسم المسار / الرحلة (عربي)","t"],["name_en","Route name (English)","t"],["img","صورة العرض","img"],["features_ar","المميزات (سطر لكل ميزة)","a"],["features_en","Features (one per line — اختياري)","a"],["sort","الترتيب (الأصغر يظهر أولاً)","n"]],
+ hotels:[["name_ar","اسم الفندق (عربي)","t"],["name_en","Hotel name (English)","t"],["region","المنطقة","dest"],["price_stay","سعر الإقامة لليلة (جنيه — اختياري)","n"],["price_day","سعر الداي يوز (جنيه — اختياري)","n"],["img","صورة الفندق","img"],["video","رابط فيديو (اختياري)","t"],["sort","الترتيب","n"]],
  gallery:[["url","الصورة","img"],["caption_ar","تعليق (عربي)","t"],["caption_en","Caption (EN)","t"],["sort","الترتيب","n"]],
  reviews:[["name","اسم العميل","t"],["trip","الرحلة أو الفندق","t"],["rating","التقييم (1 إلى 5)","n"],["text","نص الرأي","a"]]};
-var TT={offers:"عرض / مسار",gallery:"صورة",reviews:"رأي"};
+var TT={offers:"عرض / مسار",hotels:"فندق",gallery:"صورة",reviews:"رأي"};
+function fieldHtml(f,v){var id="f_"+f[0];
+  if(f[2]==="a")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><textarea id="'+id+'">'+esc(v)+'</textarea></div>';
+  if(f[2]==="n")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><input id="'+id+'" type="number" inputmode="numeric" min="0" value="'+esc(v)+'"></div>';
+  if(f[2]==="dest")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><select id="'+id+'">'+DESTS.map(function(d){return'<option value="'+d[0]+'"'+(d[0]===v?" selected":"")+'>'+d[1]+'</option>'}).join("")+'</select></div>';
+  if(f[2]==="img")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><div class="imgbox"><img id="pv" alt="" src="'+esc(v)+'"><button type="button" class="btn sm" id="up">📷 رفع صورة</button></div><input id="'+id+'" type="text" dir="ltr" placeholder="أو الصق رابط الصورة (https://...)" value="'+esc(v)+'" style="margin-top:8px"><p class="hint">اختر صورة من الموبايل وهتترفع وتتظبط تلقائياً.</p></div>';
+  return'<div class="field"><label for="'+id+'">'+f[1]+'</label><input id="'+id+'" type="text" value="'+esc(v)+'"'+(f[0]==="video"?' dir="ltr"':"")+'></div>'}
 function openEdit(t,item){cur={t:t,item:item};$("dt").textContent=(item?"تعديل ":"إضافة ")+TT[t];
-  var h=F[t].map(function(f){var v=item?item[f[0]]:(f[0]==="rating"?5:""),id='f_'+f[0];
-    if(f[2]==="a")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><textarea id="'+id+'">'+esc(v)+'</textarea></div>';
-    if(f[2]==="n")return'<div class="field"><label for="'+id+'">'+f[1]+'</label><input id="'+id+'" type="number" inputmode="numeric" value="'+esc(v)+'"></div>';
-    if(f[2]==="img")return'<div class="field"><label>'+f[1]+'</label><div class="imgbox"><img id="pv" alt="" src="'+esc(v)+'"><button type="button" class="btn sm" id="up">📷 رفع صورة</button></div><input id="'+id+'" type="text" dir="ltr" placeholder="أو الصق رابط الصورة (https://...)" value="'+esc(v)+'" style="margin-top:8px"><p class="hint">اختر صورة من الموبايل وهتترفع وتتظبط تلقائياً.</p></div>';
-    return'<div class="field"><label for="'+id+'">'+f[1]+'</label><input id="'+id+'" type="text" value="'+esc(v)+'"></div>'}).join("");
+  var h=F[t].map(function(f){var v=item?item[f[0]]:(f[0]==="rating"?5:f[0]==="region"&&hReg!=="all"?hReg:"");return fieldHtml(f,v==null?"":v)}).join("");
   if(t!=="reviews")h+='<div class="field"><label for="f_active">الحالة</label><select id="f_active"><option value="1">ظاهر في الموقع</option><option value="0">مخفي</option></select></div>';
   $("dbody").innerHTML=h;
   if($("f_active"))$("f_active").value=item&&!isOn(item)?"0":"1";
   var inp=$("f_img")||$("f_url");
   if(inp)inp.oninput=function(){$("pv").src=inp.value};
-  if($("up"))$("up").onclick=function(){cur.single=1;$("fileOne").click()};
+  if($("up"))$("up").onclick=function(){$("fileOne").click()};
   $("dlg").showModal()}
 $("dc").onclick=function(){$("dlg").close()};
 $("ds").onclick=function(){var t=cur.t,it=Object.assign({},cur.item||{});F[t].forEach(function(f){it[f[0]]=$("f_"+f[0]).value.trim()});
   if($("f_active"))it.active=$("f_active").value;$("ds").disabled=!0;
-  save(t,it).then(function(){$("dlg").close();return load(t)}).then(render).catch(function(){}).then(function(){$("ds").disabled=!1})};
+  save(t,it).then(function(){$("dlg").close();return load(t)}).then(render).catch(oops).then(function(){$("ds").disabled=!1})};
 
-/* ----- image upload (resize on the phone, then to Drive through the script) ----- */
-function shrink(file){return new Promise(function(res,rej){var im=new Image,u=URL.createObjectURL(file);im.onload=function(){var m=1400,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",.82).split(",")[1])};im.onerror=function(){rej()};im.src=u})}
+/* ======================= image upload (resized on the phone, stored in Drive) ======================= */
+function shrink(file){return new Promise(function(res,rej){var im=new Image,u=URL.createObjectURL(file);im.onload=function(){var s=Math.min(1,IMG_MAX/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",IMG_Q).split(",")[1])};im.onerror=function(){URL.revokeObjectURL(u);toast(ERR.bad_type,1);rej(0)};im.src=u})}
 function upload(file){return shrink(file).then(function(b64){return api({op:"upload",mime:"image/jpeg",data:b64})}).then(function(j){if(!j.ok){fail(j);throw 0}return j.url})}
 $("fileOne").onchange=function(){var f=this.files[0];this.value="";if(!f)return;toast("جاري رفع الصورة...");
-  upload(f).then(function(u){var inp=$("f_img")||$("f_url");inp.value=u;$("pv").src=u;toast("تم رفع الصورة ✓")}).catch(function(){})};
+  upload(f).then(function(u){
+    if(cur&&cur.destImg){var k=cur.destImg;cur.destImg=null;var inp=document.querySelector('.dimg-url[data-k="'+k+'"]'),pv=document.querySelector('.dimg-pv[data-k="'+k+'"]');if(inp)inp.value=u;if(pv)pv.src=u;toast("تم رفع صورة الوجهة ✓ — اضغط حفظ الإعدادات");return}
+    var inp2=$("f_img")||$("f_url");if(inp2){inp2.value=u;var p=$("pv");if(p)p.src=u}toast("تم رفع الصورة ✓")
+  }).catch(oops)};
 $("fileMany").onchange=function(){var fs=[].slice.call(this.files);this.value="";if(!fs.length)return;var n=0;
   fs.reduce(function(p,f,i){return p.then(function(){toast("رفع "+(i+1)+" من "+fs.length+"...");return upload(f).then(function(u){return save("gallery",{url:u,caption_ar:"",caption_en:"",active:"1"},1)}).then(function(){n++})})},Promise.resolve())
-  .catch(function(){}).then(function(){toast("تم رفع "+n+" صورة ✓");return load("gallery")}).then(function(){tab="gallery";render()})};
+  .catch(oops).then(function(){n===fs.length?toast("تم رفع "+n+" صورة ✓"):toast("تم رفع "+n+" من "+fs.length+" فقط — راجع الاتصال وحاول مرة أخرى",1);return load("gallery")}).then(function(){tab="gallery";render()}).catch(oops)};
 
-if(pass){api({op:"list",type:"reviews"}).then(function(j){if(j.ok){D.reviews=j.items;enter()}else logout()}).catch(logout)}
+/* ======================= start ======================= */
+if(pass){api({op:"bootstrap"}).then(function(j){if(j.ok){applyBoot(j);enter()}else logout()}).catch(function(e){console.error("[admin] auto-login",e);logout()})}
 </script>
 </body>
 </html>
