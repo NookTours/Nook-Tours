@@ -645,7 +645,7 @@ var FND_MAX=6,FND_DEFAULT={name_ar:"بيشوي جورج",name_en:"Bishoy George"
 function fndInit(){var l=[];try{l=JSON.parse(cv("founders","[]")||"[]")}catch(e){console.warn("[admin] founders",e);l=[]}
   return Array.isArray(l)&&l.length?l:[Object.assign({img:cv("fnd_img","")},FND_DEFAULT)]}
 function fndRead(){return[].map.call(document.querySelectorAll("#fndList .fnd-row"),function(r){var g=function(c){return r.querySelector("."+c).value.trim()};
-  return{name_ar:g("f-na"),name_en:g("f-ne"),role_ar:g("f-ra"),role_en:g("f-re"),img:g("f-img"),ig:g("f-ig")}})}
+  return{name_ar:g("f-na"),name_en:g("f-ne"),role_ar:g("f-ra"),role_en:g("f-re"),img:g("f-img"),ig:g("f-ig"),phone:g("f-ph")}})}
 var IG_RE=/^https:\/\/(www\.)?instagram\.com\/[\w.\/-]+\/?(\?[\w=&.-]*)?$/i;
 function fndRows(list){return list.map(function(f,i){var img=f.img||"";
   return'<div class="card fnd-row"><div class="imgbox" style="margin:0 0 10px"><img class="f-pv" alt="" src="'+esc(img)+'" style="width:64px;height:64px;border-radius:50%'+(img?"":";visibility:hidden")+'" onload="this.style.visibility=\'visible\'" onerror="this.style.visibility=\'hidden\'">'+
@@ -653,10 +653,11 @@ function fndRows(list){return list.map(function(f,i){var img=f.img||"";
     '<input class="f-img" type="text" dir="ltr" placeholder="أو الصق رابط الصورة (اختياري)" aria-label="رابط صورة المؤسس '+(i+1)+'" value="'+esc(img)+'">'+
     '<div class="fnd-grid"><input class="f-na" type="text" maxlength="60" placeholder="الاسم بالعربي" aria-label="الاسم بالعربي" value="'+esc(f.name_ar||"")+'"><input class="f-ne" type="text" maxlength="60" dir="ltr" placeholder="Name (English)" aria-label="الاسم بالإنجليزي" value="'+esc(f.name_en||"")+'">'+
     '<input class="f-ra" type="text" maxlength="80" placeholder="المسمى بالعربي" aria-label="المسمى بالعربي" value="'+esc(f.role_ar||"")+'"><input class="f-re" type="text" maxlength="80" dir="ltr" placeholder="Role (English)" aria-label="المسمى بالإنجليزي" value="'+esc(f.role_en||"")+'"></div>'+
-    '<input class="f-ig" type="url" maxlength="200" dir="ltr" placeholder="انستجرام المؤسس: https://instagram.com/... (اختياري)" aria-label="لينك انستجرام المؤسس" value="'+esc(f.ig||"")+'" style="margin-top:8px"></div>'}).join("")}
+    '<div class="fnd-grid" style="margin-top:8px"><input class="f-ph" type="tel" inputmode="tel" maxlength="20" dir="ltr" placeholder="رقم المؤسس (اختياري): 01xxxxxxxxx" aria-label="رقم المؤسس" value="'+esc(f.phone||"")+'">'+
+    '<input class="f-ig" type="url" maxlength="200" dir="ltr" placeholder="انستجرام المؤسس: https://instagram.com/..." aria-label="لينك انستجرام المؤسس" value="'+esc(f.ig||"")+'"></div></div>'}).join("")}
 function founderSec(){
   return sec("👤 المؤسسين — قصتنا",tg("c_show_founder","إظهار قسم \"قصتنا\" والمؤسسين في الموقع",cv("show_founder","1")!=="0")+
-    '<p class="hint" style="margin:10px 0">أضف لحد '+FND_MAX+' مؤسسين. لينك انستجرام المؤسس منفصل تماماً عن لينك انستجرام الشركة (من "من نحن والتواصل" تحت). القصة من خانة "قصة الشركة".</p><div id="fndList">'+fndRows(fndInit())+'</div>'+
+    '<p class="hint" style="margin:10px 0">أضف لحد '+FND_MAX+' مؤسسين. رقم وانستجرام المؤسس بيظهروا في كارته بس، ومنفصلين تماماً عن رقم وانستجرام الشركة (من "من نحن والتواصل" تحت). القصة من خانة "قصة الشركة".</p><div id="fndList">'+fndRows(fndInit())+'</div>'+
     '<button type="button" class="btn ghost sm" data-fadd="1">+ إضافة مؤسس</button>'+
     '<button class="btn gold" data-savecfg="1" style="width:100%;margin-top:12px">حفظ ونشر</button>',1)}
 function viewSettings(){
@@ -685,6 +686,7 @@ function saveCfg(btn){var cfg={},g=function(i){var e=$(i);return e?e.value.trim(
   if($("fndList")){var fr=fndRead(),bad=fr.filter(function(f){return!(f.name_ar||f.name_en)&&(f.role_ar||f.role_en||f.img)});
     if(bad.length){toast("اكتب اسم كل مؤسس (أو احذف الخانة الفاضية)",1);return}
     if(fr.some(function(f){return f.ig&&!IG_RE.test(f.ig)})){toast("لينك انستجرام المؤسس لازم يبدأ بـ https://instagram.com/",1);return}
+    if(fr.some(function(f){var d=f.phone.replace(/\D/g,"");return f.phone&&(d.length<10||d.length>15)})){toast("رقم المؤسس لازم يكون 10 أرقام على الأقل",1);return}
     cfg.founders=JSON.stringify(fr.filter(function(f){return f.name_ar||f.name_en}))}
   if($("secList")){var order=[].map.call(document.querySelectorAll("#secList [data-sec]"),function(r){return r.getAttribute("data-sec")}),hide=[];
     [].forEach.call(document.querySelectorAll(".schk"),function(x){var id=x.getAttribute("data-id");SHOW_KEY[id]?cfg[SHOW_KEY[id]]=x.checked?"1":"0":!x.checked&&hide.push(id)});
