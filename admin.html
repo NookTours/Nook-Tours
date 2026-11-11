@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="color-scheme" content="light dark">
@@ -274,7 +274,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
 @keyframes nkspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.btn.loading::before{animation-duration:2.4s}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js" integrity="sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js" integrity="sha384-lm7tNiW/3uF4tLujoEeoR94zIODe3hCWqRtW0UgxpQE3QslzOhlD22UqQk1tSBhB" crossorigin="anonymous" defer></script>
 </head>
 <body>
 <svg aria-hidden="true" width="0" height="0" style="position:absolute"><defs>
@@ -307,6 +307,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
     <h1>Nook <span>Tours</span></h1>
     <p class="hint" style="margin:0 0 18px">لوحة التحكم — للإدارة فقط</p>
     <div class="field"><label for="pw" class="hide">كلمة السر</label><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر"></div>
+    <div class="field hide" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="كود المصادقة (6 أرقام)"></div>
     <button class="btn" id="go" style="width:100%">دخول</button>
     <p id="lerr" class="hint" style="color:var(--err);min-height:1.4em" role="alert"></p>
   </div>
@@ -362,7 +363,7 @@ var CT_PAGE=40,CT_CHIPS=[["","الكل"],["hero","الهيرو"],["nav","الق�
 var PAGE=30, CHART_DAYS=14, IMG_MAX=1400, IMG_Q=.82;
 var DESTS=[["dahab","دهب"],["sokhna","العين السخنة"],["hurghada","الغردقة"],["siwa","سيوة"],["marsa_matrouh","مرسى مطروح"],["alexandria","الإسكندرية"],["sharm","شرم الشيخ"],["luxor","الأقصر"],["aswan","أسوان"]];
 var DEST_NAME={};DESTS.forEach(function(d){DEST_NAME[d[0]]=d[1]});
-var ERR={auth:"كلمة السر غير صحيحة",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في خصائص السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",not_found:"العنصر غير موجود — اضغط تحديث",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم",server:"خطأ في السكريبت، حاول مرة أخرى",unknown_action:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",bad_op:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",
+var ERR={auth:"كلمة السر غير صحيحة",otp:"اكتب كود المصادقة من التطبيق",otp_bad:"الكود غير صحيح أو انتهى، جرّب الكود الجديد",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في خصائص السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",not_found:"العنصر غير موجود — اضغط تحديث",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم",server:"خطأ في السكريبت، حاول مرة أخرى",unknown_action:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",bad_op:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",
   no_bookings:"لسه ما اتربطش شيت الحجوزات: ضيف BOOKINGS_SHEET_ID في خصائص سكريبت الـ CMS",bookings_access:"سكريبت الـ CMS مش قادر يفتح شيت الحجوزات — راجع الـ ID والصلاحيات"};
 
 var pass=sessionStorage.getItem("nk")||"";
@@ -378,7 +379,7 @@ function oops(e){if(e===0)return;console.error("[admin]",e);toast("تعذّر ا
 function api(b){b.action="admin";b.pass=pass;
   return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)})
     .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
-    .then(function(j){if(j&&j.ok&&WRITE_OPS.indexOf(b.op)>=0){try{localStorage.removeItem(SITE_CACHE_KEY)}catch(e){}}if(j&&j.error==="auth"&&b.op!=="bootstrap")logout();return j})}
+    .then(function(j){if(j&&j.ok&&WRITE_OPS.indexOf(b.op)>=0){try{localStorage.removeItem(SITE_CACHE_KEY)}catch(e){}}if(j&&j.error==="auth"&&b.op!=="bootstrap"&&b.op!=="login")logout();return j})}
 function key(x){return +x.sort||+x.id||0}
 function sorted(t){return D[t].slice().sort(function(a,b){return key(a)-key(b)})}
 function isOn(x){var v=String(x.active).toLowerCase();return v===""||v==="1"||v==="true"}
@@ -395,9 +396,13 @@ function loadAll(){return api({op:"bootstrap"}).then(function(j){if(!j.ok){fail(
 function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else fail(j)})}
 
 function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");render()}
-function logout(){pass="";sessionStorage.removeItem("nk");$("app").classList.add("hide");$("login").classList.remove("hide")}
+function logout(){var t=pass;pass="";sessionStorage.removeItem("nk");
+  if(t)fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"admin",op:"logout",pass:t})}).catch(function(e){console.error("[admin] logout",e)});$("app").classList.add("hide");$("login").classList.remove("hide")}
 $("go").onclick=function(){var p=$("pw").value.trim();if(!p)return;$("go").disabled=!0;$("go").classList.add("loading");$("go").setAttribute("aria-busy","true");$("lerr").textContent="";pass=p;
-  api({op:"bootstrap"}).then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");if(j.ok){sessionStorage.setItem("nk",p);applyBoot(j);enter()}else{pass="";$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
+  api({op:"login",otp:$("otp").value.trim()}).then(function(j){
+    if(!j||!j.ok||!j.token){if(j&&j.error==="otp"){$("otpBox").classList.remove("hide");$("otp").focus()}return j||{}}
+    pass=j.token;sessionStorage.setItem("nk",pass);return api({op:"bootstrap"})})
+  .then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");$("pw").value="";$("otp").value="";if(j.ok){applyBoot(j);enter()}else{pass="";sessionStorage.removeItem("nk");$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
   .catch(function(e){console.error("[admin] login",e);$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");pass="";$("lerr").textContent="تعذّر الاتصال بالسكريبت"})};
 $("pw").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
 $("out").onclick=logout;
@@ -730,7 +735,7 @@ function saveCfg(btn){var cfg={},g=function(i){var e=$(i);return e?e.value.trim(
   if(!Object.keys(cfg).length)return;btn&&(btn.disabled=!0);
   api({op:"config_save",config:cfg}).then(function(j){btn&&(btn.disabled=!1);if(j.ok){D.config=j.config||Object.assign(D.config,cfg);toast("تم الحفظ — ظاهر في الموقع ✓")}else fail(j)}).catch(function(e){btn&&(btn.disabled=!1);oops(e)})}
 function setPass(){var a=$("np1").value,b=$("np2").value;if(a.length<8)return toast(ERR.weak,1);if(a!==b)return toast("كلمتا السر غير متطابقتين",1);
-  api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){pass=a;sessionStorage.setItem("nk",a);$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)}).catch(oops)}
+  api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)}).catch(oops)}
 
 function save(t,item,quiet){return api({op:"save",type:t,item:item}).then(function(j){if(!j.ok){fail(j);throw 0}if(!quiet)toast("تم الحفظ ✓");return j})}
 function setBooking(btn,d){btn.disabled=!0;
