@@ -273,6 +273,40 @@ nav.side .badge{position:static;margin-inline-start:auto}
 .btn.loading:disabled{opacity:.85}
 @keyframes nkspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.btn.loading::before{animation-duration:2.4s}}
+/* ===== Admin sign-in: always dark, opening scene, two quiet steps ===== */
+#login.lg{position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px 20px;color:#fff;background:radial-gradient(120% 80% at 50% 0%,#12365a 0%,#0a2540 45%,#050d17 100%)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Readex Pro",system-ui,sans-serif}
+#login.lg .lg-glow{position:absolute;inset:auto -20% -35% -20%;height:70%;background:radial-gradient(60% 60% at 50% 100%,rgba(217,184,156,.38),rgba(191,132,80,.14) 45%,transparent 70%);filter:blur(10px);pointer-events:none;animation:lg-breathe 9s ease-in-out infinite}
+@keyframes lg-breathe{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+#login.lg .lg-intro{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;transform:translateY(110px) scale(1.12);transition:transform 1s cubic-bezier(.32,.72,0,1);will-change:transform}
+#login.lg.ready .lg-intro{transform:none}
+#login.lg .lg-logo{width:96px;height:96px;display:grid;place-items:center;padding:12px;box-sizing:border-box;background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 24px 60px -16px rgba(0,0,0,.7);opacity:0;transform:scale(.6);filter:blur(12px);animation:lg-pop .9s cubic-bezier(.32,.72,0,1) .15s forwards}
+#login.lg .lg-logo img{width:100%;height:100%;object-fit:contain;display:block;background:none;padding:0;margin:0;border-radius:0}
+@keyframes lg-pop{to{opacity:1;transform:none;filter:blur(0)}}
+#login.lg .lg-w,#login.lg #step2 h1{direction:ltr;unicode-bidi:isolate}
+#login.lg .lg-w{margin:0;opacity:0;transform:translateY(18px);filter:blur(10px);animation:lg-rise .9s cubic-bezier(.32,.72,0,1) forwards}
+#login.lg .lg-w1{margin-top:22px;font-size:clamp(1.05rem,3.4vw,1.35rem);font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.62);animation-delay:.7s}
+#login.lg .lg-w2{margin-top:4px;font-size:clamp(2.4rem,9.5vw,4.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.05;background:linear-gradient(180deg,#fff 30%,#d9b89c);-webkit-background-clip:text;background-clip:text;color:transparent;animation-delay:.95s}
+@keyframes lg-rise{to{opacity:1;transform:none;filter:blur(0)}}
+#login.lg .lg-card{position:relative;z-index:1;width:min(400px,100%);box-sizing:border-box;padding:28px 24px 22px;border-radius:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 30px 80px -20px rgba(0,0,0,.65);opacity:0;transform:translateY(40px) scale(.97);filter:blur(10px);pointer-events:none;transition:opacity .8s cubic-bezier(.32,.72,0,1),transform .9s cubic-bezier(.32,.72,0,1),filter .8s cubic-bezier(.32,.72,0,1)}
+#login.lg.ready .lg-card{opacity:1;transform:none;filter:blur(0);pointer-events:auto}
+#login.lg .lg-card h1{margin:0 0 6px;font-size:1.65rem;font-weight:700;letter-spacing:-.02em;color:#fff;text-align:center}
+#login.lg .lg-sub{margin:0 0 20px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.6)}
+#login.lg .lg-step{animation:lg-step .45s cubic-bezier(.32,.72,0,1)}
+@keyframes lg-step{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+#login.lg input{width:100%;box-sizing:border-box;min-height:54px;padding:0 16px;border-radius:15px;border:1px solid transparent;background:rgba(255,255,255,.09);color:#fff;font:500 1.05rem "Readex Pro",system-ui,sans-serif;outline:0;transition:border-color .2s,box-shadow .2s,background .2s}
+#login.lg input::placeholder{color:rgba(255,255,255,.4)}
+#login.lg input:focus{border-color:#d9b89c;background:rgba(255,255,255,.12);box-shadow:0 0 0 4px rgba(217,184,156,.2)}
+#login.lg #otp{text-align:center;font-size:2rem;font-weight:600;letter-spacing:.5em;padding-inline-start:calc(16px + .5em);font-variant-numeric:tabular-nums;direction:ltr;min-height:68px}
+#login.lg .field{margin:0 0 14px}
+#login.lg #go{width:100%;min-height:54px;border:0;border-radius:15px;background:linear-gradient(180deg,#e6cdb4,#d9b89c)!important;color:#0f2940!important;font:600 1.05rem "Readex Pro",system-ui,sans-serif;box-shadow:0 12px 30px -10px rgba(217,184,156,.55);transition:transform .2s cubic-bezier(.32,.72,0,1),filter .2s}
+#login.lg #go:hover{filter:brightness(1.05)}
+#login.lg #go:active{transform:scale(.98)}
+#login.lg #go.loading::before{border-color:rgba(15,41,64,.3);border-top-color:#0f2940}
+#login.lg .lg-back{display:block;margin:12px auto 0;background:none;border:0;color:rgba(255,255,255,.62);font:500 .92rem "Readex Pro",system-ui,sans-serif;cursor:pointer;padding:8px 14px;border-radius:10px}
+#login.lg .lg-back:hover{color:#fff}
+#login.lg #lerr{margin:12px 0 0;min-height:1.4em;text-align:center;font-size:.9rem;color:#ff9b91}
+#login.lg :focus-visible{outline:2px solid #d9b89c;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){#login.lg *{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}#login.lg .lg-glow{animation:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js" integrity="sha384-lm7tNiW/3uF4tLujoEeoR94zIODe3hCWqRtW0UgxpQE3QslzOhlD22UqQk1tSBhB" crossorigin="anonymous" defer></script>
 </head>
@@ -301,16 +335,28 @@ nav.side .badge{position:static;margin-inline-start:auto}
 <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
 <symbol id="i-mega" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15 9a3 3 0 0 1 0 6M18 6a7 7 0 0 1 0 12"/></symbol>
 </defs></svg>
-<section id="login">
-  <div class="card">
-    <img src="logo.png" alt="Nook Tours" width="140" height="64">
-    <h1>Nook <span>Tours</span></h1>
-    <p class="hint" style="margin:0 0 18px">لوحة التحكم — للإدارة فقط</p>
-    <div class="field"><label for="pw" class="hide">كلمة السر</label><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر"></div>
-    <div class="field hide" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="كود المصادقة (6 أرقام)"></div>
-    <button class="btn" id="go" style="width:100%">دخول</button>
-    <p id="lerr" class="hint" style="color:var(--err);min-height:1.4em" role="alert"></p>
+<section id="login" class="lg">
+  <div class="lg-glow" aria-hidden="true"></div>
+  <div class="lg-intro" id="lgIntro" aria-hidden="true">
+    <div class="lg-logo"><img src="logo.png" alt="" width="140" height="64"></div>
+    <p class="lg-w lg-w1">Welcome,</p>
+    <p class="lg-w lg-w2">Administrator</p>
   </div>
+  <main class="lg-card" id="lgCard">
+    <div class="lg-step" id="step1">
+      <h1>تسجيل الدخول</h1>
+      <p class="lg-sub">لوحة تحكم Nook Tours، للإدارة فقط</p>
+      <div class="field"><label for="pw" class="hide">كلمة السر</label><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر"></div>
+    </div>
+    <div class="lg-step hide" id="step2">
+      <h1>Enter your MFA code</h1>
+      <p class="lg-sub">افتح Google Authenticator واكتب الكود الظاهر قدام Nook Tours Admin</p>
+      <div class="field" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="000000"></div>
+    </div>
+    <button class="btn" id="go" type="button">دخول</button>
+    <button class="lg-back hide" id="lgBack" type="button">رجوع</button>
+    <p id="lerr" role="alert"></p>
+  </main>
 </section>
 
 <div id="app" class="hide">
@@ -395,17 +441,22 @@ function applyBoot(j){["reviews","offers","gallery","hotels","bookings","content
 function loadAll(){return api({op:"bootstrap"}).then(function(j){if(!j.ok){fail(j);if(j.error==="auth")logout();return}applyBoot(j);render()}).catch(oops)}
 function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else fail(j)})}
 
+function lgStep(n){var two=n===2;$("step1").classList.toggle("hide",two);$("step2").classList.toggle("hide",!two);$("lgBack").classList.toggle("hide",!two);$("go").textContent=two?"تأكيد":"دخول";if(two&&$("lerr").textContent===ERR.otp)$("lerr").textContent="";(two?$("otp"):$("pw")).focus()}
+function lgIntro(){var L=$("login"),calm=matchMedia("(prefers-reduced-motion: reduce)").matches,quick=calm||!!sessionStorage.getItem("nk");L.classList.remove("ready");if(quick){L.classList.add("ready");return}clearTimeout(lgIntro.t);lgIntro.t=setTimeout(function(){L.classList.add("ready");$("pw").focus({preventScroll:!0})},2700)}
 function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");render()}
-function logout(){var t=pass;pass="";sessionStorage.removeItem("nk");
+function logout(){var t=pass;pass="";sessionStorage.removeItem("nk");lgStep(1);$("otp").value="";lgIntro();
   if(t)fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"admin",op:"logout",pass:t})}).catch(function(e){console.error("[admin] logout",e)});$("app").classList.add("hide");$("login").classList.remove("hide")}
 $("go").onclick=function(){var p=$("pw").value.trim();if(!p)return;$("go").disabled=!0;$("go").classList.add("loading");$("go").setAttribute("aria-busy","true");$("lerr").textContent="";pass=p;
   api({op:"login",otp:$("otp").value.trim()}).then(function(j){
-    if(!j||!j.ok||!j.token){if(j&&j.error==="otp"){$("otpBox").classList.remove("hide");$("otp").focus()}return j||{}}
+    if(!j||!j.ok||!j.token){if(j&&j.error==="otp"){lgStep(2)}return j||{}}
     pass=j.token;sessionStorage.setItem("nk",pass);return api({op:"bootstrap"})})
-  .then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");var keep=!j.ok&&(j.error==="otp"||j.error==="otp_bad");keep||($("pw").value="");$("otp").value="";if(j.ok){applyBoot(j);enter()}else{pass="";sessionStorage.removeItem("nk");$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
+  .then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");var keep=!j.ok&&(j.error==="otp"||j.error==="otp_bad");keep||($("pw").value="");$("otp").value="";if(j.ok){applyBoot(j);enter()}else{pass="";sessionStorage.removeItem("nk");$("lerr").textContent=j.error==="otp"?"":(ERR[j.error]||"تعذّر الدخول")}})
   .catch(function(e){console.error("[admin] login",e);$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");pass="";$("lerr").textContent="تعذّر الاتصال بالسكريبت"})};
 $("pw").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
 $("otp").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
+$("lgBack").onclick=function(){$("otp").value="";$("lerr").textContent="";lgStep(1)};
+$("login").addEventListener("click",function(e){if(!this.classList.contains("ready")&&!e.target.closest("#lgCard")){clearTimeout(lgIntro.t);this.classList.add("ready")}});
+lgIntro();
 $("otp").addEventListener("input",function(){this.value=this.value.replace(/\D/g,"").slice(0,6);this.value.length===6&&$("pw").value&&$("go").click()});
 $("out").onclick=logout;
 $("refresh").onclick=function(){var b=this;b.disabled=!0;loadAll().then(function(){b.disabled=!1;toast("تم التحديث ✓")})};
