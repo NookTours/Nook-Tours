@@ -1360,7 +1360,8 @@ $("eduMore")&&$("eduMore").addEventListener("click",eduToggle);
     fly.style.padding=lerp(base.pt,tgt.pt,e)+"px "+lerp(base.pl,tgt.pl,e)+"px";
     fly.style.borderRadius=lerp(base.radPx,tgt.rad,e)+"px";
     fly.style.boxShadow="0 "+lerp(18,2,e)+"px "+lerp(40,8,e)+"px -"+lerp(12,0,e)+"px rgba(10,42,74,"+(.28+.12*arc)+")";
-    fly.style.transform="translate3d("+(cx-w/2)+"px,"+(cy-h/2)+"px,0) rotate("+(-6*arc)+"deg)";
+    /* somersault: one full forward flip over the whole swipe, flat again exactly when it docks */
+    fly.style.transform="perspective(800px) translate3d("+(cx-w/2)+"px,"+(cy-h/2)+"px,0) rotateX("+(-360*e)+"deg)";
     fly.style.opacity=s<START?0:1-end;
     real.style.visibility=s<START?"":"hidden";
     dst.style.opacity=s<START?0:end;

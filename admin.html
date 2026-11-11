@@ -402,9 +402,11 @@ $("go").onclick=function(){var p=$("pw").value.trim();if(!p)return;$("go").disab
   api({op:"login",otp:$("otp").value.trim()}).then(function(j){
     if(!j||!j.ok||!j.token){if(j&&j.error==="otp"){$("otpBox").classList.remove("hide");$("otp").focus()}return j||{}}
     pass=j.token;sessionStorage.setItem("nk",pass);return api({op:"bootstrap"})})
-  .then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");$("pw").value="";$("otp").value="";if(j.ok){applyBoot(j);enter()}else{pass="";sessionStorage.removeItem("nk");$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
+  .then(function(j){$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");var keep=!j.ok&&(j.error==="otp"||j.error==="otp_bad");keep||($("pw").value="");$("otp").value="";if(j.ok){applyBoot(j);enter()}else{pass="";sessionStorage.removeItem("nk");$("lerr").textContent=ERR[j.error]||"تعذّر الدخول"}})
   .catch(function(e){console.error("[admin] login",e);$("go").disabled=!1;$("go").classList.remove("loading");$("go").removeAttribute("aria-busy");pass="";$("lerr").textContent="تعذّر الاتصال بالسكريبت"})};
 $("pw").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
+$("otp").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()});
+$("otp").addEventListener("input",function(){this.value=this.value.replace(/\D/g,"").slice(0,6);this.value.length===6&&$("pw").value&&$("go").click()});
 $("out").onclick=logout;
 $("refresh").onclick=function(){var b=this;b.disabled=!0;loadAll().then(function(){b.disabled=!1;toast("تم التحديث ✓")})};
 function navClick(e){var b=e.target.closest("button[data-tab]");if(!b)return;
