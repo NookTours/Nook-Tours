@@ -289,6 +289,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
 @keyframes lg-rise{to{opacity:1;transform:none;filter:blur(0)}}
 #login.lg .lg-card{position:relative;z-index:1;width:min(400px,100%);box-sizing:border-box;padding:28px 24px 22px;border-radius:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 30px 80px -20px rgba(0,0,0,.65);opacity:0;transform:translateY(40px) scale(.97);filter:blur(10px);pointer-events:none;transition:opacity .8s cubic-bezier(.32,.72,0,1),transform .9s cubic-bezier(.32,.72,0,1),filter .8s cubic-bezier(.32,.72,0,1)}
 #login.lg.ready .lg-card{opacity:1;transform:none;filter:blur(0);pointer-events:auto}
+#login.lg .lg-shield{width:52px;height:52px;margin:0 auto 14px;display:grid;place-items:center;border-radius:16px;color:#d9b89c;background:rgba(217,184,156,.12);border:1px solid rgba(217,184,156,.25)}
 #login.lg .lg-card h1{margin:0 0 6px;font-size:1.65rem;font-weight:700;letter-spacing:-.02em;color:#fff;text-align:center}
 #login.lg .lg-sub{margin:0 0 20px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.6)}
 #login.lg .lg-step{animation:lg-step .45s cubic-bezier(.32,.72,0,1)}
@@ -306,6 +307,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
 #login.lg .lg-back:hover{color:#fff}
 #login.lg #lerr{margin:12px 0 0;min-height:1.4em;text-align:center;font-size:.9rem;color:#ff9b91}
 #login.lg :focus-visible{outline:2px solid #d9b89c;outline-offset:3px}
+@media (max-width:520px){#login.lg{gap:22px;padding:20px 16px}#login.lg .lg-logo{width:80px;height:80px;border-radius:20px;padding:10px}#login.lg .lg-w1{margin-top:16px;font-size:.8rem}#login.lg .lg-w2{font-size:clamp(1.9rem,9vw,2.4rem)}#login.lg .lg-intro{transform:translateY(80px) scale(1.06)}#login.lg .lg-card{padding:22px 18px 18px;border-radius:22px}#login.lg .lg-card h1{font-size:1.4rem}#login.lg .lg-sub{font-size:.86rem;margin-bottom:16px}#login.lg input{min-height:50px;font-size:1rem}#login.lg #otp{font-size:1.7rem;min-height:60px}#login.lg #go{min-height:50px}}
 @media (prefers-reduced-motion:reduce){#login.lg *{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}#login.lg .lg-glow{animation:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js" integrity="sha384-lm7tNiW/3uF4tLujoEeoR94zIODe3hCWqRtW0UgxpQE3QslzOhlD22UqQk1tSBhB" crossorigin="anonymous" defer></script>
@@ -349,8 +351,9 @@ nav.side .badge{position:static;margin-inline-start:auto}
       <div class="field"><label for="pw" class="hide">كلمة السر</label><input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر"></div>
     </div>
     <div class="lg-step hide" id="step2">
+      <div class="lg-shield" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
       <h1>Enter your MFA code</h1>
-      <p class="lg-sub">افتح Google Authenticator واكتب الكود الظاهر قدام Nook Tours Admin</p>
+      <p class="lg-sub" dir="ltr">Ask the Owner or Founder to get this code</p>
       <div class="field" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="000000"></div>
     </div>
     <button class="btn" id="go" type="button">دخول</button>
