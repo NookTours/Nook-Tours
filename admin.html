@@ -309,6 +309,13 @@ nav.side .badge{position:static;margin-inline-start:auto}
 #login.lg :focus-visible{outline:2px solid #d9b89c;outline-offset:3px}
 @media (max-width:520px){#login.lg{gap:22px;padding:20px 16px}#login.lg .lg-logo{width:80px;height:80px;border-radius:20px;padding:10px}#login.lg .lg-w1{margin-top:16px;font-size:.8rem}#login.lg .lg-w2{font-size:clamp(1.9rem,9vw,2.4rem)}#login.lg .lg-intro{transform:translateY(80px) scale(1.06)}#login.lg .lg-card{padding:22px 18px 18px;border-radius:22px}#login.lg .lg-card h1{font-size:1.4rem}#login.lg .lg-sub{font-size:.86rem;margin-bottom:16px}#login.lg input{min-height:50px;font-size:1rem}#login.lg #otp{font-size:1.7rem;min-height:60px}#login.lg #go{min-height:50px}}
 @media (prefers-reduced-motion:reduce){#login.lg *{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}#login.lg .lg-glow{animation:none}}
+#mfaBox .mfa-state{display:inline-block;margin:0 0 8px;padding:4px 12px;border-radius:999px;font-weight:600;font-size:.88rem}
+#mfaBox .mfa-state.on{background:var(--ok2);color:var(--ok)}#mfaBox .mfa-state.off{background:var(--wait2);color:var(--wait)}
+#mfaBox .mfa-steps{margin:0 0 12px;padding-inline-start:20px;line-height:1.9}
+#mfaBox .mfa-qr{width:200px;max-width:100%;margin:6px auto 12px;padding:10px;background:#fff;border-radius:16px;border:1px solid var(--line)}#mfaBox .mfa-qr svg{display:block;width:100%;height:auto}
+#mfaBox .mfa-key{margin:0 0 12px}#mfaBox .mfa-key code{display:block;margin-top:8px;padding:10px;border-radius:10px;background:var(--card2);font:600 .95rem ui-monospace,Consolas,monospace;word-break:break-all;text-align:center}
+#mfaBox .mfa-codes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 14px}#mfaBox .mfa-codes code{padding:10px;border-radius:10px;background:var(--card2);border:1px solid var(--line);text-align:center;font:600 1rem ui-monospace,Consolas,monospace;letter-spacing:.06em}
+#mfaBox #mfaCode{text-align:center;font-size:1.3rem;letter-spacing:.3em;direction:ltr}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js" integrity="sha384-lm7tNiW/3uF4tLujoEeoR94zIODe3hCWqRtW0UgxpQE3QslzOhlD22UqQk1tSBhB" crossorigin="anonymous" defer></script>
 </head>
@@ -357,6 +364,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
       <div class="field" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="000000"></div>
     </div>
     <button class="btn" id="go" type="button">دخول</button>
+    <button class="lg-back hide" id="lgBk" type="button">استخدم كود احتياطي</button>
     <button class="lg-back hide" id="lgBack" type="button">رجوع</button>
     <p id="lerr" role="alert"></p>
   </main>
@@ -412,7 +420,7 @@ var CT_PAGE=40,CT_CHIPS=[["","الكل"],["hero","الهيرو"],["nav","الق�
 var PAGE=30, CHART_DAYS=14, IMG_MAX=1400, IMG_Q=.82;
 var DESTS=[["dahab","دهب"],["sokhna","العين السخنة"],["hurghada","الغردقة"],["siwa","سيوة"],["marsa_matrouh","مرسى مطروح"],["alexandria","الإسكندرية"],["sharm","شرم الشيخ"],["luxor","الأقصر"],["aswan","أسوان"]];
 var DEST_NAME={};DESTS.forEach(function(d){DEST_NAME[d[0]]=d[1]});
-var ERR={auth:"كلمة السر غير صحيحة",otp:"اكتب كود المصادقة من التطبيق",otp_bad:"الكود مش مطابق. دوس زرار التحديث في التطبيق وجرّب الكود الجديد",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في خصائص السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",not_found:"العنصر غير موجود — اضغط تحديث",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم",server:"خطأ في السكريبت، حاول مرة أخرى",unknown_action:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",bad_op:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",
+var ERR={auth:"كلمة السر غير صحيحة",otp:"اكتب كود المصادقة من التطبيق",otp_bad:"الكود غير صحيح. اكتب الكود الظاهر دلوقتي في التطبيق",mfa_on:"المصادقة مفعّلة بالفعل",mfa_none:"ابدأ التفعيل من الأول",locked:"محاولات كثيرة، جرّب بعد نصف ساعة",noadmin:"لم يتم ضبط ADMIN_PASS في خصائص السكريبت بعد",invalid:"البيانات ناقصة أو غير صالحة",not_found:"العنصر غير موجود — اضغط تحديث",too_big:"الصورة كبيرة جداً",bad_phone:"رقم الواتساب غير صحيح (10 أرقام على الأقل)",bad_ig:"رابط الانستجرام غير صحيح (يبدأ بـ https://instagram.com/)",weak:"كلمة السر قصيرة (8 أحرف على الأقل)",bad_type:"نوع الملف غير مدعوم",server:"خطأ في السكريبت، حاول مرة أخرى",unknown_action:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",bad_op:"السكريبت قديم — انشر نسخة Code_CMS.gs الجديدة",
   no_bookings:"لسه ما اتربطش شيت الحجوزات: ضيف BOOKINGS_SHEET_ID في خصائص سكريبت الـ CMS",bookings_access:"سكريبت الـ CMS مش قادر يفتح شيت الحجوزات — راجع الـ ID والصلاحيات"};
 
 var pass=sessionStorage.getItem("nk")||"";
@@ -444,7 +452,7 @@ function applyBoot(j){["reviews","offers","gallery","hotels","bookings","content
 function loadAll(){return api({op:"bootstrap"}).then(function(j){if(!j.ok){fail(j);if(j.error==="auth")logout();return}applyBoot(j);render()}).catch(oops)}
 function load(t){return api({op:"list",type:t}).then(function(j){if(j.ok)D[t]=j.items;else fail(j)})}
 
-function lgStep(n){var two=n===2;$("step1").classList.toggle("hide",two);$("step2").classList.toggle("hide",!two);$("lgBack").classList.toggle("hide",!two);$("go").textContent=two?"تأكيد":"دخول";if(two&&$("lerr").textContent===ERR.otp)$("lerr").textContent="";(two?$("otp"):$("pw")).focus()}
+function lgStep(n){var two=n===2;$("step1").classList.toggle("hide",two);$("step2").classList.toggle("hide",!two);$("lgBack").classList.toggle("hide",!two);$("lgBk").classList.toggle("hide",!two);$("go").textContent=two?"تأكيد":"دخول";if(two&&$("lerr").textContent===ERR.otp)$("lerr").textContent="";(two?$("otp"):$("pw")).focus()}
 function lgIntro(){var L=$("login"),calm=matchMedia("(prefers-reduced-motion: reduce)").matches,quick=calm||!!sessionStorage.getItem("nk");L.classList.remove("ready");if(quick){L.classList.add("ready");return}clearTimeout(lgIntro.t);lgIntro.t=setTimeout(function(){L.classList.add("ready");$("pw").focus({preventScroll:!0})},2700)}
 function enter(){$("login").classList.add("hide");$("app").classList.remove("hide");render()}
 function logout(){var t=pass;pass="";sessionStorage.removeItem("nk");lgStep(1);$("otp").value="";lgIntro();
@@ -460,7 +468,9 @@ $("otp").addEventListener("keydown",function(e){e.key==="Enter"&&$("go").click()
 $("lgBack").onclick=function(){$("otp").value="";$("lerr").textContent="";lgStep(1)};
 $("login").addEventListener("click",function(e){if(!this.classList.contains("ready")&&!e.target.closest("#lgCard")){clearTimeout(lgIntro.t);this.classList.add("ready")}});
 lgIntro();
-$("otp").addEventListener("input",function(){this.value=this.value.replace(/\D/g,"").slice(0,6);this.value.length===6&&$("pw").value&&$("go").click()});
+var bkMode=!1;
+$("lgBk").onclick=function(){bkMode=!bkMode;var o=$("otp");o.value="";o.inputMode=bkMode?"text":"numeric";o.maxLength=bkMode?9:6;o.placeholder=bkMode?"XXXX-XXXX":"000000";o.style.letterSpacing=bkMode?".12em":"";this.textContent=bkMode?"استخدم كود التطبيق":"استخدم كود احتياطي";o.focus()};
+$("otp").addEventListener("input",function(){if(bkMode){this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,"");return}this.value=this.value.replace(/\D/g,"").slice(0,6);this.value.length===6&&$("pw").value&&$("go").click()});
 $("out").onclick=logout;
 $("refresh").onclick=function(){var b=this;b.disabled=!0;loadAll().then(function(){b.disabled=!1;toast("تم التحديث ✓")})};
 function navClick(e){var b=e.target.closest("button[data-tab]");if(!b)return;
@@ -493,7 +503,7 @@ function render(){
   setNav();var v=$("view");
   var R={home:viewHome,bookings:viewBookings,customers:viewCustomers,reviews:viewReviews,offers:viewOffers,dests:viewDests,hotels:viewHotels,sections:viewSections,content:viewContent,gallery:viewGallery,marketing:viewMarketing,reports:viewReports,settings:viewSettings};
   v.innerHTML='<div class="crumb">الرئيسية'+(tab!=="home"?' / <b>'+esc(TITLES[tab]||"")+'</b>':"")+'</div>'+(R[tab]||viewHome)();
-  applySearch();window.initCharts&&initCharts();
+  applySearch();window.initCharts&&initCharts();tab==="settings"&&mfaLoad();
 }
 function applySearch(){var q=(tab==="bookings"?"":rq).trim().toLowerCase();if(tab!=="reviews")return;[].forEach.call(document.querySelectorAll("#view [data-q]"),function(c){c.style.display=!q||c.dataset.q.indexOf(q)>=0?"":"none"})}
 
@@ -766,6 +776,7 @@ function viewSettings(){
      '<p class="hint">الخانة الفارغة = القيمة الأصلية في الموقع.</p>',1)+
    '<button class="btn gold" data-savecfg="1" style="width:100%;margin:4px 0 14px">حفظ الإعدادات</button>'+
    sec("🔐 الأمان",'<div class="field"><label for="np1">كلمة السر الجديدة (8 أحرف على الأقل)</label><input id="np1" type="password" autocomplete="new-password"></div><div class="field"><label for="np2">تأكيد كلمة السر</label><input id="np2" type="password" autocomplete="new-password"></div><button class="btn" data-setpass="1">تغيير كلمة السر</button>')+
+   sec("🛡️ المصادقة الثنائية",'<div id="mfaBox"></div>',1)+
    sec("💾 نسخة احتياطية",'<p class="hint">نزّل نسخة CSV تفتحها في إكسل أو جوجل شيت.</p><div class="acts"><button class="btn ghost sm" data-csv="bookings">الحجوزات</button><button class="btn ghost sm" data-csv="reviews">الآراء</button><button class="btn ghost sm" data-csv="offers">العروض</button><button class="btn ghost sm" data-csv="hotels">الفنادق</button><button class="btn ghost sm" data-csv="gallery">الصور</button><button class="btn ghost sm" data-csv="content">نصوص الموقع</button></div>');
 }
 function exportCsv(t){exportRows(t,D[t]||[])}
@@ -792,6 +803,38 @@ function saveCfg(btn){var cfg={},g=function(i){var e=$(i);return e?e.value.trim(
   api({op:"config_save",config:cfg}).then(function(j){btn&&(btn.disabled=!1);if(j.ok){D.config=j.config||Object.assign(D.config,cfg);toast("تم الحفظ — ظاهر في الموقع ✓")}else fail(j)}).catch(function(e){btn&&(btn.disabled=!1);oops(e)})}
 function setPass(){var a=$("np1").value,b=$("np2").value;if(a.length<8)return toast(ERR.weak,1);if(a!==b)return toast("كلمتا السر غير متطابقتين",1);
   api({op:"set_pass",newpass:a}).then(function(j){if(j.ok){$("np1").value=$("np2").value="";toast("تم تغيير كلمة السر ✓")}else fail(j)}).catch(oops)}
+/* ===== المصادقة الثنائية من الإعدادات: تفعيل بباركود + تأكيد بأول كود + أكواد احتياطية ===== */
+var QR_SRC="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js",QR_SRI="sha384-8FWZA6BGMXhsfO+BLtrJK0We6gg5o1JyO8xQm6peWDEUs17ACA5ziE/NIAkl9z2k";
+function loadQr(){return new Promise(function(ok,no){if(window.qrcode)return ok();var s=document.createElement("script");s.src=QR_SRC;s.integrity=QR_SRI;s.crossOrigin="anonymous";s.onload=ok;s.onerror=function(){no(new Error("qr lib"))};document.head.appendChild(s)})}
+function mfaBox(h){var b=$("mfaBox");b&&(b.innerHTML=h)}
+function mfaLoad(){mfaBox('<p class="hint">جاري التحميل…</p>');api({op:"mfa_status"}).then(function(j){if(!j.ok)return fail(j);j.enabled?mfaOn(j.backupLeft):mfaOff()}).catch(oops)}
+function mfaOff(){mfaBox('<p class="mfa-state off">غير مفعّلة</p><p class="hint">بعد التفعيل، الدخول هيطلب كلمة السر وكود من Google Authenticator بيتغير كل 30 ثانية.</p><button class="btn" data-mfa="begin">تفعيل المصادقة الثنائية</button>')}
+function mfaOn(left){mfaBox('<p class="mfa-state on">مفعّلة</p><p class="hint">الأكواد الاحتياطية المتبقية: <b>'+esc(left)+'</b> من 8.</p>'+
+  '<div class="field"><label for="mfaCode">كود حالي من التطبيق (لأي تغيير هنا)</label><input id="mfaCode" inputmode="numeric" autocomplete="one-time-code" maxlength="11" placeholder="000000"></div>'+
+  '<div class="acts"><button class="btn ghost sm" data-mfa="backup">أكواد احتياطية جديدة</button><button class="btn ghost sm" data-mfa="off">إيقاف المصادقة</button></div>')}
+function mfaShowCodes(codes){mfaBox('<p class="mfa-state on">مفعّلة ✓</p><p class="hint"><b>احفظ الأكواد دي دلوقتي</b> في مكان آمن. كل كود بيدخلك مرة واحدة لو الموبايل مش معاك، ومش هتظهر تاني.</p>'+
+  '<div class="mfa-codes" dir="ltr">'+codes.map(function(c){return"<code>"+esc(c)+"</code>"}).join("")+'</div>'+
+  '<div class="acts"><button class="btn ghost sm" data-mfa="copy">نسخ الأكواد</button><button class="btn" data-mfa="done">حفظتهم</button></div>');mfaShowCodes.last=codes.join("\n")}
+function mfaBegin(btn){btn.disabled=!0;Promise.all([api({op:"mfa_begin"}),loadQr()]).then(function(r){var j=r[0];btn.disabled=!1;if(!j.ok)return fail(j);
+  var qr=qrcode(0,"M");qr.addData(j.uri);qr.make();
+  mfaBox('<ol class="mfa-steps"><li>افتح Google Authenticator واضغط <b>+</b> ثم <b>Scan a QR code</b>.</li><li>امسح الباركود.</li><li>اكتب الكود اللي ظهر في التطبيق واضغط تأكيد.</li></ol>'+
+    '<div class="mfa-qr">'+qr.createSvgTag(5,2)+'</div>'+
+    '<details class="mfa-key"><summary>مش قادر تمسح؟ اكتب المفتاح يدوي</summary><code dir="ltr">'+esc(j.secret.replace(/(.{4})/g,"$1 ").trim())+'</code><p class="hint">النوع: Time based</p></details>'+
+    '<div class="field"><label for="mfaCode">الكود من التطبيق</label><input id="mfaCode" inputmode="numeric" autocomplete="one-time-code" maxlength="7" placeholder="000000"></div>'+
+    '<div class="acts"><button class="btn" data-mfa="confirm">تأكيد وتفعيل</button><button class="btn ghost sm" data-mfa="cancel">إلغاء</button></div>');
+  var c=$("mfaCode");c&&c.focus()}).catch(function(e){btn.disabled=!1;console.error("[admin] mfa begin",e);toast("تعذّر تجهيز الباركود، حاول تاني",1)})}
+function mfaCode(){var c=$("mfaCode");return c?c.value.trim():""}
+function mfaSend(op,btn,after){var code=mfaCode();if(!code){toast("اكتب الكود من التطبيق",1);return}btn.disabled=!0;
+  api({op:op,code:code}).then(function(j){btn.disabled=!1;if(!j.ok){$("mfaCode")&&($("mfaCode").value="");return fail(j)}after(j)}).catch(function(e){btn.disabled=!1;oops(e)})}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-mfa]");if(!b)return;var a=b.getAttribute("data-mfa");
+  if(a==="begin")mfaBegin(b);
+  else if(a==="cancel")mfaOff();
+  else if(a==="confirm")mfaSend("mfa_confirm",b,function(j){toast("تم تفعيل المصادقة الثنائية ✓");mfaShowCodes(j.backup||[])});
+  else if(a==="backup")mfaSend("mfa_backup",b,function(j){toast("أكواد جديدة، القديمة اتلغت");mfaShowCodes(j.backup||[])});
+  else if(a==="off"){if(!confirm("إيقاف المصادقة الثنائية؟ الدخول هيبقى بكلمة السر بس."))return;mfaSend("mfa_disable",b,function(){toast("تم إيقاف المصادقة");mfaOff()})}
+  else if(a==="copy"){var t=mfaShowCodes.last||"";(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject(new Error("no clipboard"))).then(function(){toast("تم النسخ ✓")},function(err){console.error("[admin] copy",err);toast("انسخهم يدوي من الشاشة",1)})}
+  else if(a==="done")mfaLoad()});
+
 
 function save(t,item,quiet){return api({op:"save",type:t,item:item}).then(function(j){if(!j.ok){fail(j);throw 0}if(!quiet)toast("تم الحفظ ✓");return j})}
 function setBooking(btn,d){btn.disabled=!0;
