@@ -361,7 +361,7 @@ nav.side .badge{position:static;margin-inline-start:auto}
       <div class="lg-shield" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
       <h1>Enter your MFA code</h1>
       <p class="lg-sub" dir="ltr">Ask the Owner or Founder to get this code</p>
-      <div class="field" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="000000"></div>
+      <div class="field" id="otpBox"><label for="otp" class="hide">كود المصادقة</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="40" placeholder="000000"></div>
     </div>
     <button class="btn" id="go" type="button">دخول</button>
     <button class="lg-back hide" id="lgBk" type="button">استخدم كود احتياطي</button>
@@ -469,8 +469,14 @@ $("lgBack").onclick=function(){$("otp").value="";$("lerr").textContent="";lgStep
 $("login").addEventListener("click",function(e){if(!this.classList.contains("ready")&&!e.target.closest("#lgCard")){clearTimeout(lgIntro.t);this.classList.add("ready")}});
 lgIntro();
 var bkMode=!1;
-$("lgBk").onclick=function(){bkMode=!bkMode;var o=$("otp");o.value="";o.inputMode=bkMode?"text":"numeric";o.maxLength=bkMode?9:6;o.placeholder=bkMode?"XXXX-XXXX":"000000";o.style.letterSpacing=bkMode?".12em":"";this.textContent=bkMode?"استخدم كود التطبيق":"استخدم كود احتياطي";o.focus()};
-$("otp").addEventListener("input",function(){if(bkMode){this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,"");return}this.value=this.value.replace(/\D/g,"").slice(0,6);this.value.length===6&&$("pw").value&&$("go").click()});
+var BK_LEN=8,OTP_LEN=6;
+function setBk(on,keep){bkMode=on;var o=$("otp");keep||(o.value="");o.inputMode=on?"text":"numeric";o.placeholder=on?"XXXX-XXXX":"000000";o.style.letterSpacing=on?".12em":"";$("lgBk").textContent=on?"استخدم كود التطبيق":"استخدم كود احتياطي"}
+$("lgBk").onclick=function(){setBk(!bkMode);$("otp").focus()};
+/* اللصق من تليجرام/واتساب بيجيب مسافات وسطور زيادة: نشيلها الأول ونرتب الكود، ولو فيه حروف يبقى كود احتياطي */
+$("otp").addEventListener("input",function(){var v=this.value.toUpperCase().replace(/[^A-Z0-9]/g,"");
+  if(!bkMode&&/[A-Z]/.test(v))setBk(!0,!0);
+  if(bkMode){v=v.slice(0,BK_LEN);this.value=v.length>4?v.slice(0,4)+"-"+v.slice(4):v;return}
+  this.value=v.slice(0,OTP_LEN);this.value.length===OTP_LEN&&$("pw").value&&$("go").click()});
 $("out").onclick=logout;
 $("refresh").onclick=function(){var b=this;b.disabled=!0;loadAll().then(function(){b.disabled=!1;toast("تم التحديث ✓")})};
 function navClick(e){var b=e.target.closest("button[data-tab]");if(!b)return;
